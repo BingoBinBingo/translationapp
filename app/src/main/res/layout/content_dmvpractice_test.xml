@@ -76,13 +76,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/previous_question"
-            android:text="Next question"
+            android:text="@string/next_button"
             android:id="@+id/next_question"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Previous question"
+            android:text="@string/preveous_button"
             android:id="@+id/previous_question"/>
 
 
@@ -91,7 +91,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select Question"
+        android:text="@string/select_question"
         android:id="@+id/select_question_dialog"/>
 
 

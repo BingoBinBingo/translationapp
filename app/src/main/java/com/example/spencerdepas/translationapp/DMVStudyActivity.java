@@ -1,19 +1,26 @@
 package com.example.spencerdepas.translationapp;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -43,6 +50,7 @@ public class DMVStudyActivity extends AppCompatActivity {
     @Bind(R.id.next_question) Button mNextButton;
     @Bind(R.id.displays_wrong_answer) TextView mDisplayCorrectAnswer;
 
+    private Context mcontext;
     private int mQuestionIndex = 0;
     private DriversLicenseQuestions driverQuestions;
     private final String PREFS_LANGUAGE = "langagePrference";
@@ -56,7 +64,7 @@ public class DMVStudyActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        mcontext = this.getApplicationContext();
 
         Intent intent = getIntent();
         language = intent.getStringExtra(PREFS_LANGUAGE); //if it's a string you stored.
@@ -128,7 +136,7 @@ public class DMVStudyActivity extends AppCompatActivity {
             if (driverQuestions.getQuestions().get(mQuestionIndex).isAnsweredCorrectly()) {
                 Log.d(TAG, "answer right");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct ");
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
 
                 radioGroup.setEnabled(false);
 
@@ -136,7 +144,7 @@ public class DMVStudyActivity extends AppCompatActivity {
                 Log.d(TAG, "answer wrong");
 
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct answer selected above is  : " +
+                mDisplayCorrectAnswer.setText(    getResources().getString(R.string.correct_answer_above) +
                         driverQuestions.getQuestions().get(mQuestionIndex).getAnswer());
             }
         }else{
@@ -145,9 +153,46 @@ public class DMVStudyActivity extends AppCompatActivity {
         }
 
 
+
+
     }
 
 
+
+    @OnClick(R.id.image_view)
+    public void myImageOnClick(View view) {
+        Log.d(TAG, "myImageOnClick");
+
+
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setPositiveButton( getResources().getString(R.string.dialog_dismiss),
+                new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        final AlertDialog dialog = builder.create();
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.image_full_screen, null);
+        dialog.setView(dialogLayout);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        dialog.show();
+
+        ImageView image = (ImageView) dialog.findViewById(R.id.goProDialogImage);
+        Log.d(TAG, "picLocation" + picLocation);
+        Glide.with(mcontext)
+                .load(Uri.parse(picLocation))
+                .into(image);
+
+
+
+
+
+    }
 
     @OnClick(R.id.option_a)
     public void radioOptionOne(View view) {
@@ -162,13 +207,13 @@ public class DMVStudyActivity extends AppCompatActivity {
             if (driverQuestions.getQuestions().get(mQuestionIndex).getAnswer().equals("A")) {
                 Log.d(TAG, "answer right");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct ");
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
                 nextQuestion(view);
             }else {
                 Log.d(TAG, "answer wrong");
 
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct answer selected above is  : " +
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct_answer_above) +
                         driverQuestions.getQuestions().get(mQuestionIndex).getAnswer());
             }
 
@@ -178,11 +223,11 @@ public class DMVStudyActivity extends AppCompatActivity {
             if (driverQuestions.getQuestions().get(mQuestionIndex).getAnswer().equals("A")) {
                 Log.d(TAG, "answer right");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct ");
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
             } else {
                 Log.d(TAG, "answer wrong");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct answer selected above is  : " +
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct_answer_above)+
                         driverQuestions.getQuestions().get(mQuestionIndex).getAnswer());
             }
         }
@@ -203,13 +248,13 @@ public class DMVStudyActivity extends AppCompatActivity {
             if (driverQuestions.getQuestions().get(mQuestionIndex).getAnswer().equals("B")) {
                 Log.d(TAG, "answer right");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct ");
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
                 nextQuestion(view);
             }else {
                 Log.d(TAG, "answer wrong");
 
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct answer selected above is  : " +
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct_answer_above)+
                         driverQuestions.getQuestions().get(mQuestionIndex).getAnswer());
             }
 
@@ -218,13 +263,13 @@ public class DMVStudyActivity extends AppCompatActivity {
             if (driverQuestions.getQuestions().get(mQuestionIndex).getAnswer().equals("B")) {
                 Log.d(TAG, "answer right");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct ");
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
 
             } else {
                 Log.d(TAG, "answer wrong");
 
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct answer selected above is  : " +
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct_answer_above) +
                         driverQuestions.getQuestions().get(mQuestionIndex).getAnswer());
             }
         }
@@ -243,13 +288,13 @@ public class DMVStudyActivity extends AppCompatActivity {
             if (driverQuestions.getQuestions().get(mQuestionIndex).getAnswer().equals("C")) {
                 Log.d(TAG, "answer right");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct ");
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
                 nextQuestion(view);
             }else {
                 Log.d(TAG, "answer wrong");
 
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct answer selected above is  : " +
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct_answer_above) +
                         driverQuestions.getQuestions().get(mQuestionIndex).getAnswer());
             }
 
@@ -258,11 +303,11 @@ public class DMVStudyActivity extends AppCompatActivity {
             if (driverQuestions.getQuestions().get(mQuestionIndex).getAnswer().equals("C")) {
                 Log.d(TAG, "answer right");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct ");
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
             } else {
                 Log.d(TAG, "answer wrong");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct answer is  : " +
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct_answer_above) +
                         driverQuestions.getQuestions().get(mQuestionIndex).getAnswer());
             }
         }
@@ -282,13 +327,13 @@ public class DMVStudyActivity extends AppCompatActivity {
             if (driverQuestions.getQuestions().get(mQuestionIndex).getAnswer().equals("D")) {
                 Log.d(TAG, "answer right");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct ");
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
                 nextQuestion(view);
             }else {
                 Log.d(TAG, "answer wrong");
 
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct answer selected above is  : " +
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct_answer_above) +
                         driverQuestions.getQuestions().get(mQuestionIndex).getAnswer());
             }
 
@@ -297,11 +342,11 @@ public class DMVStudyActivity extends AppCompatActivity {
             if (driverQuestions.getQuestions().get(mQuestionIndex).getAnswer().equals("D")) {
                 Log.d(TAG, "answer right");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct ");
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
             } else {
                 Log.d(TAG, "answer wrong");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText("Correct answer selected above is  : " +
+                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct_answer_above) +
                         driverQuestions.getQuestions().get(mQuestionIndex).getAnswer());
             }
         }
@@ -334,15 +379,17 @@ public class DMVStudyActivity extends AppCompatActivity {
         // Set grid view to alertDialog
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(gridView);
-        builder.setTitle("Goto");
-        builder.setPositiveButton("DISMISS",
+        builder.setTitle(getResources().getString(R.string.select_question));
+        builder.setPositiveButton(getResources().getString(R.string.dialog_dismiss),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "DISMISS");
+                        Log.d(TAG,  getResources().getString(R.string.dialog_dismiss));
                         dialog.dismiss();
                     }
                 });
+
+
 
         final AlertDialog ad = builder.show();
 
@@ -352,10 +399,10 @@ public class DMVStudyActivity extends AppCompatActivity {
                 // do something here
                 Log.d(TAG, "onclick");
 
-                mNextButton.setText("Next Question");
+                mNextButton.setText(getResources().getString(R.string.next_button));
                 Log.d(TAG, "int pos : " + position);
                 if (position == 193) {
-                    mNextButton.setText("Finish");
+                    mNextButton.setText(getResources().getString(R.string.finish_studying));
                 }
 
                 goToSelectedQuestion(position);
@@ -373,9 +420,7 @@ public class DMVStudyActivity extends AppCompatActivity {
         radioGroup.setEnabled(true);
         saveAnswer();
         mQuestionIndex = questionindex;
-        if(mQuestionIndex == 19){
-            mNextButton.setText("Submit");
-        }
+
         updateQuestion();
         unSelectRadioButtons();
         loadRadioButtonSelection();
@@ -391,7 +436,7 @@ public class DMVStudyActivity extends AppCompatActivity {
         radioGroup.setEnabled(true);
 
         saveAnswer();
-        mNextButton.setText("Next Question");
+        mNextButton.setText(getResources().getString(R.string.next_button));
         if(mQuestionIndex != 0){
             mQuestionIndex -= 1;
             updateQuestion();
@@ -414,9 +459,9 @@ public class DMVStudyActivity extends AppCompatActivity {
             unSelectRadioButtons();
             loadRadioButtonSelection();
             if(mQuestionIndex == 193){
-                mNextButton.setText("Finish");
+                mNextButton.setText(getResources().getString(R.string.finish_studying));
             }else {
-                mNextButton.setText("Next Question");
+                mNextButton.setText(getResources().getString(R.string.next_button));
             }
         }else{
             mainActivityIntent();

@@ -12,9 +12,44 @@
 
 
     <!-- Main activity -->
-    "Langauge Changed To "
+
     <string name="language_changed_to">Langauge Changed To </string>
     <string name="simulation_test">Take simulation test </string>
     <string name="study_for_driver_test">Study for drivers test</string>
+
+
+    <!-- Study all questions -->
+    <string name="preveous_button">Previous question</string>
+    <string name="next_button">Next question</string>
+    <string name="select_question">Go to Questions</string>
+    <string name="finish_studying">Finish</string>
+    <string name="correct_answer_above">Correct answer selected above is  : </string>
+    <string name="correct">Correct</string>
+    <!-- Study all questions dialog 1 -->
+    <string name="dialog_tittle">Go to question</string>
+    <string name="dialog_dismiss">DISMISS</string>
+
+    <!-- simulation test  -->
+    <string name="submit_test">Submit</string>
+    <string name="anser_all_questions">Please answer all questions</string>
+    <string name="corrrect_answer_is_selected_above">Correct answer selected above. \n You selected answer :
+</string>
+
+    <!-- simulation test failed Dialog -->
+    <string name="failed_test_dialog_one">I\'m Sorry</string>
+    <string name="failed_test_dialog_two">You need to score 14 or more to pass. You scored </string>
+    <string name="failed_test_dialog_three"> out of 20</string>
+    <string name="failed_test_dialog_conferm">OK</string>
+    <string name="failed_test_dialog_study_wrong_answer">STUDY Wrong Answers</string>
+
+    <!-- simulation test passed Dialog -->
+    <string name="you_passed">Congratulations you passed</string>
+    <string name="passed_test_dialog_two">You need to score 14 or more to pass. You scored </string>
+    <string name="passed_test_dialog_three"> out of 20</string>
+    <string name="passed_test_dialog_conferm">OK</string>
+    <string name="passed_test_dialog_dismiss">STUDY </string>
+
+
+
 
 </resources>

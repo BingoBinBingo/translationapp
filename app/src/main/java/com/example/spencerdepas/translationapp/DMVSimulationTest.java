@@ -1,6 +1,7 @@
 package com.example.spencerdepas.translationapp;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,7 +10,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -56,7 +59,7 @@ public class DMVSimulationTest extends AppCompatActivity {
     private DriversLicenseQuestions driverQuestions;
     Integer[] mQuestionIndexArray;
     private final String PREFS_LANGUAGE = "langagePrference";
-
+    private Context mcontext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,7 @@ public class DMVSimulationTest extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Log.d(TAG, "onCreate");
-
+        mcontext = this.getApplicationContext();
 
         Intent intent = getIntent();
         language = intent.getStringExtra(PREFS_LANGUAGE); //if it's a string you stored.
@@ -121,6 +124,42 @@ public class DMVSimulationTest extends AppCompatActivity {
         Integer[] mQuestionIndex = set.toArray(new Integer[0]);
 
         return mQuestionIndex;
+
+    }
+
+
+    @OnClick(R.id.image_view)
+    public void myImageOnClick(View view) {
+        Log.d(TAG, "myImageOnClick");
+
+
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setPositiveButton( getResources().getString(R.string.dialog_dismiss),
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+        final AlertDialog dialog = builder.create();
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogLayout = inflater.inflate(R.layout.image_full_screen, null);
+        dialog.setView(dialogLayout);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        dialog.show();
+
+        ImageView image = (ImageView) dialog.findViewById(R.id.goProDialogImage);
+        Log.d(TAG, "picLocation" + picLocation);
+        Glide.with(mcontext)
+                .load(Uri.parse(picLocation))
+                .into(image);
+
+
+
+
 
     }
 
@@ -338,7 +377,8 @@ public class DMVSimulationTest extends AppCompatActivity {
                             .getSelectedAnswer().equals("")) {
                         //questions not answered on test is not complete
 
-                        Snackbar.make(view, "Please answer all questions", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, getResources().getString(R.string.anser_all_questions),
+                                Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         break;
 
@@ -459,7 +499,7 @@ public class DMVSimulationTest extends AppCompatActivity {
 
         int  anserLength = driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getSelectedAnswer().length();
 
-        mDisplayWrongAnswer.setText("Correct answer selected above. \n You selected answer : " +
+        mDisplayWrongAnswer.setText( getResources().getString(R.string.corrrect_answer_is_selected_above) +
                 driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getSelectedAnswer()
                         .substring(anserLength - 1, anserLength).toUpperCase());
 
@@ -490,8 +530,8 @@ public class DMVSimulationTest extends AppCompatActivity {
         // Set grid view to alertDialog
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(gridView);
-        builder.setTitle("Goto");
-        builder.setPositiveButton("DISMISS",
+        builder.setTitle(getResources().getString(R.string.select_question));
+        builder.setPositiveButton(getResources().getString(R.string.dialog_dismiss),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -508,7 +548,7 @@ public class DMVSimulationTest extends AppCompatActivity {
                 // do something here
                 Log.d(TAG, "onclick");
 
-                mNextButton.setText("Next Question");
+                mNextButton.setText(getResources().getString(R.string.next_button));
                 Log.d(TAG, "int pos : " + position);
                 mQuestionIndex = position;
                 goToSelectedQuestion(position);
@@ -526,7 +566,7 @@ public class DMVSimulationTest extends AppCompatActivity {
         saveAnswer();
         mQuestionIndex = questionindex;
         if(mQuestionIndex == 19){
-            mNextButton.setText("Submit");
+            mNextButton.setText(getResources().getString(R.string.submit_test));
         }
         updateQuestion();
         unSelectRadioButtons();
@@ -539,15 +579,18 @@ public class DMVSimulationTest extends AppCompatActivity {
         //must answer 14 right to pass
 
 
+
+
         if(mWrongAnswers.size() > 6){
             final MaterialDialog mMaterialDialog = new MaterialDialog(DMVSimulationTest.this)
-                    .setTitle("I'm sorry")
+                    .setTitle(getResources().getString(R.string.failed_test_dialog_one))
 
-                    .setMessage("You need to score 14 or more to pass. You scored " +
-                            (20 - mWrongAnswers.size()) + " out of 20");
+                    .setMessage(getResources().getString(R.string.failed_test_dialog_two) +
+                            (20 - mWrongAnswers.size()) + getResources().getString(R.string.failed_test_dialog_three));
 
             mMaterialDialog
-                    .setPositiveButton("OK", new View.OnClickListener() {
+                    .setPositiveButton(getResources().getString(R.string.failed_test_dialog_conferm),
+                            new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mMaterialDialog.dismiss();
@@ -555,7 +598,9 @@ public class DMVSimulationTest extends AppCompatActivity {
 
                         }
                     })
-                    .setNegativeButton("STUDY Wrong Answers", new View.OnClickListener() {
+                    .setNegativeButton(
+                            getResources().getString(R.string.failed_test_dialog_study_wrong_answer),
+                            new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mSelectQuestionDialog.setVisibility(View.INVISIBLE);
@@ -569,19 +614,24 @@ public class DMVSimulationTest extends AppCompatActivity {
         }else {
 
 
+
+
             final MaterialDialog mMaterialDialog = new MaterialDialog(DMVSimulationTest.this)
-                    .setTitle("Congratulations you passed")
-                    .setMessage("You got " + (mWrongAnswers.size() - 20) + " out of 20");
+                    .setTitle(getResources().getString(R.string.you_passed))
+                    .setMessage(getResources().getString(R.string.passed_test_dialog_two)
+                            + (mWrongAnswers.size() - 20) +  getResources().getString(R.string.passed_test_dialog_three));
 
             mMaterialDialog
-                    .setPositiveButton("OK", new View.OnClickListener() {
+                    .setPositiveButton(
+                            getResources().getString(R.string.passed_test_dialog_conferm), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mMaterialDialog.dismiss();
 
                         }
                     })
-                    .setNegativeButton("STUDY", new View.OnClickListener() {
+                    .setNegativeButton(
+                            getResources().getString(R.string.passed_test_dialog_dismiss), new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             mMaterialDialog.dismiss();
