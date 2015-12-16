@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">translationapp</string>
+    <string name="action_settings">Change Language</string>
+    <string name="title_activity_driver_license">DriverLicenseActivity</string>
+    <string name="title_activity_dmvpractice_test">DMVPracticeTest</string>
+
+
+    <!-- -->
+    <!--food protection questions strings ENGLISH-->
+    <!--<string name="app_name">translationapp</string>-->
+    <!--<string name="action_settings">Settings</string>-->
+
+
+    <!-- Main activity -->
+    "Langauge Changed To "
+    <string name="language_changed_to">Langauge Changed To </string>
+    <string name="simulation_test">Take simulation test </string>
+    <string name="study_for_driver_test">Study for drivers test</string>
+
+</resources>
