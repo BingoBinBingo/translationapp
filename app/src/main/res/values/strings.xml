@@ -19,11 +19,11 @@
 
 
     <!-- Study all questions -->
-    <string name="preveous_button">Previous question</string>
-    <string name="next_button">Next question</string>
+    <string name="preveous_button">Previous</string>
+    <string name="next_button">Next</string>
     <string name="select_question">Go to Questions</string>
     <string name="finish_studying">Finish</string>
-    <string name="correct_answer_above">Correct answer selected above is  : </string>
+    <string name="correct_answer_above">Correct answer is selected above. \n You selected answer :  </string>
     <string name="correct">Correct</string>
     <!-- Study all questions dialog 1 -->
     <string name="dialog_tittle">Go to question</string>
@@ -32,7 +32,7 @@
     <!-- simulation test  -->
     <string name="submit_test">Submit</string>
     <string name="anser_all_questions">Please answer all questions</string>
-    <string name="corrrect_answer_is_selected_above">Correct answer selected above. \n You selected answer :
+    <string name="corrrect_answer_is_selected_above">Correct answer is selected above. \n You selected answer :
 </string>
 
     <!-- simulation test failed Dialog -->

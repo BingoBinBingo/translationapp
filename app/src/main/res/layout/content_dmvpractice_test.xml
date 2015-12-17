@@ -9,90 +9,131 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    android:gravity="center"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:gravity="top"
     tools:context=".DMVSimulationTest"
     tools:showIn="@layout/activity_dmvpractice_test">
 
-    <TextView
-        android:layout_width="wrap_content"
+
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:id="@+id/driver_test_question"/>
-
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/image_view"/>
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="@dimen/card_margin"
+        android:layout_marginRight="@dimen/card_margin"
+        android:layout_marginBottom="@dimen/card_margin"
+        >
 
 
 
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/myRadioGroup"
-        android:id="@+id/myRadioGroup"
-        android:checkedButton="@+id/sound" >
-
-        <RadioButton
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/option_a"
-            />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/option_b"
-            />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/option_c"
-            />
-
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/option_d"
-            />
-
-    </RadioGroup>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
-        android:padding="20dp"
-        android:id="@+id/displays_wrong_answer"/>
+            android:orientation="vertical">
 
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/previous_question"
-            android:text="@string/next_button"
-            android:id="@+id/next_question"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/preveous_button"
-            android:id="@+id/previous_question"/>
+            <ImageView
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:scaleType="centerInside"
+                android:layout_height="150dp"
+                android:layout_width="wrap_content"
+                android:id="@+id/image_view"/>
 
 
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_de"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:id="@+id/driver_test_question"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/select_question"
-        android:id="@+id/select_question_dialog"/>
+
+            <RadioGroup
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/myRadioGroup"
+                android:checkedButton="@+id/sound" >
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/option_a"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/option_b"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/option_c"
+                    />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/option_d"
+                    />
+
+            </RadioGroup>
+
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    style="?android:attr/borderlessButtonStyle"
+                    android:padding="1dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_width="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:layout_height="wrap_content"
+                    android:text="@string/preveous_button"
+                    android:id="@+id/previous_question"/>
+
+                <Button
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="1dp"
+                    android:background="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/previous_question"
+                    android:text="@string/next_button"
+                    android:id="@+id/next_question"/>
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
 
 
 </LinearLayout>

@@ -7,10 +7,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -34,7 +37,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class DMVSimulationTest extends AppCompatActivity {
+public class DMVSimulationTest extends AppCompatActivity implements ButtonSelector {
 
     private ArrayList<Integer> mWrongAnswersToStudy = new ArrayList<Integer>();
     private String TAG = "MyDMVPracticeTest";
@@ -51,15 +54,25 @@ public class DMVSimulationTest extends AppCompatActivity {
 
     @Bind(R.id.next_question) Button mNextButton;
 
-    @Bind(R.id.select_question_dialog) Button mSelectQuestionDialog;
+    //message text view
+    private TextView messageView;
+    //message array
+    private String[] messages;
+    //total messages
+    private int numMessages = 10;
+    //current message -start at zero
+    private int currMessage = 0;
 
-    @Bind(R.id.displays_wrong_answer) TextView mDisplayWrongAnswer;
+    GestureDetectorCompat gDetect;
+
+    //@Bind(R.id.displays_wrong_answer) TextView mDisplayWrongAnswer;
 
     private int mQuestionIndex = 0;
     private DriversLicenseQuestions driverQuestions;
     Integer[] mQuestionIndexArray;
     private final String PREFS_LANGUAGE = "langagePrference";
     private Context mcontext;
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +92,14 @@ public class DMVSimulationTest extends AppCompatActivity {
         CreateJSONObject createJSONObject = new CreateJSONObject(language, "This should specifie test type", this);
         driverQuestions = createJSONObject.loadDMVQuestions();
 
-
+        view = findViewById(R.id.simulation_test_root_view);
 
         mQuestionIndexArray = selectRandomQuestions();
         updateQuestion();
 
-        Log.d(TAG, "mQuestionIndex :" +mQuestionIndex );
+        setUpGestures();
+
+        Log.d(TAG, "mQuestionIndex :" + mQuestionIndex);
 
 
         Log.d(TAG, "driverQuestions.getQuestions().get(mQuestionIndex).getPicUrl().toLowerCase() :" +
@@ -93,6 +108,33 @@ public class DMVSimulationTest extends AppCompatActivity {
 
     }
 
+    public void setUpGestures(){
+        GestureListener mGestureListener = new GestureListener();
+        mGestureListener.delegate = DMVSimulationTest.this;
+        gDetect = new GestureDetectorCompat(this, mGestureListener);
+
+        Log.d(TAG, "mQuestionIndex :" +mQuestionIndex );
+    }
+
+    @Override
+    public void gestureNextButton(){
+        Log.d(TAG, "gestureNextButton :" );
+        nextQuestion(view);
+
+    }
+
+    @Override
+    public void gesturePreviousButton(){
+        Log.d(TAG, "gesturePreviousButton :" );
+
+        previousQuestion(view);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        this.gDetect.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
 
     public Integer[] selectRandomQuestions(){
         Log.d(TAG, "selectRandomQuestions");
@@ -128,7 +170,16 @@ public class DMVSimulationTest extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.image_view)
+
+    @OnClick(R.id.select_question_dialog_fab)
+    public void myFabOnClick(View view) {
+        Log.d(TAG, "myFabOnClick");
+
+        showSelectQuestionDialog();
+
+    }
+
+        @OnClick(R.id.image_view)
     public void myImageOnClick(View view) {
         Log.d(TAG, "myImageOnClick");
 
@@ -184,7 +235,7 @@ public class DMVSimulationTest extends AppCompatActivity {
         }
     }
 
-    public void updateQuestion(){
+    public void updateQuestion() {
         Log.d(TAG, "updateQuestion");
 
 
@@ -194,7 +245,7 @@ public class DMVSimulationTest extends AppCompatActivity {
 
         if(driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getPicUrl().toLowerCase()
                 .equals("")){
-            mImage.setVisibility(View.GONE);
+            mImage.setVisibility(View.INVISIBLE);
             picLocation = "";
 
 
@@ -230,7 +281,7 @@ public class DMVSimulationTest extends AppCompatActivity {
     }
 
     private void studyWrongQuestions(){
-        mNextButton.setText("Next Question");
+        mNextButton.setText(getResources().getString(R.string.next_button));
         //mQuestionIndex = mWrongAnswersToStudy.size();
 
 
@@ -246,7 +297,7 @@ public class DMVSimulationTest extends AppCompatActivity {
 
         if(driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getPicUrl().toLowerCase()
                 .equals("")){
-            mImage.setVisibility(View.GONE);
+            mImage.setVisibility(View.INVISIBLE);
             picLocation = "";
 
 
@@ -271,10 +322,10 @@ public class DMVSimulationTest extends AppCompatActivity {
 
 
         int  anserLength = driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getSelectedAnswer().length();
-        mDisplayWrongAnswer.setVisibility(View.VISIBLE);
-        mDisplayWrongAnswer.setText("Correct answer selected above. \n You selected answer : " +
-                driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getSelectedAnswer()
-                        .substring(anserLength - 1, anserLength).toUpperCase());
+//        mDisplayWrongAnswer.setVisibility(View.VISIBLE);
+//        mDisplayWrongAnswer.setText("Correct answer selected above. \n You selected answer : " +
+//                driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getSelectedAnswer()
+//                        .substring(anserLength - 1, anserLength).toUpperCase());
 
         mQuestion.setText(driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getQuestion());
         mOptionOne.setText(driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionA());
@@ -287,20 +338,14 @@ public class DMVSimulationTest extends AppCompatActivity {
 
 
 
-    @OnClick(R.id.select_question_dialog)
-    public void selectQuestionDialog(View view) {
-        Log.d(TAG, "previousQuestion");
 
-        showSelectQuestionDialog();
-
-    }
 
     @OnClick(R.id.previous_question)
     public void previousQuestion(View view) {
         Log.d(TAG, "previousQuestion");
 
         saveAnswer();
-        mNextButton.setText("Next Question");
+        mNextButton.setText(getResources().getString(R.string.next_button));
 
         if(mWrongAnswersToStudy.size() > 0) {
 
@@ -328,40 +373,54 @@ public class DMVSimulationTest extends AppCompatActivity {
         Log.d(TAG, "nextQuestion");
 
         if(mWrongAnswersToStudy.size() > 0){
+            Log.d(TAG, "mWrongAnswersToStudy.size() > 0");
+
             //this is to see if we are in review mode
             //this is reviewing questions after you have taken the test.
+            Log.d(TAG, "mWrongAnswersToStudy.size() : " + mWrongAnswersToStudy.size());
+            Log.d(TAG, "mQuestionIndex : " + mQuestionIndex);
+
+
 
             mQuestionIndex += 1;
             if(mQuestionIndex < mWrongAnswersToStudy.size() ){
-
+                Log.d(TAG, "mQuestionIndex < mWrongAnswersToStudy.size() &&\n");
 
                 //to see if we are at the end of reviewing questions
                 if(mQuestionIndex == mWrongAnswersToStudy.size() -1){
                     mNextButton.setText("Finish");
+                    Log.d(TAG, "mQuestionIndex == mWrongAnswersToStudy.size() -1");
                 }
 
                 loadStudyQuestions();
                 showCorrectAnswersForStudy();
 
-            }else{
-                //this is if we are at the end of revieing questions
+            } else{
+                //this is if we are at the end of reviewing questions
+
+
                 mainActivityIntent();
+
+
             }
 
 
         }else {
+            Log.d(TAG, "mWrongAnswersToStudy.size() > 0   " +
+                    "else");
             saveAnswer();
 
             //test is 20 questions long
             if (mQuestionIndex < 19) {
 
                 if (mQuestionIndex == 18) {
-                    mNextButton.setText("Submit");
+                    mNextButton.setText(R.string.submit_test);
                 }
 
                 mQuestionIndex += 1;
-                updateQuestion();
                 unSelectRadioButtons();
+                updateQuestion();
+
                 loadRadioButtonSelection();
 
             } else {
@@ -370,39 +429,51 @@ public class DMVSimulationTest extends AppCompatActivity {
 
                 Log.d(TAG, "20th question");
                 //goes through all questions to see if they are answered and record how many are right
-                for (int i = 0; i < mQuestionIndexArray.length; i++) {
 
 
-                    if (driverQuestions.getQuestions().get(mQuestionIndexArray[i])
-                            .getSelectedAnswer().equals("")) {
-                        //questions not answered on test is not complete
 
-                        Snackbar.make(view, getResources().getString(R.string.anser_all_questions),
-                                Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                        break;
-
-                    } else {
-                        // all questions  answered
-                        Log.d(TAG, "is answered correct :" + driverQuestions.getQuestions().get(mQuestionIndexArray[i])
-                                .isAnsweredCorrectly());
+                    for (int i = 0; i < mQuestionIndexArray.length; i++) {
 
 
-                        if (!driverQuestions.getQuestions().get(mQuestionIndexArray[i])
-                                .isAnsweredCorrectly()) {
-                            //to save wrong answers for studying
-                            mWrongAnswersToStudy.add(mQuestionIndexArray[i]);
-                        }
+                        if (driverQuestions.getQuestions().get(mQuestionIndexArray[i])
+                                .getSelectedAnswer().equals("")) {
+                            //questions not answered on test is not complete
+
+                            Log.d(TAG, "loop i is  :" + i + "    " +driverQuestions.getQuestions().get(mQuestionIndexArray[i])
+                                    .getSelectedAnswer().equals(""));
+                            Snackbar.make(view, getResources().getString(R.string.anser_all_questions),
+                                    Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show();
+                            break;
+
+                        } else {
+                            Log.d(TAG, "in the else loop i is  :" + i + "    " +driverQuestions.getQuestions().get(mQuestionIndexArray[i])
+                                    .getSelectedAnswer().equals(""));
+                            // all questions  answered
 
 
-                        if (i == 19) {
-                            //all questions completed
-                            finishedTestDialog(mWrongAnswersToStudy);
+
+
+                            if (!driverQuestions.getQuestions().get(mQuestionIndexArray[i])
+                                    .isAnsweredCorrectly()
+                                    && i != 0) {
+                                //to save wrong answers for studying
+                                Log.d(TAG, "!driverQuestions.getQuestions().get(mQuestionIndexArray[i]:" );
+                                Log.d(TAG, "i " + i );
+                                mWrongAnswersToStudy.add(mQuestionIndexArray[i]);
+                            }
+
+
+                            if (i == 19) {
+                                Log.d(TAG, "i == 19" );
+                                //all questions completed
+                                finishedTestDialog(mWrongAnswersToStudy);
+                            }
+
                         }
 
                     }
 
-                }
             }
 
 
@@ -422,7 +493,7 @@ public class DMVSimulationTest extends AppCompatActivity {
                 .equals("")){
 
 
-            mImage.setVisibility(View.GONE);
+            mImage.setVisibility(View.INVISIBLE);
             picLocation = "";
             Log.d(TAG, "no pic url: " +
                     driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getPicUrl().toLowerCase());
@@ -469,7 +540,7 @@ public class DMVSimulationTest extends AppCompatActivity {
             Log.d(TAG, "no pic url: " +
                     driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getPicUrl().toLowerCase());
 
-            mImage.setVisibility(View.GONE);
+            mImage.setVisibility(View.INVISIBLE);
             picLocation = "";
 
 
@@ -499,9 +570,9 @@ public class DMVSimulationTest extends AppCompatActivity {
 
         int  anserLength = driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getSelectedAnswer().length();
 
-        mDisplayWrongAnswer.setText( getResources().getString(R.string.corrrect_answer_is_selected_above) +
-                driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getSelectedAnswer()
-                        .substring(anserLength - 1, anserLength).toUpperCase());
+//        mDisplayWrongAnswer.setText( getResources().getString(R.string.corrrect_answer_is_selected_above) +
+//                driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getSelectedAnswer()
+//                        .substring(anserLength - 1, anserLength).toUpperCase());
 
         mQuestion.setText(driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getQuestion());
         mOptionOne.setText(driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionA());
@@ -568,8 +639,8 @@ public class DMVSimulationTest extends AppCompatActivity {
         if(mQuestionIndex == 19){
             mNextButton.setText(getResources().getString(R.string.submit_test));
         }
-        updateQuestion();
         unSelectRadioButtons();
+        updateQuestion();
         loadRadioButtonSelection();
 
 
@@ -603,7 +674,7 @@ public class DMVSimulationTest extends AppCompatActivity {
                             new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mSelectQuestionDialog.setVisibility(View.INVISIBLE);
+
                             mMaterialDialog.dismiss();
 
                             studyWrongQuestions();
@@ -709,7 +780,14 @@ public class DMVSimulationTest extends AppCompatActivity {
             driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(false);
 
         }
+
+
+
+
+
     }
+
+
 
 
 

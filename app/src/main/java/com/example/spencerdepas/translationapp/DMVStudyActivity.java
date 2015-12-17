@@ -420,9 +420,9 @@ public class DMVStudyActivity extends AppCompatActivity {
         radioGroup.setEnabled(true);
         saveAnswer();
         mQuestionIndex = questionindex;
-
-        updateQuestion();
         unSelectRadioButtons();
+        updateQuestion();
+
         loadRadioButtonSelection();
 
 
@@ -439,8 +439,8 @@ public class DMVStudyActivity extends AppCompatActivity {
         mNextButton.setText(getResources().getString(R.string.next_button));
         if(mQuestionIndex != 0){
             mQuestionIndex -= 1;
-            updateQuestion();
             unSelectRadioButtons();
+            updateQuestion();
             loadRadioButtonSelection();
         }
 
@@ -455,8 +455,9 @@ public class DMVStudyActivity extends AppCompatActivity {
         saveAnswer();
         if(mQuestionIndex < 193){
             mQuestionIndex += 1;
-            updateQuestion();
             unSelectRadioButtons();
+            updateQuestion();
+
             loadRadioButtonSelection();
             if(mQuestionIndex == 193){
                 mNextButton.setText(getResources().getString(R.string.finish_studying));
