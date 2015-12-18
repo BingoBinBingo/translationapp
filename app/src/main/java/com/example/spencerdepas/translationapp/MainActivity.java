@@ -60,6 +60,18 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.this.startActivity(myIntent);
     }
 
+
+
+    @OnClick(R.id.citizenship)
+    public void citizenshipIntent(View view) {
+//        Snackbar.make(view, "food_protection_study_button", Snackbar.LENGTH_LONG)
+//                .setAction("Action", null).show();
+
+        Intent myIntent = new Intent(MainActivity.this, CitizenshipAcitivty.class);
+        myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
+        MainActivity.this.startActivity(myIntent);
+    }
+
     @OnClick(R.id.dmv_simulation_test)
     public void dMCSimulationTestIntent(View view) {
 //        Snackbar.make(view, "food_protection_study_button", Snackbar.LENGTH_LONG)

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">translationapp</string>
     <string name="action_settings">Change Language</string>
-    <string name="title_activity_driver_license">DriverLicenseActivity</string>
+    <string name="title_activity_driver_license">DMVSimulationTest</string>
     <string name="title_activity_dmvpractice_test">DMVPracticeTest</string>
 
 
@@ -15,13 +15,14 @@
 
     <string name="language_changed_to">Langauge Changed To </string>
     <string name="simulation_test">Take simulation test </string>
+    <string name="citizenship_test">Take citizenship test </string>
     <string name="study_for_driver_test">Study for drivers test</string>
 
 
     <!-- Study all questions -->
     <string name="preveous_button">Previous</string>
     <string name="next_button">Next</string>
-    <string name="select_question">Go to Questions</string>
+    <string name="select_question">Go to Question</string>
     <string name="finish_studying">Finish</string>
     <string name="correct_answer_above">Correct answer is selected above. \n You selected answer :  </string>
     <string name="correct">Correct</string>
@@ -48,8 +49,7 @@
     <string name="passed_test_dialog_three"> out of 20</string>
     <string name="passed_test_dialog_conferm">OK</string>
     <string name="passed_test_dialog_dismiss">STUDY </string>
-
-
+    <string name="title_activity_citizenship_acitivty">CitizenshipAcitivty</string>
 
 
 </resources>

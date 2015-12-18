@@ -31,6 +31,13 @@
         android:layout_below="@+id/dmv_study_test"
         android:id="@+id/dmv_simulation_test"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/citizenship_test"
+        android:layout_below="@+id/dmv_simulation_test"
+        android:id="@+id/citizenship"/>
+
 
 
 </RelativeLayout>

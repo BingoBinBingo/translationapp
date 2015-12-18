@@ -23,6 +23,7 @@ public class CreateJSONObject {
     private Context mContext;
     //private FoodProtectionQuestions foodProtectionQuestions;
     private DriversLicenseQuestions driverQuestions;
+    private CitizenshipHolder mCitizenshipHolder;
 
     public CreateJSONObject(String language, String testToLoad, Context mContext){
         Log.d(TAG, "CreateJSONObject");
@@ -78,7 +79,52 @@ public class CreateJSONObject {
     }
 
 
+    public CitizenshipHolder loadCitizenshipQuestions() {
+        Log.d(TAG, "loadDMVQuestions");
 
+        Log.d(TAG, "language " + language);
+        String json = null;
+
+        Gson gson = new Gson();
+
+
+        try {
+            //temp
+            language = "chinese";
+            //InputStream is = mContext.getAssets().open("t_hygiene_last_one.json");
+            if(language.equals("chinese")){
+                is = mContext.getAssets().open("t_citizenship_english.json");
+            }else{
+                is = mContext.getAssets().open("t_citizenship_english.json");
+                Log.d(TAG, "language " + "loading english");
+            }
+
+
+            int size = is.available();
+            Log.d(TAG, "size " + size);
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+
+        }
+
+
+        mCitizenshipHolder = gson.fromJson(json, CitizenshipHolder.class);
+
+        Log.d(TAG, "reading obj size : " + mCitizenshipHolder.getCitizenshipTestQuestions().size());
+        return mCitizenshipHolder;
+    }
 
 
 }
