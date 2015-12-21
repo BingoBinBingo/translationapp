@@ -13,13 +13,15 @@ public class GestureListener  extends GestureDetector.SimpleOnGestureListener {
 
 
     public ButtonSelector delegate = null;
-    private float flingMin = 100;
-    private float velocityMin = 100;
+    private float flingMin = 200;
+    private float velocityMin = 200;
     private GestureDetectorCompat gDetect;
     //user will move forward through messages on fling up or left
     boolean forward = false;
     //user will move backward through messages on fling down or right
     boolean backward = false;
+    private String TAG = "MyGestureListener";
+
 
     @Override
     public boolean onDown(MotionEvent event) {
@@ -30,8 +32,8 @@ public class GestureListener  extends GestureDetector.SimpleOnGestureListener {
     public boolean onFling(MotionEvent event1, MotionEvent event2,
                            float velocityX, float velocityY) {
         //determine what happens on fling events
-        Log.d("POO", "forward=true : " + forward);
-        Log.d("POO", "backward=true : " + backward);
+        Log.d(TAG, "forward=true : " + forward);
+        Log.d(TAG, "backward=true : " + backward);
 
         //calculate the change in X position within the fling gesture
         float horizontalDiff = event2.getX() - event1.getX();
@@ -44,6 +46,12 @@ public class GestureListener  extends GestureDetector.SimpleOnGestureListener {
         float absVelocityX = Math.abs(velocityX);
         float absVelocityY = Math.abs(velocityY);
 
+        Log.d(TAG, "event1 : " + event1);
+        Log.d(TAG, "event2 : " + event2);
+
+        Log.d(TAG, "velocityX : " + velocityX);
+        Log.d(TAG, "velocityY : " + velocityY);
+
         if(absHDiff>absVDiff && absHDiff>flingMin && absVelocityX>velocityMin){
             //move forward or backward
 
@@ -53,8 +61,8 @@ public class GestureListener  extends GestureDetector.SimpleOnGestureListener {
             else {
                 forward=true;
             }
-            Log.d("POO", "forward=true : " + forward);
-            Log.d("POO", "backward=true : " + backward);
+            Log.d(TAG, "forward=true : " + forward);
+            Log.d(TAG, "backward=true : " + backward);
 
             //user is cycling forward through messages
             if(forward){

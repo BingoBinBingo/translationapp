@@ -9,10 +9,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -34,7 +37,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DMVStudyActivity extends AppCompatActivity {
+public class DMVStudyActivity extends AppCompatActivity implements ButtonSelector {
 
 
     private String TAG = "MyDMVStudyDriverTestActivity";
@@ -47,13 +50,17 @@ public class DMVStudyActivity extends AppCompatActivity {
     @Bind(R.id.image_view) ImageView mImage;
     @Bind(R.id.myRadioGroup) RadioGroup radioGroup;
 
+
+    @Bind(R.id.previous_question) Button mPreveousButton;
     @Bind(R.id.next_question) Button mNextButton;
     @Bind(R.id.displays_wrong_answer) TextView mDisplayCorrectAnswer;
 
     private Context mcontext;
     private int mQuestionIndex = 0;
+    private GestureDetectorCompat gDetect;
     private DriversLicenseQuestions driverQuestions;
     private final String PREFS_LANGUAGE = "langagePrference";
+    private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,8 @@ public class DMVStudyActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mcontext = this.getApplicationContext();
 
+        view = findViewById(R.id.simulation_test_root_view);
+
         Intent intent = getIntent();
         language = intent.getStringExtra(PREFS_LANGUAGE); //if it's a string you stored.
 
@@ -76,11 +85,52 @@ public class DMVStudyActivity extends AppCompatActivity {
         CreateJSONObject createJSONObject = new CreateJSONObject(language, "This should specifie test type", this);
         driverQuestions = createJSONObject.loadDMVQuestions();
 
-
+        setUpGestures();
 
         updateQuestion();
 
+        makePrevousButtonUnclickable();
 
+
+    }
+
+    public void setUpGestures(){
+        Log.d(TAG, "setUpGestures :"  );
+        GestureListener mGestureListener = new GestureListener();
+        mGestureListener.delegate = DMVStudyActivity.this;
+        gDetect = new GestureDetectorCompat(this, mGestureListener);
+
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        this.gDetect.onTouchEvent(event);
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    public void gestureNextButton(){
+        Log.d(TAG, "gestureNextButton :" );
+
+        Log.d(TAG, "mindex size :" + driverQuestions.getQuestions().size());
+        Log.d(TAG, "mQuestionIndex :"  + mQuestionIndex);
+
+        if(mQuestionIndex == driverQuestions.getQuestions().size() -1){
+            Log.d(TAG, "mQuestionIndex == driverQuestions.getQuestions().size()" );
+            // do nothing
+        }else {
+            nextQuestion(view);
+        }
+
+
+    }
+
+    @Override
+    public void gesturePreviousButton(){
+        Log.d(TAG, "gesturePreviousButton :" );
+
+        previousQuestion(view);
     }
 
     public void loadRadioButtonSelection(){
@@ -104,20 +154,32 @@ public class DMVStudyActivity extends AppCompatActivity {
         }
     }
     private String picLocation;
+
+
     public void updateQuestion(){
         Log.d(TAG, "updateQuestion");
 
 
-        if(language.equals("chinese")){
-            picLocation = "file:///android_asset/"
-                    + driverQuestions.getQuestions().get(mQuestionIndex).getPicUrl().toLowerCase() + "_en"
-                    +".png";
-        }else{
-            picLocation = "file:///android_asset/"
-                    + driverQuestions.getQuestions().get(mQuestionIndex).getPicUrl().toLowerCase()
-                    +".png";
-        }
+        if(driverQuestions.getQuestions().get(mQuestionIndex).getPicUrl().toLowerCase()
+                .equals("")){
+            mImage.setVisibility(View.INVISIBLE);
+            picLocation = "";
 
+
+        }else {
+            Log.d(TAG, "pic url: " +
+                    driverQuestions.getQuestions().get(mQuestionIndex).getPicUrl().toLowerCase());
+            mImage.setVisibility(View.VISIBLE);
+            if (language.equals("chinese")) {
+                picLocation = "file:///android_asset/"
+                        + driverQuestions.getQuestions().get(mQuestionIndex).getPicUrl().toLowerCase() + "_en"
+                        + ".png";
+            } else {
+                picLocation = "file:///android_asset/"
+                        + driverQuestions.getQuestions().get(mQuestionIndex).getPicUrl().toLowerCase()
+                        + ".png";
+            }
+        }
 
 
 
@@ -374,7 +436,7 @@ public class DMVStudyActivity extends AppCompatActivity {
             mList.add(i);
         }
 
-        gridView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mList));
+        gridView.setAdapter(new ArrayAdapter<>(this, R.layout.custom_list_item, mList));
         gridView.setNumColumns(4);
 
 
@@ -400,6 +462,12 @@ public class DMVStudyActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // do something here
                 Log.d(TAG, "onclick");
+
+                if(position == 0){
+                    makePrevousButtonUnclickable();
+                }else{
+                    makePrevousButtonClickable();
+                }
 
                 mNextButton.setText(getResources().getString(R.string.next_button));
                 Log.d(TAG, "int pos : " + position);
@@ -434,6 +502,10 @@ public class DMVStudyActivity extends AppCompatActivity {
     public void previousQuestion(View view) {
         Log.d(TAG, "previousQuestion");
 
+        if(mQuestionIndex == 1){
+            makePrevousButtonUnclickable();
+        }
+
 
         radioGroup.setEnabled(true);
 
@@ -452,6 +524,8 @@ public class DMVStudyActivity extends AppCompatActivity {
     @OnClick(R.id.next_question)
     public void nextQuestion(View view) {
         Log.d(TAG, "nextQuestion");
+
+        makePrevousButtonClickable();
 
         radioGroup.setEnabled(true);
         saveAnswer();
@@ -544,6 +618,41 @@ public class DMVStudyActivity extends AppCompatActivity {
         }
     }
 
+    public void makePrevousButtonUnclickable(){
+        Log.d(TAG, "makePrevousButtonUnclickable");
+        mPreveousButton.setClickable(false);
+        mPreveousButton.setAlpha(.5f);
+    }
+
+    public void makePrevousButtonClickable(){
+        Log.d(TAG, "makePrevousButtonClickable");
+        mPreveousButton.setClickable(true);
+        mPreveousButton.setAlpha(1);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final int BACK_BUTTON = 16908332;
+        Log.d(TAG, "item : " + item);
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        Log.d(TAG, "id : " + id);
+        //noinspection SimplifiableIfStatement
+
+        if (id == R.id.action_settings) {
+            Log.d(TAG, "Changed langague");
+
+
+        }else if(id == BACK_BUTTON){
+            Log.d(TAG, "BackButton");
+            mainActivityIntent();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

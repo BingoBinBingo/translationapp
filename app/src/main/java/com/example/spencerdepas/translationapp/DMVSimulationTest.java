@@ -53,6 +53,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
     @Bind(R.id.myRadioGroup)  RadioGroup radioGroup;
 
     @Bind(R.id.next_question) Button mNextButton;
+    @Bind(R.id.previous_question) Button mPreveousButton;
 
     //message text view
     private TextView messageView;
@@ -103,6 +104,8 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 
         setUpGestures();
 
+        makePrevousButtonUnclickable();
+
         Log.d(TAG, "mQuestionIndex :" + mQuestionIndex);
 
 
@@ -113,17 +116,22 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
     }
 
     public void setUpGestures(){
+        Log.d(TAG, "setUpGestures :"  );
         GestureListener mGestureListener = new GestureListener();
         mGestureListener.delegate = DMVSimulationTest.this;
         gDetect = new GestureDetectorCompat(this, mGestureListener);
 
-        Log.d(TAG, "mQuestionIndex :" +mQuestionIndex );
+
     }
 
     @Override
     public void gestureNextButton(){
-        Log.d(TAG, "gestureNextButton :" );
+        Log.d(TAG, "gestureNextButton :");
+
+
         nextQuestion(view);
+
+
 
     }
 
@@ -140,7 +148,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
         return super.onTouchEvent(event);
     }
 
-    public Integer[] selectRandomQuestions(){
+    public Integer[] selectRandomQuestions() {
         Log.d(TAG, "selectRandomQuestions");
 
         //generates 4 random numbers for the image questions
@@ -203,13 +211,13 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
         final AlertDialog dialog = builder.create();
         LayoutInflater inflater = getLayoutInflater();
         View dialogLayout = inflater.inflate(R.layout.image_full_screen, null);
-        dialog.setView(dialogLayout);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setView(dialogLayout);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         dialog.show();
 
         ImageView image = (ImageView) dialog.findViewById(R.id.goProDialogImage);
-        Log.d(TAG, "picLocation" + picLocation);
+            Log.d(TAG, "picLocation" + picLocation);
         Glide.with(mcontext)
                 .load(Uri.parse(picLocation))
                 .into(image);
@@ -239,6 +247,18 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
                     .getSelectedAnswerResourceId());
 
         }
+    }
+
+    public void makePrevousButtonUnclickable(){
+        Log.d(TAG, "makePrevousButtonUnclickable");
+        mPreveousButton.setClickable(false);
+        mPreveousButton.setAlpha(.5f);
+    }
+
+    public void makePrevousButtonClickable(){
+        Log.d(TAG, "makePrevousButtonClickable");
+        mPreveousButton.setClickable(true);
+        mPreveousButton.setAlpha(1);
     }
 
     public void updateQuestion() {
@@ -350,6 +370,10 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
     public void previousQuestion(View view) {
         Log.d(TAG, "previousQuestion");
 
+        if(mQuestionIndex == 1){
+            makePrevousButtonUnclickable();
+        }
+
         saveAnswer();
         mNextButton.setText(getResources().getString(R.string.next_button));
 
@@ -377,6 +401,8 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
     @OnClick(R.id.next_question)
     public void nextQuestion(View view) {
         Log.d(TAG, "nextQuestion");
+
+        makePrevousButtonClickable();
 
         if(mWrongAnswersToStudy.size() > 0){
             Log.d(TAG, "mWrongAnswersToStudy.size() > 0");
@@ -501,6 +527,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 
             mImage.setVisibility(View.INVISIBLE);
             picLocation = "";
+            picLocation = "";
             Log.d(TAG, "no pic url: " +
                     driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getPicUrl().toLowerCase());
         }
@@ -600,7 +627,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
             mList.add(i);
         }
 
-        gridView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mList));
+        gridView.setAdapter(new ArrayAdapter<>(this,  R.layout.custom_list_item, mList));
         gridView.setNumColumns(4);
 
 
@@ -617,6 +644,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
                     }
                 });
 
+
         final AlertDialog ad = builder.show();
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -625,6 +653,11 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
                 // do something here
                 Log.d(TAG, "onclick");
 
+                if(position == 0){
+                    makePrevousButtonUnclickable();
+                }else{
+                    makePrevousButtonClickable();
+                }
                 mNextButton.setText(getResources().getString(R.string.next_button));
                 Log.d(TAG, "int pos : " + position);
                 mQuestionIndex = position;

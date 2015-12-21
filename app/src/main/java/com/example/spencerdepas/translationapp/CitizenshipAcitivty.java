@@ -133,7 +133,7 @@ public class CitizenshipAcitivty extends AppCompatActivity {
             mList.add(i);
         }
 
-        gridView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mList));
+        gridView.setAdapter(new ArrayAdapter<>(this, R.layout.custom_list_item, mList));
         gridView.setNumColumns(4);
 
 
