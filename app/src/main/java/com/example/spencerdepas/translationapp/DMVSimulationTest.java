@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -72,6 +73,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
     private final String PREFS_LANGUAGE = "langagePrference";
     private Context mcontext;
     View view;
+    View testView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,8 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
         setContentView(R.layout.activity_dmv_simulation_test);
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setSupportActionBar(toolbar);
         Log.d(TAG, "onCreate");
         mcontext = this.getApplicationContext();
@@ -92,6 +96,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
         driverQuestions = createJSONObject.loadDMVQuestions();
 
         view = findViewById(R.id.simulation_test_root_view);
+        testView = findViewById(R.id.control_panal);
 
         mQuestionIndexArray = selectRandomQuestions();
         updateQuestion();
@@ -173,6 +178,8 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
     @OnClick(R.id.select_question_dialog_fab)
     public void myFabOnClick(View view) {
         Log.d(TAG, "myFabOnClick");
+
+
 
         showSelectQuestionDialog();
 
@@ -268,7 +275,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
         Glide.with(this)
                 .load(Uri.parse(picLocation))
                 .crossFade()
-                .override(300, 300)
+                .override(400, 400)
                 .into(mImage);
 
         mQuestion.setText(driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getQuestion());
@@ -316,7 +323,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
         Glide.with(this)
                 .load(Uri.parse(picLocation))
                 .crossFade()
-                .override(300, 300)
+                .override(400, 400)
                 .into(mImage);
 
 
@@ -440,7 +447,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 
                             Log.d(TAG, "loop i is  :" + i + "    " +driverQuestions.getQuestions().get(mQuestionIndexArray[i])
                                     .getSelectedAnswer().equals(""));
-                            Snackbar.make(view, getResources().getString(R.string.anser_all_questions),
+                            Snackbar.make(testView, getResources().getString(R.string.anser_all_questions),
                                     Snackbar.LENGTH_LONG)
                                     .setAction("Action", null).show();
                             break;
@@ -564,7 +571,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
         Glide.with(this)
                 .load(Uri.parse(picLocation))
                 .crossFade()
-                .override(300, 300)
+                .override(400, 400)
                 .into(mImage);
 
         int  anserLength = driverQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getSelectedAnswer().length();
@@ -786,6 +793,28 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final int BACK_BUTTON = 16908332;
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        Log.d(TAG, "id : " + id);
+        //noinspection SimplifiableIfStatement
+
+        if (id == R.id.action_settings) {
+            Log.d(TAG, "Changed langague");
+
+
+        }else if(id == BACK_BUTTON){
+            Log.d(TAG, "BackButton");
+            mainActivityIntent();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
 

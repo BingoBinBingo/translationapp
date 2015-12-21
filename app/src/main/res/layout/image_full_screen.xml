@@ -5,9 +5,11 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:paddingTop="32dp"
+        android:layout_gravity="center"
         android:id="@+id/goProDialogImage"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="320dp"
         android:src="@drawable/phone_icon"
         />
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">translationapp</string>
     <string name="action_settings">Change Language</string>
-    <string name="title_activity_driver_license">DMVSimulationTest</string>
+    <string name="title_activity_driver_license">Simulation Test</string>
     <string name="title_activity_dmvpractice_test">DMVPracticeTest</string>
 
 

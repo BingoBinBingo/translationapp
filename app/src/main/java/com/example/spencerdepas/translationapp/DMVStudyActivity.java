@@ -60,10 +60,12 @@ public class DMVStudyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dmv_study);
         ButterKnife.bind(this);
+
         Log.d(TAG, "onCreate");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mcontext = this.getApplicationContext();
 
         Intent intent = getIntent();
@@ -122,7 +124,7 @@ public class DMVStudyActivity extends AppCompatActivity {
 
         Glide.with(this)
                 .load(Uri.parse(picLocation))
-                .override(300, 300)
+                .override(400, 400)
                 .into(mImage);
 
         mQuestion.setText(driverQuestions.getQuestions().get(mQuestionIndex).getQuestion());

@@ -24,5 +24,46 @@
     <include layout="@layout/content_dmv_study" />
 
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/select_question_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_search_white_48dp" />
+
+    <LinearLayout
+        android:id="@+id/control_panal"
+        android:background="@color/colorPrimary"
+        android:layout_gravity="bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/control_bar_margin">
+
+        <LinearLayout
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:padding="3dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/preveous_button"
+                android:id="@+id/previous_question"/>
+
+            <Button
+                android:padding="3dp"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/previous_question"
+                android:text="@string/next_button"
+                android:id="@+id/next_question"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 
 </android.support.design.widget.CoordinatorLayout>
