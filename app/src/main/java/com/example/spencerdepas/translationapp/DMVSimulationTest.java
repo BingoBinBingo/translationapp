@@ -116,6 +116,8 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 
     }
 
+
+
     public void setUpGestures(){
         Log.d(TAG, "setUpGestures :"  );
         GestureListener mGestureListener = new GestureListener();

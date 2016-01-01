@@ -5,15 +5,20 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,7 +28,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CitizenshipAcitivty extends AppCompatActivity {
+public class CitizenshipAcitivty extends AppCompatActivity implements ButtonSelector {
 
     private final String LANGUAGE_CHINESE =  "chinese";
     private final String LANGUAGE_ENGLISH =  "english";
@@ -32,13 +37,15 @@ public class CitizenshipAcitivty extends AppCompatActivity {
     private final String TAG = "MyCitizenshipAcitivty";
     private Context mcontext;
     private int mIndex = 0;
+    private View view;
 
+    GestureDetectorCompat gDetect;
 
     @Bind(R.id.citizenship_question) TextView mCitizenshipQuestion;
     @Bind(R.id.citizenship_answer) TextView mCitizenshipAnswer;
     @Bind(R.id.citizenship_explanation) TextView mCitizenshipExplanation;
     @Bind(R.id.reveal_button) ImageView mRevealButton;
-
+    @Bind(R.id.previous_question) Button mPreveousButton;
 
     private CitizenshipHolder mCitizenshipHolder;
 
@@ -66,21 +73,60 @@ public class CitizenshipAcitivty extends AppCompatActivity {
         mCitizenshipHolder = createJSONObject.loadCitizenshipQuestions();
 
         Log.d(TAG, "language : " + mCitizenshipHolder.getCitizenshipTestQuestions().get(0).getQuestion());
-
+        view = findViewById(R.id.citizenship_root_view);
 
 
         loadQuestions();
+        makePrevousButtonUnclickable();
+
+        setUpGestures();
 
 
+    }
+
+    @Override
+    public void gestureNextButton(){
+        Log.d(TAG, "gestureNextButton :");
+        nextQuestion();
+
+    }
+
+    @Override
+    public void gesturePreviousButton(){
+        Log.d(TAG, "gesturePreviousButton :" );
+
+        preveousQuestion();
+    }
+
+    public void setUpGestures(){
+        Log.d(TAG, "setUpGestures :"  );
+        GestureListener mGestureListener = new GestureListener();
+        mGestureListener.delegate = CitizenshipAcitivty.this;
+        gDetect = new GestureDetectorCompat(this, mGestureListener);
+
+
+    }
+
+    public void makePrevousButtonUnclickable(){
+        Log.d(TAG, "makePrevousButtonUnclickable");
+        mPreveousButton.setClickable(false);
+        mPreveousButton.setAlpha(.5f);
+    }
+
+    public void makePrevousButtonClickable(){
+        Log.d(TAG, "makePrevousButtonClickable");
+        mPreveousButton.setClickable(true);
+        mPreveousButton.setAlpha(1);
     }
 
     public void loadQuestions(){
         mCitizenshipQuestion.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getQuestion());
-        mCitizenshipAnswer.setText( mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getAnswer());
+        mCitizenshipAnswer.setText( mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getAnswer().replace("#", "\n"));
         mCitizenshipExplanation.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getExplanation());
     }
 
     public void nextQuestion(){
+        makePrevousButtonClickable();
 
         Log.d(TAG, "mIndex : " + mIndex);
         Log.d(TAG, "mCitizenshipHolder.getCitizenshipTestQuestions().size() : "
@@ -91,20 +137,20 @@ public class CitizenshipAcitivty extends AppCompatActivity {
             mIndex +=1;
         }
 
-        mCitizenshipQuestion.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getQuestion());
-        mCitizenshipAnswer.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getAnswer());
-        mCitizenshipExplanation.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getExplanation());
+        loadQuestions();
     }
 
     public void preveousQuestion(){
         hideDetailText();
+        if(mIndex == 1){
+            makePrevousButtonUnclickable();
+        }
         if(mIndex > 0){
             mIndex -=1;
         }
 
-        mCitizenshipQuestion.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getQuestion());
-        mCitizenshipAnswer.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getAnswer());
-        mCitizenshipExplanation.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getExplanation());
+        loadQuestions();
+
     }
 
     @SuppressWarnings("unused")
@@ -188,6 +234,13 @@ public class CitizenshipAcitivty extends AppCompatActivity {
                 //it adds one
                 mIndex = position -1;
                 nextQuestion();
+
+                if (position == 0) {
+                    makePrevousButtonUnclickable();
+                } else {
+                    makePrevousButtonClickable();
+                }
+
                 ad.dismiss();
 
             }

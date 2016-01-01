@@ -24,7 +24,7 @@
     <string name="next_button">Next</string>
     <string name="select_question">Go to Question</string>
     <string name="finish_studying">Finish</string>
-    <string name="correct_answer_above">Correct answer is selected above. You selected answer :   </string>
+    <string name="correct_answer_above">Incorrect. Correct answer is :    </string>
     <string name="correct">Correct</string>
     <!-- Study all questions dialog 1 -->
     <string name="dialog_tittle">Go to question</string>

@@ -449,7 +449,16 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
                 Log.d(TAG, "hasBeenAnswered : " + hasBeenAnswered);
                 int color = 0x00FFFFFF; // Transparent
                 if (hasBeenAnswered) {
-                    view.setBackgroundColor(getResources().getColor(R.color.colorForQuestionGrid));
+
+                    if(driverQuestions.getQuestions().get(position).isAnsweredCorrectly()){
+                        //answer is correct
+                        view.setBackgroundColor(getResources().getColor(R.color.colorForQuestionGrid));
+                    }else{
+                        //answer is incorrect
+                        view.setBackgroundColor(getResources().getColor(R.color.red));
+                    }
+
+
                 }else{
 
                     view.setBackgroundColor(color);
