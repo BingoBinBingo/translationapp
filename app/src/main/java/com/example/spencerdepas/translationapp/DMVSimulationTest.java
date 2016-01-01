@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -84,7 +85,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setSupportActionBar(toolbar);
+
         Log.d(TAG, "onCreate");
         mcontext = this.getApplicationContext();
 
@@ -237,6 +238,10 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 //
 //        Log.d(TAG, "getSelectedAnswer()" +
 //                driverQuestions.getQuestions().get(mQuestionIndex).getSelectedAnswer());
+
+        Log.d(TAG, "driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getSelectedAnswer()\n" +
+                "                .equals(\"\") : " + driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getSelectedAnswer()
+                .equals(""));
 
         if(!driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getSelectedAnswer()
                 .equals("")){
@@ -431,7 +436,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
                 //this is if we are at the end of reviewing questions
 
 
-                mainActivityIntent();
+                destroyActivity();
 
 
             }
@@ -474,7 +479,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
                             Log.d(TAG, "loop i is  :" + i + "    " +driverQuestions.getQuestions().get(mQuestionIndexArray[i])
                                     .getSelectedAnswer().equals(""));
                             Snackbar.make(testView, getResources().getString(R.string.anser_all_questions),
-                                    Snackbar.LENGTH_LONG)
+                                    Snackbar.LENGTH_SHORT)
                                     .setAction("Action", null).show();
                             break;
 
@@ -627,7 +632,31 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
             mList.add(i);
         }
 
-        gridView.setAdapter(new ArrayAdapter<>(this,  R.layout.custom_list_item, mList));
+       // gridView.setAdapter(new ArrayAdapter<>(this, R.layout.custom_list_item, mList));
+        gridView.setAdapter(new ArrayAdapter<Integer>(this, R.layout.custom_list_item, mList) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+
+
+                boolean hasBeenAnswered = hasBeenAnswered(position);
+
+                int color = 0x00FFFFFF; // Transparent
+                if (hasBeenAnswered) {
+                    view.setBackgroundColor(getResources().getColor(R.color.colorForQuestionGrid));
+                }else{
+
+                    view.setBackgroundColor(color);
+                }
+
+
+
+                return view;
+            }
+        });
+
+
+
         gridView.setNumColumns(4);
 
 
@@ -653,14 +682,20 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
                 // do something here
                 Log.d(TAG, "onclick");
 
-                if(position == 0){
+
+                saveAnswer();
+                unSelectRadioButtons();
+
+
+                loadRadioButtonSelection();
+
+                if (position == 0) {
                     makePrevousButtonUnclickable();
-                }else{
+                } else {
                     makePrevousButtonClickable();
                 }
                 mNextButton.setText(getResources().getString(R.string.next_button));
                 Log.d(TAG, "int pos : " + position);
-                mQuestionIndex = position;
                 goToSelectedQuestion(position);
                 ad.dismiss();
             }
@@ -670,8 +705,10 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 
     }
 
-    private void goToSelectedQuestion(int questionindex){
 
+
+    private void goToSelectedQuestion(int questionindex){
+        Log.d(TAG, "goToSelectedQuestion");
         //this is only for not study
         saveAnswer();
         mQuestionIndex = questionindex;
@@ -704,7 +741,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
                         @Override
                         public void onClick(View v) {
                             mMaterialDialog.dismiss();
-                            mainActivityIntent();
+                            destroyActivity();
 
                         }
                     })
@@ -754,9 +791,8 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 
     }
 
-    private void mainActivityIntent(){
-        Intent myIntent = new Intent(DMVSimulationTest.this, MainActivity.class);
-        DMVSimulationTest.this.startActivity(myIntent);
+    private void destroyActivity(){
+        finish();
     }
 
     private void unSelectRadioButtons(){
@@ -787,13 +823,13 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
                     driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getSelectedAnswer());
 
 
-            isAnswerCorrect();
+            setIfAnswerCorrect();
         }
 
     }
 
-    private void isAnswerCorrect(){
-        Log.d(TAG, "isAnswerCorrect");
+    private void setIfAnswerCorrect(){
+        Log.d(TAG, "setIfAnswerCorrect");
 
 
         Log.d(TAG, "getSelectedAnswer : " +
@@ -810,16 +846,56 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
         if(lastChracterString
                 .equals(driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer()
                         .toLowerCase())){
-            Log.d(TAG, "isAnswerCorrect answer is correct");
+            Log.d(TAG, "setIfAnswerCorrect answer is correct");
 
             driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(true);
 
         }else{
-            Log.d(TAG, "isAnswerCorrect answer is incorrect");
+            Log.d(TAG, "setIfAnswerCorrect answer is incorrect");
             driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(false);
 
         }
 
+
+
+
+
+    }
+
+
+    private boolean hasBeenAnswered(int position){
+        Log.d(TAG, "hasBeenAnswered");
+
+
+
+        Log.d(TAG, "hasBeenAnswered getSelectedAnswer : " +
+                driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getSelectedAnswer());
+        Log.d(TAG, "hasBeenAnswered position : " +  position  );
+//        Log.d(TAG, "hasBeenAnswered getAnswer : " +
+//                driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer());
+//        driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getSelectedAnswer();
+
+
+
+
+        if(!driverQuestions.getQuestions().get(mQuestionIndexArray[position]).getSelectedAnswer().equals("")
+                && !driverQuestions.getQuestions().get(mQuestionIndexArray[position]).getSelectedAnswer().equals("sound")){
+
+            Log.d(TAG, "hasBeenAnswered has  been answered");
+            Log.d(TAG, "hasBeenAnswered == " +
+                    driverQuestions.getQuestions().get(mQuestionIndexArray[position]).getSelectedAnswer().equals(""));
+
+
+
+
+
+            return true;
+
+
+        }
+
+        Log.d(TAG, "hasBeenAnswered question has not been answered");
+        return false;
 
 
 
@@ -843,7 +919,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 
         }else if(id == BACK_BUTTON){
             Log.d(TAG, "BackButton");
-            mainActivityIntent();
+            destroyActivity();
         }
 
         return super.onOptionsItemSelected(item);

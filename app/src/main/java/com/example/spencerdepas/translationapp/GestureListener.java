@@ -13,8 +13,8 @@ public class GestureListener  extends GestureDetector.SimpleOnGestureListener {
 
 
     public ButtonSelector delegate = null;
-    private float flingMin = 200;
-    private float velocityMin = 200;
+    private float flingMin = 100;
+    private float velocityMin = 100;
     private GestureDetectorCompat gDetect;
     //user will move forward through messages on fling up or left
     boolean forward = false;

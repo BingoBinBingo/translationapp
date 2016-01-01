@@ -17,6 +17,7 @@
 
 
     <Button
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/study_for_driver_test"
@@ -25,6 +26,7 @@
 
 
     <Button
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/simulation_test"
@@ -32,6 +34,7 @@
         android:id="@+id/dmv_simulation_test"/>
 
     <Button
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/citizenship_test"

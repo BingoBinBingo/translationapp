@@ -5,15 +5,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,6 +37,7 @@ public class CitizenshipAcitivty extends AppCompatActivity {
     @Bind(R.id.citizenship_question) TextView mCitizenshipQuestion;
     @Bind(R.id.citizenship_answer) TextView mCitizenshipAnswer;
     @Bind(R.id.citizenship_explanation) TextView mCitizenshipExplanation;
+    @Bind(R.id.reveal_button) ImageView mRevealButton;
 
 
     private CitizenshipHolder mCitizenshipHolder;
@@ -47,7 +48,10 @@ public class CitizenshipAcitivty extends AppCompatActivity {
         setContentView(R.layout.activity_citizenship);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
+
+
 
         Log.d(TAG, "onCreate");
         mcontext = this.getApplicationContext();
@@ -72,7 +76,7 @@ public class CitizenshipAcitivty extends AppCompatActivity {
 
     public void loadQuestions(){
         mCitizenshipQuestion.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getQuestion());
-        mCitizenshipAnswer.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getAnswer());
+        mCitizenshipAnswer.setText( mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getAnswer());
         mCitizenshipExplanation.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getExplanation());
     }
 
@@ -82,6 +86,7 @@ public class CitizenshipAcitivty extends AppCompatActivity {
         Log.d(TAG, "mCitizenshipHolder.getCitizenshipTestQuestions().size() : "
                 + mCitizenshipHolder.getCitizenshipTestQuestions().size());
 
+        hideDetailText();
         if(mIndex  + 1 < mCitizenshipHolder.getCitizenshipTestQuestions().size()){
             mIndex +=1;
         }
@@ -92,6 +97,7 @@ public class CitizenshipAcitivty extends AppCompatActivity {
     }
 
     public void preveousQuestion(){
+        hideDetailText();
         if(mIndex > 0){
             mIndex -=1;
         }
@@ -99,6 +105,24 @@ public class CitizenshipAcitivty extends AppCompatActivity {
         mCitizenshipQuestion.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getQuestion());
         mCitizenshipAnswer.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getAnswer());
         mCitizenshipExplanation.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getExplanation());
+    }
+
+    @SuppressWarnings("unused")
+    @OnClick(R.id.reveal_button)
+    public void revealMoreDetailedAnswer(View view) {
+        Log.d(TAG, "revealMoreDetailedAnswer");
+        revealDetailText();
+    }
+
+
+    public void revealDetailText(){
+        mRevealButton.setVisibility(View.GONE);
+        mCitizenshipExplanation.setVisibility(View.VISIBLE);
+    }
+
+    public void hideDetailText(){
+        mRevealButton.setVisibility(View.VISIBLE);
+        mCitizenshipExplanation.setVisibility(View.GONE);
     }
 
 
@@ -171,6 +195,32 @@ public class CitizenshipAcitivty extends AppCompatActivity {
 
 
 
+    }
+
+    private void destroyActivity(){
+        finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final int BACK_BUTTON = 16908332;
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        Log.d(TAG, "id : " + id);
+        //noinspection SimplifiableIfStatement
+
+        if (id == R.id.action_settings) {
+            Log.d(TAG, "Changed langague");
+
+
+        }else if(id == BACK_BUTTON){
+            Log.d(TAG, "BackButton");
+            destroyActivity();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

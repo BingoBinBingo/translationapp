@@ -1,12 +1,9 @@
 package com.example.spencerdepas.translationapp;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
@@ -17,13 +14,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -205,11 +202,16 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
                 radioGroup.setEnabled(false);
 
             }else {
-                Log.d(TAG, "answer wrong");
+                Log.d(TAG, "updateQuestion answer wrong");
+                //condition for id you press prevous button and the answer has not been answered
+                if(driverQuestions.getQuestions().get(mQuestionIndex).isAnsweredCorrectly()){
+                    mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
+                    mDisplayCorrectAnswer.setText(getResources().getString(R.string.correct_answer_above) +
+                            driverQuestions.getQuestions().get(mQuestionIndex).getAnswer());
+                }
 
-                mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText(    getResources().getString(R.string.correct_answer_above) +
-                        driverQuestions.getQuestions().get(mQuestionIndex).getAnswer());
+
+
             }
         }else{
 
@@ -417,7 +419,8 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
     }
 
 
-    @OnClick(R.id.select_question_dialog)
+    @SuppressWarnings("unused")
+    @OnClick(R.id.select_question_dialog_fab)
     public void selectQuestionDialog(View view) {
         Log.d(TAG, "selectQuestionDialog");
 
@@ -436,7 +439,27 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
             mList.add(i);
         }
 
-        gridView.setAdapter(new ArrayAdapter<>(this, R.layout.custom_list_item, mList));
+        gridView.setAdapter(new ArrayAdapter<Integer>(this, R.layout.custom_list_item, mList) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+
+
+                boolean hasBeenAnswered = hasBeenAnswered(position);
+                Log.d(TAG, "hasBeenAnswered : " + hasBeenAnswered);
+                int color = 0x00FFFFFF; // Transparent
+                if (hasBeenAnswered) {
+                    view.setBackgroundColor(getResources().getColor(R.color.colorForQuestionGrid));
+                }else{
+
+                    view.setBackgroundColor(color);
+                }
+
+
+
+                return view;
+            }
+        });
         gridView.setNumColumns(4);
 
 
@@ -479,6 +502,37 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
                 ad.dismiss();
             }
         });
+
+
+
+    }
+
+
+    private boolean hasBeenAnswered(int position){
+        Log.d(TAG, "hasBeenAnswered");
+
+
+
+        Log.d(TAG, "hasBeenAnswered getSelectedAnswer : " +
+                driverQuestions.getQuestions().get(position).getSelectedAnswer());
+        Log.d(TAG, "hasBeenAnswered getAnswer : " +
+                driverQuestions.getQuestions().get(position).getAnswer());
+        driverQuestions.getQuestions().get(position).getSelectedAnswer();
+
+
+
+
+        if(!driverQuestions.getQuestions().get(position).getSelectedAnswer().equals("")){
+
+            Log.d(TAG, "hasBeenAnswered has  been answered");
+            return true;
+
+
+        }
+        Log.d(TAG, "hasBeenAnswered has  been answered");
+        Log.d(TAG, "hasBeenAnswered question has not been answered");
+        return false;
+
 
 
 
@@ -541,20 +595,18 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
                 mNextButton.setText(getResources().getString(R.string.next_button));
             }
         }else{
-            mainActivityIntent();
+            destroyActivity();
         }
 
 
 
 
-//        Snackbar.make(view, "driver test fab", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
 
     }
 
-    private void mainActivityIntent(){
-        Intent myIntent = new Intent(DMVStudyActivity.this, MainActivity.class);
-        DMVStudyActivity.this.startActivity(myIntent);
+    private void destroyActivity(){
+
+        finish();
     }
 
     private void unSelectRadioButtons(){
@@ -648,7 +700,7 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
 
         }else if(id == BACK_BUTTON){
             Log.d(TAG, "BackButton");
-            mainActivityIntent();
+            destroyActivity();
         }
 
         return super.onOptionsItemSelected(item);

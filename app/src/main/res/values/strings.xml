@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">translationapp</string>
+    <string name="app_name">GovPass</string>
     <string name="action_settings">Change Language</string>
     <string name="title_activity_driver_license">Simulation Test</string>
     <string name="title_activity_dmvpractice_test">DMVPracticeTest</string>
@@ -24,7 +24,7 @@
     <string name="next_button">Next</string>
     <string name="select_question">Go to Question</string>
     <string name="finish_studying">Finish</string>
-    <string name="correct_answer_above">Correct answer is selected above. \n You selected answer :  </string>
+    <string name="correct_answer_above">Correct answer is selected above. You selected answer :   </string>
     <string name="correct">Correct</string>
     <!-- Study all questions dialog 1 -->
     <string name="dialog_tittle">Go to question</string>
@@ -33,8 +33,7 @@
     <!-- simulation test  -->
     <string name="submit_test">Submit</string>
     <string name="anser_all_questions">Please answer all questions</string>
-    <string name="corrrect_answer_is_selected_above">Correct answer is selected above. \n You selected answer :
-</string>
+    <string name="correct_answer_is_selected_above">Correct answer is selected above. \n You selected answer : </string>
 
     <!-- simulation test failed Dialog -->
     <string name="failed_test_dialog_one">I\'m Sorry</string>
