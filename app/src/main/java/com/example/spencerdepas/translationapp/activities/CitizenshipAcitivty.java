@@ -1,4 +1,4 @@
-package com.example.spencerdepas.translationapp;
+package com.example.spencerdepas.translationapp.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -7,19 +7,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.example.spencerdepas.translationapp.ButtonSelector;
+import com.example.spencerdepas.translationapp.pojo.CitizenshipHolder;
+import com.example.spencerdepas.translationapp.model.CreateJSONObject;
+import com.example.spencerdepas.translationapp.model.GestureListener;
+import com.example.spencerdepas.translationapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +50,7 @@ public class CitizenshipAcitivty extends AppCompatActivity implements ButtonSele
     @Bind(R.id.citizenship_explanation) TextView mCitizenshipExplanation;
     @Bind(R.id.reveal_button) ImageView mRevealButton;
     @Bind(R.id.previous_question) Button mPreveousButton;
+    @Bind(R.id.next_question) Button mNextButton;
 
     private CitizenshipHolder mCitizenshipHolder;
 
@@ -98,6 +103,12 @@ public class CitizenshipAcitivty extends AppCompatActivity implements ButtonSele
         preveousQuestion();
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        super.dispatchTouchEvent(ev);
+        return gDetect.onTouchEvent(ev);
+    }
+
     public void setUpGestures(){
         Log.d(TAG, "setUpGestures :"  );
         GestureListener mGestureListener = new GestureListener();
@@ -105,6 +116,14 @@ public class CitizenshipAcitivty extends AppCompatActivity implements ButtonSele
         gDetect = new GestureDetectorCompat(this, mGestureListener);
 
 
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event){
+        Log.d(TAG, "onTouchEvent :"  );
+        Log.d(TAG, "event :" + event.toString());
+        this.gDetect.onTouchEvent(event);
+        return super.onTouchEvent(event);
     }
 
     public void makePrevousButtonUnclickable(){
@@ -121,9 +140,11 @@ public class CitizenshipAcitivty extends AppCompatActivity implements ButtonSele
 
     public void loadQuestions(){
         mCitizenshipQuestion.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getQuestion());
-        mCitizenshipAnswer.setText( mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getAnswer().replace("#", "\n"));
+        mCitizenshipAnswer.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getAnswer().replace("#", "\n"));
         mCitizenshipExplanation.setText(mCitizenshipHolder.getCitizenshipTestQuestions().get(mIndex).getExplanation());
     }
+
+
 
     public void nextQuestion(){
         makePrevousButtonClickable();
@@ -138,7 +159,24 @@ public class CitizenshipAcitivty extends AppCompatActivity implements ButtonSele
         }
 
         loadQuestions();
+
+        if(mNextButton.getText().toString().equals(getString(R.string.finish))){
+
+            Log.d(TAG, "destroyActivity : " );
+            destroyActivity();
+        }
+
+        if(mIndex == mCitizenshipHolder.getCitizenshipTestQuestions().size() -1){
+            mNextButton.setText(R.string.finish);
+            Log.d(TAG, "mQuestionIndex == mWrongAnswersToStudy.size() -1");
+        }
+
+
+
+
     }
+
+
 
     public void preveousQuestion(){
         hideDetailText();
@@ -150,6 +188,11 @@ public class CitizenshipAcitivty extends AppCompatActivity implements ButtonSele
         }
 
         loadQuestions();
+
+        if(mIndex != mCitizenshipHolder.getCitizenshipTestQuestions().size() -1){
+            mNextButton.setText(R.string.next_button);
+            Log.d(TAG, "mQuestionIndex == mWrongAnswersToStudy.size() -1");
+        }
 
     }
 

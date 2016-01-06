@@ -1,4 +1,4 @@
-package com.example.spencerdepas.translationapp;
+package com.example.spencerdepas.translationapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,13 +9,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.spencerdepas.translationapp.R;
+import com.example.spencerdepas.translationapp.model.CreateJSONObject;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
  * Created by SpencerDepas on 11/30/15.
  */
-public class FoodProtectionStudy extends AppCompatActivity {
+public class FoodProtectionActivity extends AppCompatActivity {
 
     private String TAG = "MyFoodProtectionStudy";
     private String language = null;

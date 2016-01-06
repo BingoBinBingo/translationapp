@@ -1,4 +1,4 @@
-package com.example.spencerdepas.translationapp;
+package com.example.spencerdepas.translationapp.pojo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

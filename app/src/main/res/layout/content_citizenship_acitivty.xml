@@ -6,8 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="bottom"
-    tools:context="com.example.spencerdepas.translationapp.CitizenshipAcitivty"
+    tools:context=".activities.CitizenshipAcitivty"
     tools:showIn="@layout/activity_citizenship">
+
+
 
 
     <ScrollView

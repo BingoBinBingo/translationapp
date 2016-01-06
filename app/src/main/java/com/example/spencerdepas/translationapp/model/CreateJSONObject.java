@@ -1,8 +1,12 @@
-package com.example.spencerdepas.translationapp;
+package com.example.spencerdepas.translationapp.model;
 
 import android.content.Context;
 import android.util.Log;
 
+import com.example.spencerdepas.translationapp.pojo.DriversLicenseQuestions;
+import com.example.spencerdepas.translationapp.pojo.HygieneContainer;
+import com.example.spencerdepas.translationapp.pojo.NailQuestionContainer;
+import com.example.spencerdepas.translationapp.pojo.CitizenshipHolder;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -24,6 +28,9 @@ public class CreateJSONObject {
     //private FoodProtectionQuestions foodProtectionQuestions;
     private DriversLicenseQuestions driverQuestions;
     private CitizenshipHolder mCitizenshipHolder;
+    private NailQuestionContainer myNailQuestionContainer;
+    private HygieneContainer mHygieneContainer;
+
 
     public CreateJSONObject(String language, String testToLoad, Context mContext){
         Log.d(TAG, "CreateJSONObject");
@@ -76,6 +83,98 @@ public class CreateJSONObject {
 
         Log.d(TAG, "reading obj : " + driverQuestions.getQuestions().size());
         return driverQuestions;
+    }
+
+    public NailQuestionContainer loadNailQuestions() {
+        Log.d(TAG, "loadNailQuestions");
+
+        Log.d(TAG, "language " + language);
+        String json = null;
+
+        Gson gson = new Gson();
+
+
+        try {
+
+            //InputStream is = mContext.getAssets().open("t_hygiene_last_one.json");
+            if(language.equals("chinese")){
+                is = mContext.getAssets().open("driver_test_questions_hant.json");
+            }else{
+                is = mContext.getAssets().open("t_nail_english.json");
+                Log.d(TAG, "language " + "loading english");
+            }
+
+
+            int size = is.available();
+            Log.d(TAG, "size " + size);
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+
+        }
+
+
+        myNailQuestionContainer = gson.fromJson(json, NailQuestionContainer.class);
+
+        Log.d(TAG, "reading obj : " + myNailQuestionContainer.getQuestions().size());
+        return myNailQuestionContainer;
+    }
+
+    public HygieneContainer loadHygieneContainerQuestions() {
+        Log.d(TAG, "loadHygieneContainerQuestions");
+
+        Log.d(TAG, "language " + language);
+        String json = null;
+
+        Gson gson = new Gson();
+
+
+        try {
+
+            //InputStream is = mContext.getAssets().open("t_hygiene_last_one.json");
+            if(language.equals("chinese")){
+                is = mContext.getAssets().open("driver_test_questions_hant.json");
+            }else{
+                is = mContext.getAssets().open("t_hygiene_chinese.json");
+                Log.d(TAG, "language " + "loading english");
+            }
+
+
+            int size = is.available();
+            Log.d(TAG, "size " + size);
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+
+        }
+
+
+        mHygieneContainer = gson.fromJson(json, HygieneContainer.class);
+
+        Log.d(TAG, "reading obj : " + mHygieneContainer.getHygineTestQuestions().size());
+        return mHygieneContainer;
     }
 
 

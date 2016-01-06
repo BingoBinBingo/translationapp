@@ -1,9 +1,11 @@
-package com.example.spencerdepas.translationapp;
+package com.example.spencerdepas.translationapp.model;
 
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+
+import com.example.spencerdepas.translationapp.ButtonSelector;
 
 /**
  * Created by SpencerDepas on 12/16/15.

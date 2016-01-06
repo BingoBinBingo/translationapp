@@ -1,4 +1,4 @@
-package com.example.spencerdepas.translationapp;
+package com.example.spencerdepas.translationapp.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -26,6 +26,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.spencerdepas.translationapp.ButtonSelector;
+import com.example.spencerdepas.translationapp.pojo.DriversLicenseQuestions;
+import com.example.spencerdepas.translationapp.model.GestureListener;
+import com.example.spencerdepas.translationapp.R;
+import com.example.spencerdepas.translationapp.model.CreateJSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -223,6 +228,12 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
 
     }
 
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        super.dispatchTouchEvent(ev);
+        return gDetect.onTouchEvent(ev);
+    }
 
 
     @OnClick(R.id.image_view)

@@ -12,23 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".FoodProtectionStudy"
+            android:name=".activities.FoodProtectionActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".DMVSimulationTest"
+            android:name=".activities.DMVSimulationTestActivity"
             android:label="@string/title_activity_driver_license"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".DMVStudyActivity"
+            android:name=".activities.DMVStudyActivity"
             android:label="@string/title_activity_dmvpractice_test"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -42,8 +41,16 @@
             android:value="bba7075dbe466747913fe0d3bc5d05a86a6f0fcb" />
 
         <activity
-            android:name=".CitizenshipAcitivty"
+            android:name=".activities.CitizenshipAcitivty"
             android:label="@string/title_activity_citizenship_acitivty"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.NailTestActivity"
+            android:label="@string/title_activity_nail_test"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.HygieneActivity"
+            android:label="@string/title_activity_health"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

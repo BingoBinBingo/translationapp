@@ -1,4 +1,4 @@
-package com.example.spencerdepas.translationapp;
+package com.example.spencerdepas.translationapp.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -27,6 +27,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.spencerdepas.translationapp.ButtonSelector;
+import com.example.spencerdepas.translationapp.pojo.DriversLicenseQuestions;
+import com.example.spencerdepas.translationapp.model.GestureListener;
+import com.example.spencerdepas.translationapp.R;
+import com.example.spencerdepas.translationapp.model.CreateJSONObject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class DMVSimulationTest extends AppCompatActivity implements ButtonSelector {
+public class DMVSimulationTestActivity extends AppCompatActivity implements ButtonSelector {
 
     private ArrayList<Integer> mWrongAnswersToStudy = new ArrayList<Integer>();
     private String TAG = "MyDMVPracticeTest";
@@ -116,12 +121,16 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 
     }
 
-
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        super.dispatchTouchEvent(ev);
+        return gDetect.onTouchEvent(ev);
+    }
 
     public void setUpGestures(){
         Log.d(TAG, "setUpGestures :"  );
         GestureListener mGestureListener = new GestureListener();
-        mGestureListener.delegate = DMVSimulationTest.this;
+        mGestureListener.delegate = DMVSimulationTestActivity.this;
         gDetect = new GestureDetectorCompat(this, mGestureListener);
 
 
@@ -427,7 +436,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 
                 //to see if we are at the end of reviewing questions
                 if(mQuestionIndex == mWrongAnswersToStudy.size() -1){
-                    mNextButton.setText("Finish");
+                    mNextButton.setText(R.string.finish);
                     Log.d(TAG, "mQuestionIndex == mWrongAnswersToStudy.size() -1");
                 }
 
@@ -731,7 +740,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 
 
         if(mWrongAnswers.size() > 6){
-            final MaterialDialog mMaterialDialog = new MaterialDialog(DMVSimulationTest.this)
+            final MaterialDialog mMaterialDialog = new MaterialDialog(DMVSimulationTestActivity.this)
                     .setTitle(getResources().getString(R.string.failed_test_dialog_one))
 
                     .setMessage(getResources().getString(R.string.failed_test_dialog_two) +
@@ -765,7 +774,7 @@ public class DMVSimulationTest extends AppCompatActivity implements ButtonSelect
 
 
 
-            final MaterialDialog mMaterialDialog = new MaterialDialog(DMVSimulationTest.this)
+            final MaterialDialog mMaterialDialog = new MaterialDialog(DMVSimulationTestActivity.this)
                     .setTitle(getResources().getString(R.string.you_passed))
                     .setMessage(getResources().getString(R.string.passed_test_dialog_two)
                             + (mWrongAnswers.size() - 20) +  getResources().getString(R.string.passed_test_dialog_three));

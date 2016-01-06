@@ -1,4 +1,4 @@
-package com.example.spencerdepas.translationapp;
+package com.example.spencerdepas.translationapp.pojo;
 
 /**
  * Created by SpencerDepas on 11/30/15.

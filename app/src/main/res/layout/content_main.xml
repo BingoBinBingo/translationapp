@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -9,38 +10,168 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.spencerdepas.translationapp.MainActivity"
+    tools:context=".activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
 
 
-
-
-    <Button
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/study_for_driver_test"
-        android:id="@+id/dmv_study_test"/>
-
-
-
-    <Button
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/simulation_test"
-        android:layout_below="@+id/dmv_study_test"
-        android:id="@+id/dmv_simulation_test"/>
-
-    <Button
-        android:textColor="@color/white"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/citizenship_test"
-        android:layout_below="@+id/dmv_simulation_test"
-        android:id="@+id/citizenship"/>
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        card_view:cardElevation="4dp"
+        android:id="@+id/nail_cardview"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/card_margin"
 
 
 
-</RelativeLayout>
+        >
+
+        <TextView
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cardview.nail_test"
+            android:id="@+id/test"/>
+
+    </android.support.v7.widget.CardView>
+
+
+
+    <android.support.v7.widget.CardView
+        android:layout_below="@+id/nail_cardview"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        card_view:cardElevation="4dp"
+        android:id="@+id/dmv_study_cardview"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/card_margin"
+
+        >
+
+
+        <TextView
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cardview.study_for_driver_test"
+            android:id="@+id/dmv_study_test"/>
+
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+    <android.support.v7.widget.CardView
+        android:layout_below="@+id/dmv_study_cardview"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        card_view:cardElevation="4dp"
+        android:id="@+id/dmv_simulation_cardview"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/card_margin"
+
+        >
+
+
+        <TextView
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cardview.simulation_test"
+            android:id="@+id/dmv_simulation_test"/>
+
+
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_below="@+id/dmv_simulation_cardview"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        card_view:cardElevation="4dp"
+        android:id="@+id/citizenship_cardview"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/card_margin"
+        >
+
+        <TextView
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cardview.citizenship_test"
+            android:id="@+id/citizenship"/>
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_below="@+id/citizenship_cardview"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        card_view:cardElevation="4dp"
+        android:id="@+id/health_cardview"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/card_margin"
+        >
+
+        <TextView
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cardview.health_test"
+            android:id="@+id/health_text_view"/>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+</LinearLayout>
