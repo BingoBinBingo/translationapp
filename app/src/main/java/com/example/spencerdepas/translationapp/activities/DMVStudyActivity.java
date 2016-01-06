@@ -41,7 +41,7 @@ import butterknife.OnClick;
 
 public class DMVStudyActivity extends AppCompatActivity implements ButtonSelector {
 
-
+    private String picLocation;
     private String TAG = "MyDMVStudyDriverTestActivity";
     private String language = null;
     @Bind(R.id.driver_test_question) TextView mQuestion;
@@ -139,12 +139,7 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
         Log.d(TAG, "loadRadioButtonSelection");
 
 
-//        Log.d(TAG, "getSelectedAnswerResourceId() " +
-//                driverQuestions.getQuestions().get(mQuestionIndex).getSelectedAnswerResourceId());
-//
-//        Log.d(TAG, "getSelectedAnswer()" +
-//                driverQuestions.getQuestions().get(mQuestionIndex).getSelectedAnswer());
-
+        //this loads which radio button was selected if you go back to an answered question
         if(!driverQuestions.getQuestions().get(mQuestionIndex).getSelectedAnswer()
                 .equals("")){
 
@@ -155,7 +150,7 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
 
         }
     }
-    private String picLocation;
+
 
 
     public void updateQuestion(){
@@ -609,7 +604,7 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
             updateQuestion();
 
             loadRadioButtonSelection();
-            if(mQuestionIndex == 193){
+            if(mQuestionIndex == driverQuestions.getQuestions().size() -1 ){
                 mNextButton.setText(getResources().getString(R.string.finish_studying));
             }else {
                 mNextButton.setText(getResources().getString(R.string.next_button));

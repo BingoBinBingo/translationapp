@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="bottom"
-    tools:context=".activities.DMVStudyActivity"
-    tools:showIn="@layout/activity_dmv_study">
+    tools:context=".activities.HygieneActivity"
+    tools:showIn="@layout/activity_hygiene">
 
 
     <LinearLayout
@@ -110,6 +110,5 @@
 
 
     </android.support.v7.widget.CardView>
-
 
 </LinearLayout>

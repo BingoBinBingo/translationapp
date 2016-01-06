@@ -39,6 +39,37 @@ public class HygineTestQuestion {
     @Expose
     private String optionB;
 
+    private String selectedAnswer = "";
+    private boolean answeredCorrectly;
+    private int selectedAnswerResourceId;
+
+    public String getSelectedAnswer(){
+        return selectedAnswer;
+    }
+
+    public void setSelectedAnswer(String selectedAnswer){
+        this.selectedAnswer = selectedAnswer;
+    }
+
+
+
+    public void setSelectedAnswerResourceId(int resourceId){
+        selectedAnswerResourceId = resourceId;
+    }
+
+    public int getSelectedAnswerResourceId(){
+        return selectedAnswerResourceId;
+    }
+
+    public boolean isAnsweredCorrectly(){
+        return answeredCorrectly;
+    }
+
+    public void setAnsweredCorrectly(boolean answeredCorrectly){
+        this.answeredCorrectly = answeredCorrectly;
+    }
+
+
     /**
      *
      * @return

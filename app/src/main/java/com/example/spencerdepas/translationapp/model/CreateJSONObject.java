@@ -173,7 +173,7 @@ public class CreateJSONObject {
 
         mHygieneContainer = gson.fromJson(json, HygieneContainer.class);
 
-        Log.d(TAG, "reading obj : " + mHygieneContainer.getHygineTestQuestions().size());
+        Log.d(TAG, "reading obj : " + mHygieneContainer.getQuestions().size());
         return mHygieneContainer;
     }
 

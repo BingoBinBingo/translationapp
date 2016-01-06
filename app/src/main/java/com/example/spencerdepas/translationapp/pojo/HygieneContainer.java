@@ -20,7 +20,7 @@ public class HygieneContainer {
      * @return
      * The hygineTestQuestions
      */
-    public List<HygineTestQuestion> getHygineTestQuestions() {
+    public List<HygineTestQuestion> getQuestions() {
         return hygineTestQuestions;
     }
 
