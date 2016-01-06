@@ -51,19 +51,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/preveous_button"
+                android:textAllCaps="true"
                 android:id="@+id/previous_question"/>
 
             <Button
                 android:textColor="@color/white"
                 android:padding="3dp"
+                android:textAllCaps="true"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/previous_question"
                 android:text="@string/next_button"
+
                 android:id="@+id/next_question"/>
         </LinearLayout>
 
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_search_white_48dp" />
 
 </android.support.design.widget.CoordinatorLayout>

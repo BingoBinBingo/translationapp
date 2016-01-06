@@ -12,7 +12,7 @@
 
 
     <!-- Main activity -->
-    <string name="options.send_us_an_email">Send us and email</string>
+    <string name="options.send_us_an_email">Send us an email!</string>
     <string name="language_changed_to">Langauge Changed To </string>
     <string name="cardview.simulation_test">DMV simulation</string>
     <string name="cardview.citizenship_test">citizenship test </string>
