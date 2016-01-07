@@ -7,7 +7,7 @@
     <dimen name="control_bar_margin">45dp</dimen>
 
 
-    <dimen name="card_margin">8dp</dimen>
+    <dimen name="card_margin">3dp</dimen>
 
 
 </resources>

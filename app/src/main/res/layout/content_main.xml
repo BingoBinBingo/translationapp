@@ -14,11 +14,10 @@
     tools:showIn="@layout/activity_main">
 
 
-
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         card_view:cardElevation="4dp"
-        android:id="@+id/nail_cardview"
+        android:id="@+id/citizenship_cardview"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -27,9 +26,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_margin="@dimen/card_margin"
-
-
-
         >
 
         <TextView
@@ -40,15 +36,15 @@
             android:textAllCaps="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cardview.nail_test"
-            android:id="@+id/test"/>
+            android:text="@string/cardview.citizenship_test"
+            android:id="@+id/citizenship"/>
+
 
     </android.support.v7.widget.CardView>
 
 
-
     <android.support.v7.widget.CardView
-        android:layout_below="@+id/nail_cardview"
+
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         card_view:cardElevation="4dp"
         android:id="@+id/dmv_study_cardview"
@@ -82,7 +78,7 @@
 
 
     <android.support.v7.widget.CardView
-        android:layout_below="@+id/dmv_study_cardview"
+
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         card_view:cardElevation="4dp"
         android:id="@+id/dmv_simulation_cardview"
@@ -114,37 +110,9 @@
     </android.support.v7.widget.CardView>
 
 
-    <android.support.v7.widget.CardView
-        android:layout_below="@+id/dmv_simulation_cardview"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        card_view:cardElevation="4dp"
-        android:id="@+id/citizenship_cardview"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="@dimen/card_margin"
-        >
-
-        <TextView
-            android:layout_gravity="center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textAllCaps="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cardview.citizenship_test"
-            android:id="@+id/citizenship"/>
-
-
-    </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:layout_below="@+id/citizenship_cardview"
+
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         card_view:cardElevation="4dp"
         android:id="@+id/health_cardview"
@@ -173,5 +141,32 @@
     </android.support.v7.widget.CardView>
 
 
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        card_view:cardElevation="4dp"
+        android:id="@+id/nail_cardview"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="@dimen/card_margin"
+
+        >
+
+        <TextView
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cardview.nail_test"
+            android:id="@+id/test"/>
+
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

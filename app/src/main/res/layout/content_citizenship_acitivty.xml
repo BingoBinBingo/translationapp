@@ -15,7 +15,7 @@
     <ScrollView
         android:layout_marginTop="60dp"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="200dp"
         android:orientation="vertical"
           >
 
@@ -99,6 +99,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
+                        android:paddingTop="60dp"
                         android:id="@+id/reveal_button"
                         android:layout_gravity="center"
                         android:layout_width="match_parent"
