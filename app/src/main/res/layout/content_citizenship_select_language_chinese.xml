@@ -14,40 +14,12 @@
     tools:showIn="@layout/activity_main">
 
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        card_view:cardElevation="4dp"
-        android:id="@+id/citizenship_cardview"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="@dimen/card_margin"
-        >
 
-        <TextView
-            android:layout_gravity="center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textAllCaps="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cardview.citizenship_test"
-            android:id="@+id/citizenship"/>
-
-
-    </android.support.v7.widget.CardView>
-
-
-    <android.support.v7.widget.CardView
+<android.support.v7.widget.CardView
 
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         card_view:cardElevation="4dp"
-        android:id="@+id/dmv_study_cardview"
+        android:id="@+id/citizenship_cardview_select_chinese"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -68,7 +40,7 @@
             android:textAllCaps="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cardview.study_for_driver_test"
+            android:text="@string/cardview.select_chinese"
             android:id="@+id/dmv_study_test"/>
 
 
@@ -81,7 +53,7 @@
 
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         card_view:cardElevation="4dp"
-        android:id="@+id/dmv_simulation_cardview"
+        android:id="@+id/citizenship_cardview_select_english"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -102,7 +74,7 @@
             android:textAllCaps="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cardview.simulation_test"
+            android:text="@string/cardview.select_english"
             android:id="@+id/dmv_simulation_test"/>
 
 
@@ -111,32 +83,7 @@
 
 
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        card_view:cardElevation="4dp"
-        android:id="@+id/nail_cardview"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_margin="@dimen/card_margin"
 
-        >
-
-        <TextView
-            android:layout_gravity="center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textAllCaps="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cardview.nail_test"
-            android:id="@+id/test"/>
-
-    </android.support.v7.widget.CardView>
 
 </LinearLayout>
+

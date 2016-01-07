@@ -10,36 +10,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import com.crashlytics.android.Crashlytics;
 import com.example.spencerdepas.translationapp.R;
 
 import java.util.Locale;
 
-import io.fabric.sdk.android.Fabric;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivityChinese extends AppCompatActivity {
 
     private final String LANGUAGE_CHINESE =  "中文";
     private final String LANGUAGE_ENGLISH =  "English";
-    private final String PREFS_LANGUAGE = "langagePreference";
+    private final String PREFS_LANGUAGE = "langagePrference";
     private String language = LANGUAGE_CHINESE;
-    private String TAG = "MyMainActivity";
+    private String TAG = "MyMainActivityChinese";
 
-    @Bind(R.id.nail_cardview) CardView mTestCardView;
+    @Bind(R.id.nail_cardview)
+    CardView mTestCardView;
     @Bind(R.id.dmv_study_cardview) CardView mStudyDMVCardView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_activity_chinese);
         ButterKnife.bind(this);
         Log.d(TAG, "onCreate");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.nail_cardview)
     public void nailTest(View view) {
-        Intent myIntent = new Intent(MainActivity.this, NailTestActivity.class);
+        Intent myIntent = new Intent(MainActivityChinese.this, NailTestActivity.class);
         myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
-        MainActivity.this.startActivity(myIntent);
+        MainActivityChinese.this.startActivity(myIntent);
 
     }
 
@@ -79,9 +79,9 @@ public class MainActivity extends AppCompatActivity {
 //        Snackbar.make(view, "food_protection_study_button", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show();
 
-        Intent myIntent = new Intent(MainActivity.this, DMVStudyActivity.class);
+        Intent myIntent = new Intent(MainActivityChinese.this, DMVStudyActivity.class);
         myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
-        MainActivity.this.startActivity(myIntent);
+        MainActivityChinese.this.startActivity(myIntent);
     }
 
 
@@ -91,9 +91,9 @@ public class MainActivity extends AppCompatActivity {
 //        Snackbar.make(view, "food_protection_study_button", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show();
 
-        Intent myIntent = new Intent(MainActivity.this, CitizenshipAcitivty.class);
+        Intent myIntent = new Intent(MainActivityChinese.this, SelectLanguageCitizenship.class);
         myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
-        MainActivity.this.startActivity(myIntent);
+        MainActivityChinese.this.startActivity(myIntent);
     }
 
     @OnClick(R.id.dmv_simulation_cardview)
@@ -101,20 +101,19 @@ public class MainActivity extends AppCompatActivity {
 //        Snackbar.make(view, "food_protection_study_button", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show();
 
-        Intent myIntent = new Intent(MainActivity.this, DMVSimulationTestActivity.class);
+        Intent myIntent = new Intent(MainActivityChinese.this, DMVSimulationTestActivity.class);
         myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
-        MainActivity.this.startActivity(myIntent);
+        MainActivityChinese.this.startActivity(myIntent);
     }
 
-//
-//    @OnClick(R.id.health_cardview)
-//    public void healthTestIntent(View view) {
-//
-//
-//        Intent myIntent = new Intent(MainActivity.this, HygieneActivity.class);
-//        myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
-//        MainActivity.this.startActivity(myIntent);
-//    }
+    @OnClick(R.id.health_cardview)
+    public void healthTestIntent(View view) {
+
+
+        Intent myIntent = new Intent(MainActivityChinese.this, HygieneActivity.class);
+        myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
+        MainActivityChinese.this.startActivity(myIntent);
+    }
 
 
     @OnClick(R.id.fab)
@@ -144,6 +143,17 @@ public class MainActivity extends AppCompatActivity {
 
             emailIntent();
 
+//            if(language.equals(LANGUAGE_CHINESE)){
+//                language = LANGUAGE_ENGLISH;
+//
+//            }else{
+//                language = LANGUAGE_CHINESE;
+//
+//            }
+//            saveLanguage(this, language);
+//            String mLanguageChangeString = getResources().getString(R.string.language_changed_to);
+//            Snackbar.make(this.findViewById(android.R.id.content),
+//                    mLanguageChangeString + language.toUpperCase(), Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
             return true;
         }
@@ -151,7 +161,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void saveLanguage(Context context, String text) {
+        Log.d(TAG, "saveLanguage : " + text);
+        SharedPreferences settings;
+        SharedPreferences.Editor editor;
+        settings = context.getSharedPreferences(PREFS_LANGUAGE, Context.MODE_PRIVATE); //1
+        editor = settings.edit(); //2
 
+        editor.putString(PREFS_LANGUAGE, text); //3
+        editor.commit(); //4
+    }
 
 
 
@@ -159,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
         try{
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                    "mailto",getString(R.string.email_address), null));
+                    "mailto", getString(R.string.email_address), null));
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
             emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
             startActivity(Intent.createChooser(emailIntent, "Send email..."));

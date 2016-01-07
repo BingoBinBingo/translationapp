@@ -34,6 +34,7 @@ import com.example.spencerdepas.translationapp.pojo.NailQuestionContainer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -41,6 +42,8 @@ import butterknife.OnClick;
 
 public class NailTestActivity extends AppCompatActivity implements ButtonSelector {
 
+    private final String LANGUAGE_CHINESE =  "中文";
+    private final String LANGUAGE_ENGLISH =  "English";
     private ArrayList<Integer> mWrongAnswersToStudy = new ArrayList<Integer>();
     private String TAG = "MyNailTestActivity";
     private final String PREFS_LANGUAGE = "langagePrference";
@@ -56,10 +59,8 @@ public class NailTestActivity extends AppCompatActivity implements ButtonSelecto
     @Bind(R.id.option_b) RadioButton mOptionTwo;
     @Bind(R.id.option_c) RadioButton mOptionThree;
     @Bind(R.id.option_d) RadioButton mOptionFour;
-    @Bind(R.id.image_view)
-    ImageView mImage;
-    @Bind(R.id.myRadioGroup)
-    RadioGroup radioGroup;
+    @Bind(R.id.image_view) ImageView mImage;
+    @Bind(R.id.myRadioGroup)  RadioGroup radioGroup;
 
 
     @Bind(R.id.previous_question) Button mPreveousButton;
@@ -80,16 +81,16 @@ public class NailTestActivity extends AppCompatActivity implements ButtonSelecto
 
         view = findViewById(R.id.nail_root_view);
 
-        Intent intent = getIntent();
-        language = intent.getStringExtra(PREFS_LANGUAGE); //if it's a string you stored.
+        language = Locale.getDefault().getDisplayLanguage(); //if it's a string you stored.
 
         Log.d(TAG, "language : " + language);
 
-        CreateJSONObject createJSONObject = new CreateJSONObject(language, "This should specifie test type", this);
-        myNailQuestionContainer = createJSONObject.loadNailQuestions();
+        CreateJSONObject createJSONObject = new CreateJSONObject(this);
+        myNailQuestionContainer = createJSONObject.loadNailQuestions(language);
 
         Log.d(TAG, "myNailQuestionContainer : " + myNailQuestionContainer.getQuestions().size());
-
+        Log.d(TAG, "myNailQuestionContainer : " + myNailQuestionContainer.getQuestions().get(0)
+                .getQuestion());
         updateQuestion();
 
         makePrevousButtonUnclickable();

@@ -31,6 +31,7 @@ import com.example.spencerdepas.translationapp.pojo.NailQuestionContainer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,8 +39,11 @@ import butterknife.OnClick;
 
 public class HygieneActivity extends AppCompatActivity implements ButtonSelector{
 
+
+    private final String LANGUAGE_CHINESE =  "Chinese";
+    private final String LANGUAGE_ENGLISH =  "English";
     private ArrayList<Integer> mWrongAnswersToStudy = new ArrayList<Integer>();
-    private String TAG = "MyNailTestActivity";
+    private String TAG = "MyHygieneActivity";
     private final String PREFS_LANGUAGE = "langagePrference";
     private String language = null;
     private  String picLocation;
@@ -77,13 +81,12 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
         mcontext = this.getApplicationContext();
         view = findViewById(R.id.hygiene_root_view);
 
-        Intent intent = getIntent();
-        language = intent.getStringExtra(PREFS_LANGUAGE); //if it's a string you stored.
+        language = Locale.getDefault().getDisplayLanguage(); //if it's a string you stored.
 
         Log.d(TAG, "language : " + language);
 
-        CreateJSONObject createJSONObject = new CreateJSONObject(language, "This should specifie test type", this);
-        loadHygieneContainerQuestions = createJSONObject.loadHygieneContainerQuestions();
+        CreateJSONObject createJSONObject = new CreateJSONObject( this);
+        loadHygieneContainerQuestions = createJSONObject.loadHygieneContainerQuestions(language);
 
         Log.d(TAG, "loadHygieneContainerQuestions size : " + loadHygieneContainerQuestions.getQuestions().size());
 

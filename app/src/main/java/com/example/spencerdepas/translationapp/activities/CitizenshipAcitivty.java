@@ -34,10 +34,10 @@ import butterknife.OnClick;
 
 public class CitizenshipAcitivty extends AppCompatActivity implements ButtonSelector {
 
-    private final String LANGUAGE_CHINESE =  "chinese";
-    private final String LANGUAGE_ENGLISH =  "english";
-    private final String PREFS_LANGUAGE = "langagePrference";
-    private String language = LANGUAGE_CHINESE;
+    private final String LANGUAGE_CHINESE =  "Chinese";
+    private final String LANGUAGE_ENGLISH =  "English";
+    private final String PREFS_LANGUAGE = "langagePreference";
+    private String language = "";
     private final String TAG = "MyCitizenshipAcitivty";
     private Context mcontext;
     private int mIndex = 0;
@@ -74,12 +74,17 @@ public class CitizenshipAcitivty extends AppCompatActivity implements ButtonSele
         Log.d(TAG, "language : " + language);
 
         //t_citizenship_english
-        CreateJSONObject createJSONObject = new CreateJSONObject(language, "This should specifie test type", this);
-        mCitizenshipHolder = createJSONObject.loadCitizenshipQuestions();
+        CreateJSONObject createJSONObject = new CreateJSONObject(this);
+        //loads desired language
+        mCitizenshipHolder = createJSONObject.loadCitizenshipQuestions(language);
 
         Log.d(TAG, "language : " + mCitizenshipHolder.getCitizenshipTestQuestions().get(0).getQuestion());
         view = findViewById(R.id.citizenship_root_view);
 
+        if(language.equals(LANGUAGE_CHINESE)){
+            mRevealButton.setAlpha((float).5);
+            mRevealButton.setClickable(false);
+        }
 
         loadQuestions();
         makePrevousButtonUnclickable();

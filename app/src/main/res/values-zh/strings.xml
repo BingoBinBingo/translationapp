@@ -1,58 +1,65 @@
 <resources>
-    <string name="app_name">translationapp</string>“政测”
-    <string name="action_settings">Change Language</string>“更换语言”
-    <string name="title_activity_driver_license">Simulation Test</string>“驾照模拟测试”
-    <string name="title_activity_dmvpractice_test">DMVPracticeTest</string>"美国驾照考题练习"
+    <string name="app_name">政测</string>
+    <string name="action_settings">更换语言</string>
+    <string name="title_activity_driver_license">驾照模拟笔试</string>
+    <string name="title_activity_dmvpractice_test">驾照笔试习题</string>
 
-
+    <string name="title_activity_citizenship_select_language_chinese">
+        语言选择 </string>
     <!-- -->
-    <!--food protection questions strings ENGLISH-->“卫生执照考题练习”
-    <!--<string name="app_name">translationapp</string>-->“政测”
-    <!--<string name="action_settings">Settings</string>-->“设置”
+    <!--food protection questions strings ENGLISH-->
+    <!--<string name="app_name">政测</string>-->
+    <!--<string name="action_settings">设置</string>-->
 
+    <!-- select language -->
+    <string name="cardview.select_english">English</string>
+    <string name="cardview.select_chinese">中文</string>
 
     <!-- Main activity -->
+    <string name="options.send_us_an_email">联系我们</string>
+    <string name="language_changed_to">选择语言 </string>
+    <string name="cardview.simulation_test">模拟测试</string>
+    <string name="cardview.citizenship_test">入籍公民练习 </string>
+    <string name="cardview.health_test">卫生执照练习</string>
+    <string name="cardview.nail_test">指甲执照练习</string>
+    <string name="cardview.study_for_driver_test">驾照练习</string>
 
-    <string name="language_changed_to">更换语言</string>
-    <string name="simulation_test">Take simulation test </string>“开始模拟测试”
-    <string name="citizenship_test">Take citizenship test </string>“开始入籍考试”
-    <string name="study_for_driver_test">Study for drivers test</string>“驾照考试练习”
+    <string name="email_address">contact@weirdotech.com</string>
 
 
     <!-- Study all questions -->
-    <string name="preveous_button">“上一题”</string>
-    <string name="next_button">“下一题”</string>
-    <string name="select_question">查看考题</string>
+    <string name="preveous_button">上一题</string>
+    <string name="next_button">下一题</string>
+    <string name="select_question">选择题目</string>
     <string name="finish_studying">完成</string>
-    <string name="correct_answer_above">以上的正确答案是。\n　你选的答案是： </string>
-    <string name="correct">Correct</string>“正确”
+    <string name="correct_answer_above">错误。 正确答案是：    </string>
+    <string name="correct">正确</string>
     <!-- Study all questions dialog 1 -->
-    <string name="dialog_tittle">Go to question</string>“查看错题”
-    <string name="dialog_dismiss">DISMISS</string>“取消”
+    <string name="dialog_tittle">查看错题</string>
+    <string name="dialog_dismiss">离开</string>
 
     <!-- simulation test  -->
-    <string name="submit_test">Submit</string>“提交”
-    <string name="anser_all_questions">Please answer all questions</string>“请完成所有考题”
-    <string name="corrrect_answer_is_selected_above">Correct answer is selected above. \n You selected answer :　</string>“以上的正确答案是。\n　你选的答案是：　”
+    <string name="submit_test">提交</string>
+    <string name="anser_all_questions">请完成所有考题</string>
+    <string name="correct_answer_is_selected_above">以上显示的是正确答案。 \n 你选择的答案是： </string>
 
     <!-- simulation test failed Dialog -->
-    <string name="failed_test_dialog_one">I\'m Sorry</string>“很抱歉”
-    <string name="failed_test_dialog_two">You need to score 14 or more to pass. You scored </string>“你需要答对１４题以上才能合格。你答对了”
-    <string name="failed_test_dialog_three"> out of 20</string>“答对２０题里的”
-    <string name="failed_test_dialog_conferm">OK</string>“确定”
-    <string name="failed_test_dialog_study_wrong_answer">STUDY Wrong Answers</string>“复习错题”
+    <string name="finish">完成</string>
+    <string name="failed_test_dialog_one">很抱歉</string>
+    <string name="failed_test_dialog_two">你要答对14题以上才算通过。你答对了  </string>
+    <string name="failed_test_dialog_three"> 20题里的</string>
+    <string name="failed_test_dialog_conferm">确定</string>
+    <string name="failed_test_dialog_study_wrong_answer">复习错题</string>
 
     <!-- simulation test passed Dialog -->
-    <string name="you_passed">Congratulations you passed</string>“恭喜您，您通过了测试”
-    <string name="passed_test_dialog_two">You need to score 14 or more to pass. You scored </string>“你需要答对１４题以上才能合格。你答对了”
-    <string name="passed_test_dialog_three"> out of 20</string>“答对２０题里的”
-    <string name="passed_test_dialog_conferm">OK</string>“确定”
-    <string name="passed_test_dialog_dismiss">STUDY </string>“复习”
-    <string name="title_activity_citizenship_acitivty">CitizenshipAcitivty</string>“入籍公民”
-
-
-
-
+    <string name="you_passed">恭喜您，您通过了我们的测试</string>
+    <string name="passed_test_dialog_two">你要答对14题以上才算通过。你答对了  </string>
+    <string name="passed_test_dialog_three"> 20题里的</string>
+    <string name="passed_test_dialog_conferm">确定</string>
+    <string name="passed_test_dialog_dismiss">练习</string>
+    <string name="title_activity_citizenship_acitivty">入籍公民考试练习</string>
+    <string name="title_activity_nail_test">指甲执照练习</string>
+    <string name="title_activity_health">卫生执照练习</string>
 
 
 

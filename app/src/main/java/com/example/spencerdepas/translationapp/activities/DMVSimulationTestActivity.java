@@ -99,8 +99,8 @@ public class DMVSimulationTestActivity extends AppCompatActivity implements Butt
 
         Log.d(TAG, "language : " + language);
 
-        CreateJSONObject createJSONObject = new CreateJSONObject(language, "This should specifie test type", this);
-        driverQuestions = createJSONObject.loadDMVQuestions();
+        CreateJSONObject createJSONObject = new CreateJSONObject(this);
+        driverQuestions = createJSONObject.loadDMVQuestions(language);
 
         view = findViewById(R.id.simulation_test_root_view);
         testView = findViewById(R.id.control_panal);

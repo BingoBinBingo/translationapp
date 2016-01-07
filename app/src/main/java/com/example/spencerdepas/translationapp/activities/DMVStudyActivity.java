@@ -34,6 +34,7 @@ import com.example.spencerdepas.translationapp.model.CreateJSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -64,6 +65,9 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
     private final String PREFS_LANGUAGE = "langagePrference";
     private View view;
 
+    private final String LANGUAGE_CHINESE =  "中文";
+    private final String LANGUAGE_ENGLISH =  "English";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,13 +83,13 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
 
         view = findViewById(R.id.simulation_test_root_view);
 
-        Intent intent = getIntent();
-        language = intent.getStringExtra(PREFS_LANGUAGE); //if it's a string you stored.
+        language = Locale.getDefault().getDisplayLanguage(); //if it's a string you stored.
 
         Log.d(TAG, "language : " + language);
 
-        CreateJSONObject createJSONObject = new CreateJSONObject(language, "This should specifie test type", this);
-        driverQuestions = createJSONObject.loadDMVQuestions();
+
+        CreateJSONObject createJSONObject = new CreateJSONObject(this);
+        driverQuestions = createJSONObject.loadDMVQuestions(language);
 
         setUpGestures();
 
@@ -167,9 +171,9 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
             Log.d(TAG, "pic url: " +
                     driverQuestions.getQuestions().get(mQuestionIndex).getPicUrl().toLowerCase());
             mImage.setVisibility(View.VISIBLE);
-            if (language.equals("chinese")) {
+            if (language.equals(LANGUAGE_CHINESE)) {
                 picLocation = "file:///android_asset/"
-                        + driverQuestions.getQuestions().get(mQuestionIndex).getPicUrl().toLowerCase() + "_en"
+                        + driverQuestions.getQuestions().get(mQuestionIndex).getPicUrl().toLowerCase() + "_chinese"
                         + ".png";
             } else {
                 picLocation = "file:///android_asset/"
@@ -598,7 +602,7 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
 
         radioGroup.setEnabled(true);
         saveAnswer();
-        if(mQuestionIndex < 193){
+        if(mQuestionIndex < driverQuestions.getQuestions().size() -1){
             mQuestionIndex += 1;
             unSelectRadioButtons();
             updateQuestion();

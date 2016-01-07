@@ -17,9 +17,10 @@ import java.io.InputStream;
  */
 public class CreateJSONObject {
 
-
+    private final String LANGUAGE_CHINESE =  "中文";
+    private final String LANGUAGE_ENGLISH =  "English";
     private final String CHINESE_FOOD_PROTECTION_JSON = "t_hygiene_last_one";
-    private String language = "";
+
     private String testToLoad = "";
     private InputStream is;
 
@@ -32,14 +33,13 @@ public class CreateJSONObject {
     private HygieneContainer mHygieneContainer;
 
 
-    public CreateJSONObject(String language, String testToLoad, Context mContext){
+    public CreateJSONObject(Context mContext){
         Log.d(TAG, "CreateJSONObject");
         this.mContext = mContext;
-        this.language = language;
-        this.testToLoad = testToLoad;
+
     }
 
-    public DriversLicenseQuestions loadDMVQuestions() {
+    public DriversLicenseQuestions loadDMVQuestions(String language) {
         Log.d(TAG, "loadDMVQuestions");
 
         Log.d(TAG, "language " + language);
@@ -51,7 +51,7 @@ public class CreateJSONObject {
         try {
 
             //InputStream is = mContext.getAssets().open("t_hygiene_last_one.json");
-            if(language.equals("chinese")){
+            if(language.equals(LANGUAGE_CHINESE)){
                 is = mContext.getAssets().open("driver_test_questions_hant.json");
             }else{
                 is = mContext.getAssets().open("driver_test_questions_english.json");
@@ -85,7 +85,7 @@ public class CreateJSONObject {
         return driverQuestions;
     }
 
-    public NailQuestionContainer loadNailQuestions() {
+    public NailQuestionContainer loadNailQuestions(String language) {
         Log.d(TAG, "loadNailQuestions");
 
         Log.d(TAG, "language " + language);
@@ -97,8 +97,8 @@ public class CreateJSONObject {
         try {
 
             //InputStream is = mContext.getAssets().open("t_hygiene_last_one.json");
-            if(language.equals("chinese")){
-                is = mContext.getAssets().open("driver_test_questions_hant.json");
+            if(language.equals(LANGUAGE_CHINESE)){
+                is = mContext.getAssets().open("t_nail_chinese.json");
             }else{
                 is = mContext.getAssets().open("t_nail_english.json");
                 Log.d(TAG, "language " + "loading english");
@@ -131,7 +131,7 @@ public class CreateJSONObject {
         return myNailQuestionContainer;
     }
 
-    public HygieneContainer loadHygieneContainerQuestions() {
+    public HygieneContainer loadHygieneContainerQuestions(String language) {
         Log.d(TAG, "loadHygieneContainerQuestions");
 
         Log.d(TAG, "language " + language);
@@ -143,8 +143,8 @@ public class CreateJSONObject {
         try {
 
             //InputStream is = mContext.getAssets().open("t_hygiene_last_one.json");
-            if(language.equals("chinese")){
-                is = mContext.getAssets().open("driver_test_questions_hant.json");
+            if(language.equals(LANGUAGE_CHINESE)){
+                is = mContext.getAssets().open("t_hygiene_chinese.json");
             }else{
                 is = mContext.getAssets().open("t_hygiene_chinese.json");
                 Log.d(TAG, "language " + "loading english");
@@ -178,7 +178,7 @@ public class CreateJSONObject {
     }
 
 
-    public CitizenshipHolder loadCitizenshipQuestions() {
+    public CitizenshipHolder loadCitizenshipQuestions(String language) {
         Log.d(TAG, "loadDMVQuestions");
 
         Log.d(TAG, "language " + language);
@@ -189,13 +189,13 @@ public class CreateJSONObject {
 
         try {
             //temp
-            language = "chinese";
+
             //InputStream is = mContext.getAssets().open("t_hygiene_last_one.json");
-            if(language.equals("chinese")){
-                is = mContext.getAssets().open("t_citizenship_english.json");
+            if(language.equals(LANGUAGE_CHINESE)){
+                is = mContext.getAssets().open("t_citizenship_hant.json");
             }else{
                 is = mContext.getAssets().open("t_citizenship_english.json");
-                Log.d(TAG, "language " + "loading english");
+
             }
 
 

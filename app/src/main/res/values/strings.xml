@@ -23,6 +23,7 @@
     <string name="email_address">contact@weirdotech.com</string>
 
 
+
     <!-- Study all questions -->
     <string name="preveous_button">Previous</string>
     <string name="next_button">Next</string>
@@ -56,6 +57,8 @@
     <string name="title_activity_citizenship_acitivty">Citizenship Test Study</string>
     <string name="title_activity_nail_test">Nail Test Study</string>
     <string name="title_activity_health">Health Test Study</string>
+    <string name="title_activity_main_activity_chinese">MainActivityChinese</string>
+
 
 
 </resources>
