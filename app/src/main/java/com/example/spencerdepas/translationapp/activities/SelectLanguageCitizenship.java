@@ -21,6 +21,8 @@ public class SelectLanguageCitizenship extends AppCompatActivity {
     private final String LANGUAGE_CHINESE =  "中文";
     private final String LANGUAGE_ENGLISH =  "English";
     private final String PREFS_LANGUAGE = "langagePreference";
+    private View view;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,10 @@ public class SelectLanguageCitizenship extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
+        view = findViewById(R.id.select_language_root_view);
+
+       Snackbar.make(view, getString(R.string.explanation), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
     }
 
     @SuppressWarnings("unused")

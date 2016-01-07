@@ -36,6 +36,7 @@ import com.example.spencerdepas.translationapp.model.CreateJSONObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import butterknife.Bind;
@@ -79,8 +80,10 @@ public class DMVSimulationTestActivity extends AppCompatActivity implements Butt
     Integer[] mQuestionIndexArray;
     private final String PREFS_LANGUAGE = "langagePrference";
     private Context mcontext;
-    View view;
-    View testView;
+    private View view;
+    private View testView;
+    private final String LANGUAGE_CHINESE =  "中文";
+    private final String LANGUAGE_ENGLISH =  "English";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,19 +94,20 @@ public class DMVSimulationTestActivity extends AppCompatActivity implements Butt
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        view = findViewById(R.id.simulation_test_root_view);
+        testView = findViewById(R.id.control_panal);
         Log.d(TAG, "onCreate");
         mcontext = this.getApplicationContext();
 
-        Intent intent = getIntent();
-        language = intent.getStringExtra(PREFS_LANGUAGE); //if it's a string you stored.
+        language = Locale.getDefault().getDisplayLanguage(); //if it's a string you stored.
 
         Log.d(TAG, "language : " + language);
 
         CreateJSONObject createJSONObject = new CreateJSONObject(this);
         driverQuestions = createJSONObject.loadDMVQuestions(language);
 
-        view = findViewById(R.id.simulation_test_root_view);
-        testView = findViewById(R.id.control_panal);
+
+
 
         mQuestionIndexArray = selectRandomQuestions();
         updateQuestion();
@@ -115,8 +119,8 @@ public class DMVSimulationTestActivity extends AppCompatActivity implements Butt
         Log.d(TAG, "mQuestionIndex :" + mQuestionIndex);
 
 
-        Log.d(TAG, "driverQuestions.getQuestions().get(mQuestionIndex).getPicUrl().toLowerCase() :" +
-                driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getPicUrl().toLowerCase());
+        Log.d(TAG, "driverQuestions size:" +
+                driverQuestions.getQuestions().size());
 
 
     }
@@ -168,27 +172,58 @@ public class DMVSimulationTestActivity extends AppCompatActivity implements Butt
         //total questions are 194
         //first 36 are image questions
 
-
         Set<Integer> set = new HashSet<Integer>();
-        int minimum = 0;
-        for(int i = 0 ; set.size() != 4; i ++){
-            set.add(minimum + (int) (Math.random() * 36));
-
-        }
+        if(language.equals(LANGUAGE_CHINESE)){
 
 
+            //pics are the first 8 questions in JSON
+            int minimum = 0;
+            for(int i = 0 ; set.size() != 4; i ++){
+                set.add(minimum + (int) (Math.random() * 8));
 
-        minimum = 36;
-        int randInt = 0;
-        for(int i = 0 ; set.size() != 20; i ++){
-            randInt = minimum + (int) (Math.random() * 158);
-            set.add(randInt);
+            }
+
+
+            //the rest need to be random questions without pictures
+            minimum = 8;
+            int randInt = 0;
+            for(int i = 0 ; set.size() != 20; i ++){
+                randInt = minimum + (int) (Math.random() * 121);
+                set.add(randInt);
+
+            }
+
+
+
+
+        }else{
+
+            //this is for ENGLISH
+            //ENGLISH AND CHINESSE HAVE DIFERENT QUESTIONS
+
+
+            int minimum = 0;
+            for(int i = 0 ; set.size() != 4; i ++){
+                set.add(minimum + (int) (Math.random() * 36));
+
+            }
+
+
+
+            minimum = 36;
+            int randInt = 0;
+            for(int i = 0 ; set.size() != 20; i ++){
+                randInt = minimum + (int) (Math.random() * 158);
+                set.add(randInt);
+
+            }
+
+
 
         }
 
 
         Integer[] mQuestionIndex = set.toArray(new Integer[0]);
-
         return mQuestionIndex;
 
     }
@@ -293,10 +328,10 @@ public class DMVSimulationTestActivity extends AppCompatActivity implements Butt
 
         }else{
             mImage.setVisibility(View.VISIBLE);
-            if(language.equals("chinese")){
+            if(language.equals(LANGUAGE_CHINESE)){
                 picLocation = "file:///android_asset/"
-                        + driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getPicUrl().toLowerCase() + "_en"
-                        +".png";
+                        + driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getPicUrl().toLowerCase() + "_chinese"
+                        + ".png";
             }else{
                 picLocation = "file:///android_asset/"
                         + driverQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getPicUrl().toLowerCase()

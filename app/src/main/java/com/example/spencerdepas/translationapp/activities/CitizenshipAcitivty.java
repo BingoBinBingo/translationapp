@@ -34,7 +34,7 @@ import butterknife.OnClick;
 
 public class CitizenshipAcitivty extends AppCompatActivity implements ButtonSelector {
 
-    private final String LANGUAGE_CHINESE =  "Chinese";
+    private final String LANGUAGE_CHINESE =  "中文";
     private final String LANGUAGE_ENGLISH =  "English";
     private final String PREFS_LANGUAGE = "langagePreference";
     private String language = "";

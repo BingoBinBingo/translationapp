@@ -14,6 +14,7 @@
     <!-- select language -->
     <string name="cardview.select_english">English</string>
     <string name="cardview.select_chinese">中文</string>
+    <string name="explanation">65岁以下，您都需要作答英文版考试</string>
 
     <!-- Main activity -->
     <string name="options.send_us_an_email">联系我们</string>
