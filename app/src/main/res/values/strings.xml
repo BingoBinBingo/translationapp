@@ -10,18 +10,20 @@
     <!--<string name="app_name">translationapp</string>-->
     <!--<string name="action_settings">Settings</string>-->
 
+    <!-- New Srings -->
+    <string name="cardview.dmv">DMV</string>
 
     <!-- Main activity -->
     <string name="options.send_us_an_email">Send us an email!</string>
     <string name="language_changed_to">Langauge Changed To </string>
     <string name="cardview.simulation_test">DMV simulation</string>
+    <string name="cardview.study_for_driver_test">DMV Study</string>
     <string name="cardview.citizenship_test">citizenship Study </string>
     <string name="cardview.health_test">Hygiene Study </string>
     <string name="cardview.nail_test">Nail Study </string>
-    <string name="cardview.study_for_driver_test">DMV Study</string>
+
 
     <string name="email_address">contact@weirdotech.com</string>
-
 
 
     <!-- Study all questions -->
@@ -57,8 +59,16 @@
     <string name="title_activity_citizenship_acitivty">Citizenship Test Study</string>
     <string name="title_activity_nail_test">Nail Test Study</string>
     <string name="title_activity_health">Health Test Study</string>
-    <string name="title_activity_main_activity_chinese">MainActivityChinese</string>
+    <string name="title_activity_dmvselect">DMVSelect</string>
 
+
+    <!-- Hyhiene  -->
+    <string name="cardview.health_test_study">Health Test Study</string>
+    <string name="cardview.health_test_simulation">Health Test\n Simulation</string>
+    <string name="answer_true">True</string>
+    <string name="answer_false">False</string>
+    <string name="title_activity_health_select">HealthSelect</string>
+    <string name="title_activity_health_test_simulation">HealthTestSimulation</string>
 
 
 </resources>

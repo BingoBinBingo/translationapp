@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:id="@+id/simulation_test_root_view"
-    tools:context=".activities.DMVSimulationTestActivity">
+    tools:context=".activities.DMVSimulationActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

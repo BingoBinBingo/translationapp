@@ -32,7 +32,7 @@ public class MainActivityChinese extends AppCompatActivity {
 
     @Bind(R.id.nail_cardview)
     CardView mTestCardView;
-    @Bind(R.id.dmv_study_cardview) CardView mStudyDMVCardView;
+    @Bind(R.id.dmv_cardview) CardView mStudyDMVCardView;
 
 
 
@@ -64,26 +64,15 @@ public class MainActivityChinese extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.nail_cardview)
-    public void nailTest(View view) {
-        Intent myIntent = new Intent(MainActivityChinese.this, NailTestActivity.class);
-        myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
-        MainActivityChinese.this.startActivity(myIntent);
-
-    }
-
-
-
-    @OnClick(R.id.dmv_study_cardview)
+    @OnClick(R.id.dmv_cardview)
     public void dMVStudyIntent(View view) {
 //        Snackbar.make(view, "food_protection_study_button", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show();
 
-        Intent myIntent = new Intent(MainActivityChinese.this, DMVStudyActivity.class);
+        Intent myIntent = new Intent(MainActivityChinese.this, DMVSelect.class);
         myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
         MainActivityChinese.this.startActivity(myIntent);
     }
-
 
 
     @OnClick(R.id.citizenship_cardview)
@@ -96,21 +85,21 @@ public class MainActivityChinese extends AppCompatActivity {
         MainActivityChinese.this.startActivity(myIntent);
     }
 
-    @OnClick(R.id.dmv_simulation_cardview)
-    public void dMCSimulationTestIntent(View view) {
-//        Snackbar.make(view, "food_protection_study_button", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
-
-        Intent myIntent = new Intent(MainActivityChinese.this, DMVSimulationTestActivity.class);
+    @OnClick(R.id.nail_cardview)
+    public void nailTest(View view) {
+        Intent myIntent = new Intent(MainActivityChinese.this, NailTestActivity.class);
         myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
         MainActivityChinese.this.startActivity(myIntent);
+
     }
+
+
 
     @OnClick(R.id.health_cardview)
     public void healthTestIntent(View view) {
 
 
-        Intent myIntent = new Intent(MainActivityChinese.this, HygieneActivity.class);
+        Intent myIntent = new Intent(MainActivityChinese.this, HealthSelect.class);
         myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
         MainActivityChinese.this.startActivity(myIntent);
     }

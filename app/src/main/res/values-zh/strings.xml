@@ -6,6 +6,11 @@
 
     <string name="title_activity_citizenship_select_language_chinese">
         语言选择 </string>
+
+
+    <string name="cardview.dmv">驾照笔试</string>
+    <string name="answer_true">正确</string>
+    <string name="answer_false">错误</string>
     <!-- -->
     <!--food protection questions strings ENGLISH-->
     <!--<string name="app_name">政测</string>-->
@@ -15,6 +20,11 @@
     <string name="cardview.select_english">English</string>
     <string name="cardview.select_chinese">中文</string>
     <string name="explanation">65岁以下，您都需要作答英文版考试</string>
+
+    <!-- health test -->
+    <string name="title_activity_health_select">卫生执照习题和模拟</string>
+    <string name="cardview.health_test_study">卫生执照习题</string>
+    <string name="cardview.health_test_simulation">卫生执照模拟考试</string>
 
     <!-- Main activity -->
     <string name="options.send_us_an_email">联系我们</string>

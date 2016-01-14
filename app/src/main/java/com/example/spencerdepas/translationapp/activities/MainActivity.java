@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = "MyMainActivity";
 
     @Bind(R.id.nail_cardview) CardView mTestCardView;
-    @Bind(R.id.dmv_study_cardview) CardView mStudyDMVCardView;
+    @Bind(R.id.dmv_cardview) CardView mDMVCardView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,15 +75,17 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    @OnClick(R.id.dmv_study_cardview)
+    @OnClick(R.id.dmv_cardview)
     public void dMVStudyIntent(View view) {
 //        Snackbar.make(view, "food_protection_study_button", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show();
 
-        Intent myIntent = new Intent(MainActivity.this, DMVStudyActivity.class);
+        Intent myIntent = new Intent(MainActivity.this, DMVSelect.class);
         myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
         MainActivity.this.startActivity(myIntent);
     }
+
+
 
 
 
@@ -96,15 +99,7 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.this.startActivity(myIntent);
     }
 
-    @OnClick(R.id.dmv_simulation_cardview)
-    public void dMCSimulationTestIntent(View view) {
-//        Snackbar.make(view, "food_protection_study_button", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show();
 
-        Intent myIntent = new Intent(MainActivity.this, DMVSimulationTestActivity.class);
-        myIntent.putExtra(PREFS_LANGUAGE, language); //Optional parameters
-        MainActivity.this.startActivity(myIntent);
-    }
 
 //
 //    @OnClick(R.id.health_cardview)
@@ -164,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
             startActivity(Intent.createChooser(emailIntent, "Send email..."));
         }catch (Exception e){
-            Snackbar.make(mStudyDMVCardView, "OPPS", Snackbar.LENGTH_LONG)
+            Snackbar.make(mDMVCardView, "OPPS", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }
 

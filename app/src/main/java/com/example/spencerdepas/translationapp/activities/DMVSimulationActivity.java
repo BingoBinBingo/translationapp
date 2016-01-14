@@ -3,7 +3,6 @@ package com.example.spencerdepas.translationapp.activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -44,7 +43,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.drakeet.materialdialog.MaterialDialog;
 
-public class DMVSimulationTestActivity extends AppCompatActivity implements ButtonSelector {
+public class DMVSimulationActivity extends AppCompatActivity implements ButtonSelector {
 
     private ArrayList<Integer> mWrongAnswersToStudy = new ArrayList<Integer>();
     private String TAG = "MyDMVPracticeTest";
@@ -134,7 +133,7 @@ public class DMVSimulationTestActivity extends AppCompatActivity implements Butt
     public void setUpGestures(){
         Log.d(TAG, "setUpGestures :"  );
         GestureListener mGestureListener = new GestureListener();
-        mGestureListener.delegate = DMVSimulationTestActivity.this;
+        mGestureListener.delegate = DMVSimulationActivity.this;
         gDetect = new GestureDetectorCompat(this, mGestureListener);
 
 
@@ -165,7 +164,7 @@ public class DMVSimulationTestActivity extends AppCompatActivity implements Butt
     }
 
     public Integer[] selectRandomQuestions() {
-        Log.d(TAG, "selectRandomQuestions");
+        Log.d(TAG, "generateRandomQuestionIndex");
 
         //generates 4 random numbers for the image questions
         //generates 16 random numbers for only worded questions
@@ -775,7 +774,7 @@ public class DMVSimulationTestActivity extends AppCompatActivity implements Butt
 
 
         if(mWrongAnswers.size() > 6){
-            final MaterialDialog mMaterialDialog = new MaterialDialog(DMVSimulationTestActivity.this)
+            final MaterialDialog mMaterialDialog = new MaterialDialog(DMVSimulationActivity.this)
                     .setTitle(getResources().getString(R.string.failed_test_dialog_one))
 
                     .setMessage(getResources().getString(R.string.failed_test_dialog_two) +
@@ -809,7 +808,7 @@ public class DMVSimulationTestActivity extends AppCompatActivity implements Butt
 
 
 
-            final MaterialDialog mMaterialDialog = new MaterialDialog(DMVSimulationTestActivity.this)
+            final MaterialDialog mMaterialDialog = new MaterialDialog(DMVSimulationActivity.this)
                     .setTitle(getResources().getString(R.string.you_passed))
                     .setMessage(getResources().getString(R.string.passed_test_dialog_two)
                             + (mWrongAnswers.size() - 20) +  getResources().getString(R.string.passed_test_dialog_three));

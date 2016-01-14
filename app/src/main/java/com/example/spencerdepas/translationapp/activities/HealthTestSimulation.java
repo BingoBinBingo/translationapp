@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -28,40 +29,50 @@ import com.example.spencerdepas.translationapp.model.GestureListener;
 import com.example.spencerdepas.translationapp.pojo.HygieneContainer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.drakeet.materialdialog.MaterialDialog;
 
-public class HygieneActivity extends AppCompatActivity implements ButtonSelector{
+public class HealthTestSimulation extends AppCompatActivity implements ButtonSelector {
 
 
+    private boolean testCompletedStudymode = false;
     private final String NULL_STRING =  "<null>";
     private final String LANGUAGE_CHINESE =  "Chinese";
     private final String LANGUAGE_ENGLISH =  "English";
     private ArrayList<Integer> mWrongAnswersToStudy = new ArrayList<Integer>();
-    private String TAG = "MyHygieneActivity";
+    private String TAG = "MyHealthTestSimulation";
     private final String PREFS_LANGUAGE = "langagePrference";
     private String language = null;
     private  String picLocation;
     private Context mcontext;
     private int mQuestionIndex = 0;
     private View view;
+    Integer[] mQuestionIndexArray;
 
     private GestureDetectorCompat gDetect;
 
-    @Bind(R.id.driver_test_question)  TextView mQuestion;
-    @Bind(R.id.option_a) RadioButton mOptionOne;
+    @Bind(R.id.driver_test_question)
+    TextView mQuestion;
+    @Bind(R.id.option_a)
+    RadioButton mOptionOne;
     @Bind(R.id.option_b) RadioButton mOptionTwo;
     @Bind(R.id.option_c) RadioButton mOptionThree;
     @Bind(R.id.option_d) RadioButton mOptionFour;
     @Bind(R.id.option_e) RadioButton mOptionFive;
-    @Bind(R.id.image_view) ImageView mImage;
-    @Bind(R.id.myRadioGroup) RadioGroup radioGroup;
+    @Bind(R.id.image_view)
+    ImageView mImage;
+    @Bind(R.id.myRadioGroup)
+    RadioGroup radioGroup;
 
-    @Bind(R.id.previous_question) Button mPreveousButton;
+    @Bind(R.id.previous_question)
+    Button mPreveousButton;
     @Bind(R.id.next_question) Button mNextButton;
     @Bind(R.id.displays_wrong_answer) TextView mDisplayCorrectAnswer;
 
@@ -70,7 +81,7 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hygiene);
+        setContentView(R.layout.activity_health_test_simulation);
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -89,6 +100,8 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
 
         Log.d(TAG, "loadHygieneContainerQuestions size : " + loadHygieneContainerQuestions.getQuestions().size());
 
+        //mDisplayCorrectAnswer.setVisibility(view.INVISIBLE);
+        mQuestionIndexArray = generateRandomQuestionIndex();
 
 
         updateQuestion();
@@ -99,6 +112,32 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
 
     }
 
+
+
+    public Integer[] generateRandomQuestionIndex() {
+        Log.d(TAG, "generateRandomQuestionIndex");
+
+        //generates 4 random numbers for the image questions
+        //generates 16 random numbers for only worded questions
+        //total questions are 194
+        //first 36 are image questions
+
+        Set<Integer> set = new HashSet<Integer>();
+
+        int minimum = 0;
+        for(int i = 0 ; set.size() < 50; i ++){
+
+            set.add(minimum + (int) (Math.random() * 160));
+
+        }
+
+
+        Integer[] mQuestionIndex = set.toArray(new Integer[0]);
+
+        return mQuestionIndex;
+
+
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event){
@@ -115,7 +154,7 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
     public void setUpGestures(){
         Log.d(TAG, "setUpGestures :"  );
         GestureListener mGestureListener = new GestureListener();
-        mGestureListener.delegate = HygieneActivity.this;
+        mGestureListener.delegate = HealthTestSimulation.this;
         gDetect = new GestureDetectorCompat(this, mGestureListener);
 
 
@@ -126,41 +165,42 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
         //this adds True and False or removes two null questions
 
         Log.d(TAG, "formatAnswers");
-        if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionA()
+        if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionA()
                 .equals(NULL_STRING)){
             //adds truth or false
             Log.d(TAG, "formatAnswers == null");
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex)
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex])
                     .setOptionA(getResources().getString(R.string.answer_true));
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex)
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex])
                     .setOptionB(getResources().getString(R.string.answer_false));
             mOptionThree.setVisibility(View.INVISIBLE);
             mOptionFour.setVisibility(View.INVISIBLE);
         }else{
-            if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionC()
+            if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionC()
                     .equals(NULL_STRING)){
 
                 mOptionThree.setVisibility(View.INVISIBLE);
 
 
-                if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionD()
+                if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionD()
                         .equals(NULL_STRING)){
                     mOptionFour.setVisibility(View.INVISIBLE);
+                    mOptionFive.setVisibility(View.INVISIBLE);
                 }
 
 
 
 
-            }else  if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionD()
+            }else  if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionD()
                     .equals(NULL_STRING)){
                 mOptionFour.setVisibility(View.INVISIBLE);
 
-                if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionE()
+                if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionE()
                         .equals(NULL_STRING)){
                     mOptionFive.setVisibility(View.INVISIBLE);
                 }
 
-            }else if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionE()
+            }else if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionE()
                     .equals(NULL_STRING)){
                 mOptionFive.setVisibility(View.INVISIBLE);
 
@@ -177,23 +217,23 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
         formatAnswers();
 
 
-        mQuestion.setText(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getQuestion());
-        mOptionOne.setText(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionA());
-        mOptionTwo.setText(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionB());
-        mOptionThree.setText(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionC());
-        mOptionFour.setText(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionD());
+        mQuestion.setText(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getQuestion());
+        mOptionOne.setText(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionA());
+        mOptionTwo.setText(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionB());
+        mOptionThree.setText(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionC());
+        mOptionFour.setText(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionD());
 
-        if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionE().equals(NULL_STRING)){
+        if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionE().equals(NULL_STRING)){
             mOptionFive.setVisibility(View.INVISIBLE);
         }else {
             mOptionFive.setVisibility(View.VISIBLE);
-            mOptionFive.setText(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionE());
+            mOptionFive.setText(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionE());
         }
 
 
-        if(!loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getSelectedAnswer().equals("")){
+        if(!loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getSelectedAnswer().equals("")){
             Log.d(TAG, "question  answered : ");
-            if (loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).isAnsweredCorrectly()) {
+            if (loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).isAnsweredCorrectly()) {
                 Log.d(TAG, "answer right");
                 mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
                 mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
@@ -203,10 +243,10 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
             }else {
                 Log.d(TAG, "updateQuestion answer wrong");
                 //condition for id you press prevous button and the answer has not been answered
-                if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).isAnsweredCorrectly()){
+                if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).isAnsweredCorrectly()){
                     mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
                     mDisplayCorrectAnswer.setText(getResources().getString(R.string.correct_answer_above) +
-                            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer());
+                            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer());
                 }
 
 
@@ -239,12 +279,12 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
 
 
         //this loads which radio button was selected if you go back to an answered question
-        if(!loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getSelectedAnswer()
+        if(!loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getSelectedAnswer()
                 .equals("")){
 
             Log.d(TAG, "radio button has been clicked and will be saved");
 
-            radioGroup.check(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex)
+            radioGroup.check(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex])
                     .getSelectedAnswerResourceId());
 
         }
@@ -255,7 +295,7 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
         Log.d(TAG, "gestureNextButton :" );
 
         Log.d(TAG, "mindex size :" + loadHygieneContainerQuestions.getQuestions().size());
-        Log.d(TAG, "mQuestionIndex :" + mQuestionIndex);
+        Log.d(TAG, "mQuestionIndex :" + mQuestionIndexArray[mQuestionIndex]);
 
         if(mQuestionIndex == loadHygieneContainerQuestions.getQuestions().size() -1){
             Log.d(TAG, "mQuestionIndex == driverQuestions.getQuestions().size()");
@@ -274,23 +314,6 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
         previousQuestion(view);
     }
 
-    @OnClick(R.id.option_a)
-    public void radioOptionOne(View view) {
-        //indexus are diferent because apis are shit
-        Log.d(TAG, "radioOptionOne");
-
-        if(mOptionOne.getText().toString().equals(getResources().getString(R.string.answer_true))){
-            //if the question is a true or false question
-            String rightAnswerIndex = "0";
-            displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
-
-        }else {
-            //notTrueOrFalseQuestion(lastChracterString);
-            String rightAnswerIndex = "1";
-            displayIfAnswerIsRightOrWrongForRegularQuestions(rightAnswerIndex);
-        }
-
-    }
 
     public void displayIfAnswerIsRightOrWrongForRegularQuestions(String rightAnswerIndex ){
         Log.d(TAG, "displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions ");
@@ -317,7 +340,7 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
 
             mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
             mDisplayCorrectAnswer.setText(getResources().getString(R.string.correct_answer_above) +
-                    loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer());
+                    loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer());
         }
     }
 
@@ -325,9 +348,9 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
 
     public void displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(String rightAnswerIndex){
         Log.d(TAG, "displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions ");
-        if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer()
+        if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer()
                 .toLowerCase().equals(rightAnswerIndex)){
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnsweredCorrectly(true);
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(true);
             Log.d(TAG, "answer right");
             mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
             mDisplayCorrectAnswer.setText(getResources().getString(R.string.correct));
@@ -336,9 +359,33 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
             Log.d(TAG, "radioOptionTwo answer wrong");
 
             mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-            mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct_answer_above) +
-                    loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer());
+            mDisplayCorrectAnswer.setText(getResources().getString(R.string.correct_answer_above) +
+                    loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer());
         }
+    }
+
+    @OnClick(R.id.option_a)
+    public void radioOptionOne(View view) {
+        //indexus are diferent because apis are shit
+        Log.d(TAG, "radioOptionOne");
+
+        if(testCompletedStudymode){
+            if(mOptionOne.getText().toString().equals(getResources().getString(R.string.answer_true))){
+                //if the question is a true or false question
+                String rightAnswerIndex = "0";
+                displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
+
+            }else {
+                //notTrueOrFalseQuestion(lastChracterString);
+                String rightAnswerIndex = "1";
+                displayIfAnswerIsRightOrWrongForRegularQuestions(rightAnswerIndex);
+            }
+        }else{
+
+        }
+
+
+
     }
 
     @OnClick(R.id.option_b)
@@ -353,17 +400,21 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
 
 
 
-        if(mOptionTwo.getText().toString().equals(getResources().getString(R.string.answer_false))){
-            //if the question is a true or false question
-            Log.d(TAG, "radioOptionTwo is tru or false question ");
-            String rightAnswerIndex = "1";
+        if(testCompletedStudymode){
+            if(mOptionTwo.getText().toString().equals(getResources().getString(R.string.answer_false))){
+                //if the question is a true or false question
+                Log.d(TAG, "radioOptionTwo is tru or false question ");
+                String rightAnswerIndex = "1";
 
-            displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
+                displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
 
 
-        }else {
-            String rightAnswerIndex = "2";
-            displayIfAnswerIsRightOrWrongForRegularQuestions(rightAnswerIndex);
+            }else {
+                String rightAnswerIndex = "2";
+                displayIfAnswerIsRightOrWrongForRegularQuestions(rightAnswerIndex);
+            }
+        }else{
+
         }
 
     }
@@ -373,49 +424,70 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
         Log.d(TAG, "radioOptionThree");
 
 
+        if(testCompletedStudymode){
+            String rightAnswerIndex = "3";
+            if(mOptionOne.getText().toString().equals(getResources().getString(R.string.answer_true))){
+                //if the question is a true or false question
 
-        String rightAnswerIndex = "3";
-        if(mOptionOne.getText().toString().equals(getResources().getString(R.string.answer_true))){
-            //if the question is a true or false question
+                displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
 
-            displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
-
+            }else{
+                //notTrueOrFalseQuestion(lastChracterString);
+                displayIfAnswerIsRightOrWrongForRegularQuestions(rightAnswerIndex);
+            }
         }else{
-            //notTrueOrFalseQuestion(lastChracterString);
-            displayIfAnswerIsRightOrWrongForRegularQuestions(rightAnswerIndex);
+
         }
+
+
     }
 
     @OnClick(R.id.option_d)
     public void radioOptionFour(View view) {
         Log.d(TAG, "radioOptionFour");
 
-        String rightAnswerIndex = "4";
-        if(mOptionOne.getText().toString().equals(getResources().getString(R.string.answer_true))){
-            //if the question is a true or false question
 
-            displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
+        if(testCompletedStudymode){
+            String rightAnswerIndex = "4";
+            if(mOptionOne.getText().toString().equals(getResources().getString(R.string.answer_true))){
+                //if the question is a true or false question
 
+                displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
+
+            }else{
+                //notTrueOrFalseQuestion(lastChracterString);
+                displayIfAnswerIsRightOrWrongForRegularQuestions(rightAnswerIndex);
+            }
         }else{
-            //notTrueOrFalseQuestion(lastChracterString);
-            displayIfAnswerIsRightOrWrongForRegularQuestions(rightAnswerIndex);
+
         }
+
+
     }
 
     @OnClick(R.id.option_e)
     public void radioOptionFive(View view) {
         Log.d(TAG, "radioOptionFour");
 
-        String rightAnswerIndex = "5";
-        if(mOptionOne.getText().toString().equals(getResources().getString(R.string.answer_true))){
-            //if the question is a true or false question
 
-            displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
+        if(testCompletedStudymode){
+            String rightAnswerIndex = "5";
+            if(mOptionOne.getText().toString().equals(getResources().getString(R.string.answer_true))){
+                //if the question is a true or false question
 
+                displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
+
+            }else{
+                //notTrueOrFalseQuestion(lastChracterString);
+                displayIfAnswerIsRightOrWrongForRegularQuestions(rightAnswerIndex);
+            }
         }else{
-            //notTrueOrFalseQuestion(lastChracterString);
-            displayIfAnswerIsRightOrWrongForRegularQuestions(rightAnswerIndex);
+
+
         }
+
+
+
     }
 
     @OnClick(R.id.next_question)
@@ -433,21 +505,140 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
 
 
         Log.d(TAG, "myNailQuestionContainer.getQuestions().size()" + loadHygieneContainerQuestions.getQuestions().size());
-        Log.d(TAG, "mQuestionIndex " + mQuestionIndex);
-        if(mQuestionIndex < loadHygieneContainerQuestions.getQuestions().size() -1){
+        Log.d(TAG, "mQuestionIndex " + mQuestionIndexArray[mQuestionIndex]);
+        if(mQuestionIndex < mQuestionIndexArray.length -1){
             mQuestionIndex += 1;
             unSelectRadioButtons();
             updateQuestion();
 
             loadRadioButtonSelection();
-            if(mQuestionIndex == loadHygieneContainerQuestions.getQuestions().size() -1 ){
+            if(mQuestionIndex == mQuestionIndexArray.length -1 ){
                 mNextButton.setText(getResources().getString(R.string.finish_studying));
             }else {
                 mNextButton.setText(getResources().getString(R.string.next_button));
             }
         }else{
-            destroyActivity();
+
+
+            Log.d(TAG, "We are on the 50th question " );
+            formatAnswers();
+
+
+
+            for (int i = 0; i < mQuestionIndexArray.length -1; i++) {
+
+
+                if (loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
+                        .getSelectedAnswer().equals("")) {
+                    //questions not answered on test is not complete
+
+                    Log.d(TAG, "loop i is  :" + i + "    " +loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
+                            .getSelectedAnswer().equals(""));
+                    Snackbar.make(view, getResources().getString(R.string.anser_all_questions),
+                            Snackbar.LENGTH_SHORT)
+                            .setAction("Action", null).show();
+                    break;
+
+                } else {
+                    Log.d(TAG, "in the else loop i is  :" + i + "    " +loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
+                            .getSelectedAnswer().equals(""));
+                    // all questions  answered
+
+
+
+
+                    if (!loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
+                            .isAnsweredCorrectly()
+                            && i != 0) {
+                        //to save wrong answers for studying
+                        Log.d(TAG, "!driverQuestions.getQuestions().get(mQuestionIndexArray[i]:" );
+                        Log.d(TAG, "i " + i );
+                        //mWrongAnswersToStudy.add(mQuestionIndexArray[i]);
+                    }
+
+
+                    if (i == 19) {
+                        Log.d(TAG, "i == 19" );
+                        //all questions completed
+                        finishedTestDialog(mWrongAnswersToStudy);
+                    }
+
+                }
+
+            }
         }
+
+    }
+
+    private void finishedTestDialog(ArrayList<Integer> mWrongAnswers){
+        //must answer 14 right to pass
+
+
+
+
+        if(mWrongAnswers.size() > 15){
+            final MaterialDialog mMaterialDialog = new MaterialDialog(HealthTestSimulation.this)
+                    .setTitle(getResources().getString(R.string.failed_test_dialog_one))
+
+                    .setMessage(getResources().getString(R.string.failed_test_dialog_two) +
+                            (20 - mWrongAnswers.size()) + getResources().getString(R.string.failed_test_dialog_three));
+
+            mMaterialDialog
+                    .setPositiveButton(getResources().getString(R.string.failed_test_dialog_conferm),
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mMaterialDialog.dismiss();
+                                    destroyActivity();
+
+                                }
+                            })
+                    .setNegativeButton(
+                            getResources().getString(R.string.failed_test_dialog_study_wrong_answer),
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                    mMaterialDialog.dismiss();
+
+//                                    studyWrongQuestions();
+//                                    showCorrectAnswersForStudy();
+
+                                    Snackbar.make(view, "study wrong questions",
+                                            Snackbar.LENGTH_SHORT);
+                                }
+                            });
+            mMaterialDialog.show();
+        }else {
+
+
+
+
+            final MaterialDialog mMaterialDialog = new MaterialDialog(HealthTestSimulation.this)
+                    .setTitle(getResources().getString(R.string.you_passed))
+                    .setMessage(getResources().getString(R.string.passed_test_dialog_two)
+                            + (mWrongAnswers.size() - 20) +  getResources().getString(R.string.passed_test_dialog_three));
+
+            mMaterialDialog
+                    .setPositiveButton(
+                            getResources().getString(R.string.passed_test_dialog_conferm), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mMaterialDialog.dismiss();
+
+                                }
+                            })
+                    .setNegativeButton(
+                            getResources().getString(R.string.passed_test_dialog_dismiss), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mMaterialDialog.dismiss();
+
+                                }
+                            });
+            mMaterialDialog.show();
+        }
+
 
     }
 
@@ -468,7 +659,7 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
 
         GridView gridView = new GridView(this);
 
-        int questionSize = loadHygieneContainerQuestions.getQuestions().size();
+        int questionSize = mQuestionIndexArray.length;
         List<Integer> mList = new ArrayList<Integer>();
         for (int i = 1; i < questionSize + 1 ; i++) {
             mList.add(i);
@@ -490,7 +681,7 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
                         view.setBackgroundColor(getResources().getColor(R.color.colorForQuestionGrid));
                     }else{
                         //answer is incorrect
-                        view.setBackgroundColor(getResources().getColor(R.color.red));
+                        view.setBackgroundColor(getResources().getColor(R.color.colorForQuestionGrid));
                     }
 
 
@@ -542,7 +733,8 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
 
                 mNextButton.setText(getResources().getString(R.string.next_button));
                 Log.d(TAG, "int pos : " + position);
-                if (position == loadHygieneContainerQuestions.getQuestions().size() - 1) {
+
+                if (position == mQuestionIndexArray.length - 1) {
                     mNextButton.setText(getResources().getString(R.string.finish_studying));
                 }
 
@@ -587,6 +779,7 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
     }
 
     private void goToSelectedQuestion(int questionindex){
+
 
         //this is only for not study
         radioGroup.setEnabled(true);
@@ -649,15 +842,15 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
             int checkedRadioButton = radioGroup.getCheckedRadioButtonId();
 
 
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setSelectedAnswerResourceId(
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setSelectedAnswerResourceId(
                     checkedRadioButton);
             Log.d(TAG, "setSelectedAnswer" + getResources().getResourceEntryName(checkedRadioButton));
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setSelectedAnswer(
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setSelectedAnswer(
                     getResources().getResourceEntryName(checkedRadioButton));
 
 
             Log.d(TAG, "getSelectedAnswer : " +
-                    loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getSelectedAnswer());
+                    loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getSelectedAnswer());
 
             isAnswerCorrect();
 
@@ -672,22 +865,22 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
 
 
 
-        Log.d(TAG, "getSelectedAnswer() : " + loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getSelectedAnswer());
+        Log.d(TAG, "getSelectedAnswer() : " + loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getSelectedAnswer());
 
 
-        String lastChracterString = loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getSelectedAnswer().
-                substring(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getSelectedAnswer().length() - 1);
+        String lastChracterString = loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getSelectedAnswer().
+                substring(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getSelectedAnswer().length() - 1);
 
         Log.d(TAG, "question answer : " +
-                loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer()
+                loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer()
                         .toLowerCase());
 
-        if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionA()
+        if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionA()
                 .equals(getResources().getString(R.string.answer_true))){
 
             ifTrueOrFalseQuestion(lastChracterString);
         }else{
-            if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionC()
+            if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionC()
                     .equals(NULL_STRING)){
                 twoAnswerQuestions(lastChracterString);
             }else{
@@ -697,23 +890,23 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
         }
 
         Log.d(TAG, " isAnswerCorrect ???" +
-                loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).isAnsweredCorrectly());
+                loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).isAnsweredCorrectly());
 
     }
 
     public void twoAnswerQuestions(String lastChracterString){
         Log.d(TAG, "twoAnswerQuestions : ");
-        if(lastChracterString.equals("a") && loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer()
+        if(lastChracterString.equals("a") && loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer()
                 .toLowerCase().equals("1")){
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnsweredCorrectly(true);
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(true);
             Log.d(TAG, "poo answer right! : " );
-        }else if(lastChracterString.equals("b") && loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer()
+        }else if(lastChracterString.equals("b") && loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer()
                 .toLowerCase().equals("2")){
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnsweredCorrectly(true);
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(true);
             Log.d(TAG, "poo answer right! : " );
         }else{
             Log.d(TAG, "poo answer wrong! : " );
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnsweredCorrectly(false);
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(false);
         }
     }
 
@@ -722,54 +915,42 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
 
         Log.d(TAG, "notTrueOrFalseQuestion lastChracterString : " + lastChracterString);
 
-        Log.d(TAG, "notTrueOrFalseQuestion answer : " + loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer()
+        Log.d(TAG, "notTrueOrFalseQuestion answer : " + loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer()
                 .toLowerCase());
 
         //changeCorrectRecordedAnswerToABCD();
 
         if(lastChracterString
-                .equals(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer()
+                .equals(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer()
                         .toLowerCase())){
             Log.d(TAG, "inotTrueOrFalseQuestion sAnswerCorrect answer is correct");
 
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnsweredCorrectly(true);
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(true);
 
         } else {
             Log.d(TAG, "notTrueOrFalseQuestion isAnswerCorrect answer is incorrect");
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnsweredCorrectly(false);
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(false);
         }
 
         Log.d(TAG, " isAnswerCorrect ???");
     }
 
-    public void changeCorrectRecordedAnswerToABCD(){
 
-        if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer().equals("1")){
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnswer("a");
-        }else if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer().equals("2")){
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnswer("b");
-        }else if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer().equals("3")){
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnswer("c");
-        } else {
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnswer("d");
-        }
-
-    }
 
     public void ifTrueOrFalseQuestion(String lastChracterString){
         Log.d(TAG, "ifTrueOrFalseQuestion");
 
-        if(lastChracterString.equals("a") && loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer()
+        if(lastChracterString.equals("a") && loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer()
                 .toLowerCase().equals("0")){
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnsweredCorrectly(true);
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(true);
             Log.d(TAG, "poo answer right! : " );
-        }else if(lastChracterString.equals("b") && loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getAnswer()
+        }else if(lastChracterString.equals("b") && loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer()
                 .toLowerCase().equals("1")){
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnsweredCorrectly(true);
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(true);
             Log.d(TAG, "poo answer right! : " );
         }else{
             Log.d(TAG, "poo answer wrong! : " );
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).setAnsweredCorrectly(false);
+            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(false);
         }
     }
 
@@ -785,7 +966,7 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
         Log.d(TAG, "id : " + id);
         //noinspection SimplifiableIfStatement
 
-       if(id == BACK_BUTTON){
+        if(id == BACK_BUTTON){
             Log.d(TAG, "BackButton");
             destroyActivity();
         }

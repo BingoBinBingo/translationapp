@@ -208,6 +208,17 @@ public class CitizenshipAcitivty extends AppCompatActivity implements ButtonSele
         revealDetailText();
     }
 
+    @SuppressWarnings("unused")
+    @OnClick(R.id.reveal_cardView)
+    public void cardViewOnClickReveal(View view) {
+
+
+        mRevealButton.setVisibility(View.GONE);
+        mCitizenshipExplanation.setVisibility(View.VISIBLE);
+
+
+
+    }
 
     public void revealDetailText(){
         mRevealButton.setVisibility(View.GONE);

@@ -2,6 +2,7 @@ package com.example.spencerdepas.translationapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -29,6 +30,22 @@ public class SplashActivity  extends AppCompatActivity {
 
         Log.d(TAG, "language : " + Locale.getDefault().getDisplayLanguage());
 
+
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                startMainActivity();
+            }
+        }, 0001);
+
+
+
+    }
+
+    public void startMainActivity(){
         if(Locale.getDefault().getDisplayLanguage().equals(LANGUAGE_CHINESE)){
             Intent intent = new Intent(this, MainActivityChinese.class);
             startActivity(intent);
@@ -38,7 +55,5 @@ public class SplashActivity  extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-
-
     }
 }
