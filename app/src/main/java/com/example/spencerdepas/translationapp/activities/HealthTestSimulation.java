@@ -670,7 +670,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
                 View view = super.getView(position, convertView, parent);
 
 
-                boolean hasBeenAnswered = hasBeenAnswered(position);
+                boolean hasBeenAnswered = hasBeenAnswered(mQuestionIndexArray[position]);
                 Log.d(TAG, "hasBeenAnswered : " + hasBeenAnswered);
                 int color = 0x00FFFFFF; // Transparent
                 if (hasBeenAnswered) {
