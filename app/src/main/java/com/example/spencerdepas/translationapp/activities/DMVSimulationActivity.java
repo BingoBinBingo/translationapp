@@ -811,7 +811,7 @@ public class DMVSimulationActivity extends AppCompatActivity implements ButtonSe
             final MaterialDialog mMaterialDialog = new MaterialDialog(DMVSimulationActivity.this)
                     .setTitle(getResources().getString(R.string.you_passed))
                     .setMessage(getResources().getString(R.string.passed_test_dialog_two)
-                            + (mWrongAnswers.size() - 20) +  getResources().getString(R.string.passed_test_dialog_three));
+                           + " "   + (mWrongAnswers.size() - 20) + " " +  getResources().getString(R.string.passed_test_dialog_three));
 
             mMaterialDialog
                     .setPositiveButton(

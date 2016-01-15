@@ -68,7 +68,13 @@
     <string name="answer_true">True</string>
     <string name="answer_false">False</string>
     <string name="title_activity_health_select">HealthSelect</string>
-    <string name="title_activity_health_test_simulation">HealthTestSimulation</string>
+    <string name="title_activity_health_test_simulation">Health Simulation Test</string>
 
 
+    <!-- Hyhiene completed test dialog -->
+    <string name="health_test_complete_dialog">Test completed</string>
+
+    <string name="health_test_complete_dialog_message_part_one_failed">Sorry you failed the test. You need
+    35 or more questions to pass</string>
+     <string name="health_test_complete_dialog_message_part_one_passed">You passed</string>
 </resources>

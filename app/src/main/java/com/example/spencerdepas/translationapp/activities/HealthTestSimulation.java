@@ -3,6 +3,7 @@ package com.example.spencerdepas.translationapp.activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GestureDetectorCompat;
@@ -22,6 +23,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.spencerdepas.translationapp.ButtonSelector;
 import com.example.spencerdepas.translationapp.R;
 import com.example.spencerdepas.translationapp.model.CreateJSONObject;
@@ -60,16 +62,13 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
 
     @Bind(R.id.driver_test_question)
     TextView mQuestion;
-    @Bind(R.id.option_a)
-    RadioButton mOptionOne;
+    @Bind(R.id.option_a) RadioButton mOptionOne;
     @Bind(R.id.option_b) RadioButton mOptionTwo;
     @Bind(R.id.option_c) RadioButton mOptionThree;
     @Bind(R.id.option_d) RadioButton mOptionFour;
     @Bind(R.id.option_e) RadioButton mOptionFive;
-    @Bind(R.id.image_view)
-    ImageView mImage;
-    @Bind(R.id.myRadioGroup)
-    RadioGroup radioGroup;
+    @Bind(R.id.image_view) ImageView mImage;
+    @Bind(R.id.myRadioGroup) RadioGroup radioGroup;
 
     @Bind(R.id.previous_question)
     Button mPreveousButton;
@@ -89,7 +88,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
 
         Log.d(TAG, "onCreate");
         mcontext = this.getApplicationContext();
-        view = findViewById(R.id.hygiene_root_view);
+        view = findViewById(R.id.hygiene_root_view_simulation);
 
         language = Locale.getDefault().getDisplayLanguage(); //if it's a string you stored.
 
@@ -100,7 +99,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
 
         Log.d(TAG, "loadHygieneContainerQuestions size : " + loadHygieneContainerQuestions.getQuestions().size());
 
-        //mDisplayCorrectAnswer.setVisibility(view.INVISIBLE);
+
         mQuestionIndexArray = generateRandomQuestionIndex();
 
 
@@ -162,50 +161,183 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
 
     public void formatAnswers(){
         Log.d(TAG, "formatAnswers");
-        //this adds True and False or removes two null questions
 
-        Log.d(TAG, "formatAnswers");
-        if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionA()
-                .equals(NULL_STRING)){
-            //adds truth or false
-            Log.d(TAG, "True or false only two posible answers");
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex])
-                    .setOptionA(getResources().getString(R.string.answer_true));
-            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex])
-                    .setOptionB(getResources().getString(R.string.answer_false));
-            mOptionThree.setVisibility(View.INVISIBLE);
-            mOptionFour.setVisibility(View.INVISIBLE);
-            mOptionFive.setVisibility(View.INVISIBLE);
-        }else{
-            if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionC()
+
+        if(testCompletedStudymode){
+
+
+            //this adds True and False or removes two null questions
+            Log.d(TAG, "formatAnswers mOption one" +
+                    loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionA());
+            Log.d(TAG, "formatAnswers mOption 2" +
+                    loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionB());
+            Log.d(TAG, "formatAnswers mOption 3" +
+                    loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionC());
+            Log.d(TAG, "formatAnswers mOption 4" +
+                    loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionD());
+            Log.d(TAG, "formatAnswers mOption 5" +
+                    loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionE());
+
+            if(  loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionA()
                     .equals(NULL_STRING)){
-                Log.d(TAG, "not True or false still only two posible answers");
+                //adds truth or false
+                Log.d(TAG, "formatAnswers True or false only two posible answers");
+                loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex))
+                        .setOptionA(getResources().getString(R.string.answer_true));
+                loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex))
+                        .setOptionB(getResources().getString(R.string.answer_false));
                 mOptionThree.setVisibility(View.INVISIBLE);
                 mOptionFour.setVisibility(View.INVISIBLE);
                 mOptionFive.setVisibility(View.INVISIBLE);
+            }else{
+
+                Log.d(TAG, "formatAnswers loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionC() :"+
+                        loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionC());
+                if( loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionC()
+                        .equals(NULL_STRING)){
+                    Log.d(TAG, "formatAnswers not True or false still only two posible answers");
+                    mOptionThree.setVisibility(View.INVISIBLE);
+                    mOptionFour.setVisibility(View.INVISIBLE);
+                    mOptionFive.setVisibility(View.INVISIBLE);
 
 
 
+                }else  if(  loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionD()
+                        .equals(NULL_STRING)){
+                    mOptionFour.setVisibility(View.INVISIBLE);
+                    mOptionFive.setVisibility(View.INVISIBLE);
+                    Log.d(TAG, "formatAnswers three posible answers");
+
+                    Log.d(TAG, "formatAnswers mOptionFive get text " + mOptionFive.getText());
 
 
+                }else if(  loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionE()
+                        .equals(NULL_STRING)){
+                    Log.d(TAG, "formatAnswers four posible answers");
+                    mOptionFive.setVisibility(View.INVISIBLE);
 
-            }else  if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionD()
-                    .equals(NULL_STRING)){
-                mOptionFour.setVisibility(View.INVISIBLE);
-                mOptionFive.setVisibility(View.INVISIBLE);
-                Log.d(TAG, "three posible answers");
-
-                Log.d(TAG, "mOptionFive get text " + mOptionFive.getText());
-
-
-            }else if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionE()
-                    .equals(NULL_STRING)){
-                Log.d(TAG, "four posible answers");
-                mOptionFive.setVisibility(View.INVISIBLE);
+                }else{
+                    Log.d(TAG, "formatAnswers five posible answers");
+                }
 
             }
 
+
+        }else{
+
+
+            //this adds True and False or removes two null questions
+            Log.d(TAG, "formatAnswers mOption one" +
+                    loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionA());
+            Log.d(TAG, "formatAnswers mOption 2" +
+                    loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionB());
+            Log.d(TAG, "formatAnswers mOption 3" +
+                    loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionC());
+            Log.d(TAG, "formatAnswers mOption 4" +
+                    loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionD());
+            Log.d(TAG, "formatAnswers mOption 5" +
+                    loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionE());
+
+            if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionA()
+                    .equals(NULL_STRING)){
+                //adds truth or false
+                Log.d(TAG, "formatAnswers True or false only two posible answers");
+                loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex])
+                        .setOptionA(getResources().getString(R.string.answer_true));
+                loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex])
+                        .setOptionB(getResources().getString(R.string.answer_false));
+                mOptionThree.setVisibility(View.INVISIBLE);
+                mOptionFour.setVisibility(View.INVISIBLE);
+                mOptionFive.setVisibility(View.INVISIBLE);
+            }else{
+
+                Log.d(TAG, "formatAnswers loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionC() :"+
+                        loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionC());
+                if( loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionC()
+                        .equals(NULL_STRING)){
+                    Log.d(TAG, "formatAnswers not True or false still only two posible answers");
+                    mOptionThree.setVisibility(View.INVISIBLE);
+                    mOptionFour.setVisibility(View.INVISIBLE);
+                    mOptionFive.setVisibility(View.INVISIBLE);
+
+
+
+                }else  if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionD()
+                        .equals(NULL_STRING)){
+                    mOptionFour.setVisibility(View.INVISIBLE);
+                    mOptionFive.setVisibility(View.INVISIBLE);
+                    Log.d(TAG, "formatAnswers three posible answers");
+
+                    Log.d(TAG, "formatAnswers mOptionFive get text " + mOptionFive.getText());
+
+
+                }else if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionE()
+                        .equals(NULL_STRING)){
+                    Log.d(TAG, "formatAnswers four posible answers");
+                    mOptionFive.setVisibility(View.INVISIBLE);
+
+                }else{
+                    Log.d(TAG, "formatAnswers five posible answers");
+                }
+
+            }
         }
+
+    }
+
+    public void setUpWrongAnswersAfterTestComplete(){
+        Log.d(TAG, "updateQuestion");
+
+        mOptionFive.setVisibility(View.VISIBLE);
+        mOptionOne.setVisibility(View.VISIBLE);
+        mOptionTwo.setVisibility(View.VISIBLE);
+        mOptionThree.setVisibility(View.VISIBLE);
+        mOptionFour.setVisibility(View.VISIBLE);
+        formatAnswers();
+
+
+        mQuestion.setText(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getQuestion());
+        mOptionOne.setText(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionA());
+        mOptionTwo.setText(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionB());
+        mOptionThree.setText(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionC());
+        mOptionFour.setText(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionD());
+
+        if(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionE().equals(NULL_STRING)){
+            mOptionFive.setVisibility(View.INVISIBLE);
+        }else {
+            mOptionFive.setVisibility(View.VISIBLE);
+            mOptionFive.setText(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionE());
+        }
+
+
+        if(!loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getSelectedAnswer().equals("")){
+            Log.d(TAG, "question  answered : ");
+            if (loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).isAnsweredCorrectly()) {
+                Log.d(TAG, "answer right");
+//                mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
+//                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
+
+                radioGroup.setEnabled(false);
+
+            }else {
+                Log.d(TAG, "updateQuestion answer wrong");
+                //condition for id you press prevous button and the answer has not been answered
+                if(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).isAnsweredCorrectly()){
+//                    mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
+//                    mDisplayCorrectAnswer.setText(getResources().getString(R.string.correct_answer_above) +
+//                            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer());
+                }
+
+
+
+            }
+        }else{
+
+            mDisplayCorrectAnswer.setVisibility(View.INVISIBLE);
+        }
+
+
+
 
     }
 
@@ -234,8 +366,8 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
             Log.d(TAG, "question  answered : ");
             if (loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).isAnsweredCorrectly()) {
                 Log.d(TAG, "answer right");
-                mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
+//                mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
+//                mDisplayCorrectAnswer.setText( getResources().getString(R.string.correct));
 
                 radioGroup.setEnabled(false);
 
@@ -243,9 +375,9 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
                 Log.d(TAG, "updateQuestion answer wrong");
                 //condition for id you press prevous button and the answer has not been answered
                 if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).isAnsweredCorrectly()){
-                    mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
-                    mDisplayCorrectAnswer.setText(getResources().getString(R.string.correct_answer_above) +
-                            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer());
+//                    mDisplayCorrectAnswer.setVisibility(View.VISIBLE);
+//                    mDisplayCorrectAnswer.setText(getResources().getString(R.string.correct_answer_above) +
+//                            loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer());
                 }
 
 
@@ -347,6 +479,10 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
 
     public void displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(String rightAnswerIndex){
         Log.d(TAG, "displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions ");
+
+
+
+
         if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getAnswer()
                 .toLowerCase().equals(rightAnswerIndex)){
             loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).setAnsweredCorrectly(true);
@@ -367,6 +503,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
     public void radioOptionOne(View view) {
         //indexus are diferent because apis are shit
         Log.d(TAG, "radioOptionOne");
+        Log.d(TAG, "testCompletedStudymode" + testCompletedStudymode);
 
         if(testCompletedStudymode){
             if(mOptionOne.getText().toString().equals(getResources().getString(R.string.answer_true))){
@@ -493,6 +630,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
     public void nextQuestion(View view) {
         Log.d(TAG, "nextQuestion");
 
+        //mWrongAnswers
         mOptionThree.setVisibility(View.VISIBLE);
         mOptionFour.setVisibility(View.VISIBLE);
         mOptionFive.setVisibility(View.VISIBLE);
@@ -505,17 +643,17 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
 
         Log.d(TAG, "myNailQuestionContainer.getQuestions().size()" + loadHygieneContainerQuestions.getQuestions().size());
         Log.d(TAG, "mQuestionIndex " + mQuestionIndexArray[mQuestionIndex]);
-        if(mQuestionIndex < mQuestionIndexArray.length -1){
-            mQuestionIndex += 1;
-            unSelectRadioButtons();
-            updateQuestion();
 
-            loadRadioButtonSelection();
-            if(mQuestionIndex == mQuestionIndexArray.length -1 ){
-                mNextButton.setText(getResources().getString(R.string.finish_studying));
-            }else {
-                mNextButton.setText(getResources().getString(R.string.next_button));
-            }
+        if(mWrongAnswersToStudy.size() > 0){
+            //this is for when we have completed the test once and
+            //want to go over the wrong answer
+
+            studyWrongAnswersNextQuestion();
+
+        }else if(mQuestionIndex < mQuestionIndexArray.length -1){
+            //on the first time through we go here
+            regularNextQuestion();
+
         }else{
 
 
@@ -526,12 +664,134 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
 
         }
 
+
+
+
+    }
+
+    public void studyWrongAnswersNextQuestion(){
+        Log.d(TAG, "mWrongAnswersToStudy.size() : " + mWrongAnswersToStudy.size());
+
+
+
+        mQuestionIndex += 1;
+        if(mQuestionIndex < mWrongAnswersToStudy.size() ){
+            Log.d(TAG, "mQuestionIndex < mWrongAnswersToStudy.size() &&\n");
+
+            //to see if we are at the end of reviewing questions
+            if(mQuestionIndex == mWrongAnswersToStudy.size() -1){
+                mNextButton.setText(R.string.finish);
+                Log.d(TAG, "mQuestionIndex == mWrongAnswersToStudy.size() -1");
+            }
+
+            setUpWrongAnswersAfterTestComplete();
+            loadCorrectAnswerRadioButton();
+        } else{
+            //this is if we are at the end of reviewing questions
+
+
+            destroyActivity();
+
+
+        }
+    }
+
+
+
+    public void regularNextQuestion(){
+        mQuestionIndex += 1;
+        unSelectRadioButtons();
+        updateQuestion();
+
+        loadRadioButtonSelection();
+        if(mQuestionIndex == mQuestionIndexArray.length -1 ){
+            mNextButton.setText(getResources().getString(R.string.finish_studying));
+        }else {
+            mNextButton.setText(getResources().getString(R.string.next_button));
+        }
+    }
+
+    public void loadCorrectAnswerRadioButton(){
+        Log.d(TAG, "loadCorrectAnswerRadioButton");
+
+        loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getAnswer();
+        Log.d(TAG, "showCorrectAnswersForStudy");
+
+
+
+        //this finds out which index is used from poor api
+        if(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex))
+                .isTrueOrFalseAllreadySet()){
+            Log.d(TAG, "true or false question where true or false was pree writen and the index is 1 and 2 ");
+            //this has a diferent index
+            //if the question is a true or false question
+            //this is if the questions uses 1 or 2 toindex the correct answer and it is a true or false question
+            //this is a quest
+
+            if(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getAnswer().toLowerCase()
+                    .equals("1")){
+                Log.d(TAG, "corrct answer is a ");
+                mOptionOne.toggle();
+            }else{
+                mOptionTwo.toggle();
+            }
+
+
+
+
+        }else if(mOptionOne.getText().toString().equals(getResources().getString(R.string.answer_true))){
+            //if the question is a true or false question
+            //this is if the questions uses 0 or 1 toindex the correct answer and it is a true or false question
+//            String rightAnswerIndex = "0";
+//            displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
+            Log.d(TAG, "true or false question where true or false was post writen and the index is 0 and 1 ");
+            if(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getAnswer().toLowerCase()
+                    .equals("0")){
+                Log.d(TAG, "corrct answer is a ");
+                mOptionOne.toggle();
+            }else{
+                mOptionTwo.toggle();
+            }
+
+
+
+
+        }else {
+            Log.d(TAG, "3 ossible answers and up. index starts at 1 finishes at 5  ");
+            //notTrueOrFalseQuestion(lastChracterString);
+            if(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getAnswer().toLowerCase()
+                    .equals("1")){
+                Log.d(TAG, "corrct answer is a ");
+                mOptionOne.toggle();
+            }else if(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getAnswer().toLowerCase()
+                    .equals("2")){
+                Log.d(TAG, "corrct answer is b ");
+                mOptionTwo.toggle();
+            }else if(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getAnswer().toLowerCase()
+                    .equals("3")){
+                Log.d(TAG, "corrct answer is c ");
+                mOptionThree.toggle();
+            }else if(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getAnswer().toLowerCase()
+                    .equals("4")){
+                Log.d(TAG, "corrct answer is d ");
+                mOptionFour.toggle();
+            }else if(loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getAnswer().toLowerCase()
+                    .equals("5")){
+                Log.d(TAG, "corrct answer is d ");
+                mOptionFive.toggle();
+            }
+        }
+
+
+
+
+
     }
 
     public void haveAllQuestionsBeenAnswered(){
         Log.d(TAG, "haveAllQuestionsBeenAnswered" );
 
-        for (int i = 0; i < mQuestionIndexArray.length -1; i++) {
+        for (int i = 0; i < mQuestionIndexArray.length; i++) {
 
 
             if (loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
@@ -548,8 +808,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
             } else {
                 Log.d(TAG, "in the else loop i is  :" + i + "    " +loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
                         .getSelectedAnswer().equals(""));
-                // all questions  answered
-                Log.d(TAG, "all questions  answered " );
+
 
 
 
@@ -559,15 +818,20 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
                     //to save wrong answers for studying
                     Log.d(TAG, "!driverQuestions.getQuestions().get(mQuestionIndexArray[i]:" );
                     Log.d(TAG, "i " + i );
-                    //mWrongAnswersToStudy.add(mQuestionIndexArray[i]);
+                    mWrongAnswersToStudy.add(mQuestionIndexArray[i]);
                 }
 
 
                 if (i == 49) {
+                    // all questions  answered
+                    Log.d(TAG, "all questions  answered " );
                     Log.d(TAG, "i == 49" );
                     //all questions completed
                     //50 questions for simulation test
                     finishedTestDialog(mWrongAnswersToStudy);
+                    mQuestionIndex = -1;
+                    //this is so radio buttons display the right answer
+                    testCompletedStudymode = true;
                 }
 
             }
@@ -577,22 +841,24 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
 
     private void finishedTestDialog(ArrayList<Integer> mWrongAnswers){
         //must answer 14 right to pass
+        Log.d(TAG, "finishedTestDialog " );
 
 
-
+        Log.d(TAG, "mWrongAnswers.size() : " + mWrongAnswers.size());
 
         if(mWrongAnswers.size() > 15){
-            final MaterialDialog mMaterialDialog = new MaterialDialog(HealthTestSimulation.this)
-                    .setTitle(getResources().getString(R.string.failed_test_dialog_one))
 
-                    .setMessage(getResources().getString(R.string.failed_test_dialog_two) +
-                            (20 - mWrongAnswers.size()) + getResources().getString(R.string.failed_test_dialog_three));
+            final MaterialDialog mMaterialDialog = new MaterialDialog(HealthTestSimulation.this)
+                    .setTitle(getResources().getString(R.string.health_test_complete_dialog))
+
+                    .setMessage(getResources().getString(R.string.health_test_complete_dialog_message_part_one_failed));
 
             mMaterialDialog
                     .setPositiveButton(getResources().getString(R.string.failed_test_dialog_conferm),
                             new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    Log.d(TAG, "failed test confirm button");
                                     mMaterialDialog.dismiss();
                                     destroyActivity();
 
@@ -604,10 +870,10 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
                                 @Override
                                 public void onClick(View v) {
 
+                                    Log.d(TAG, "failed test negative button");
                                     mMaterialDialog.dismiss();
-
-//                                    studyWrongQuestions();
-//                                    showCorrectAnswersForStudy();
+                                    mQuestionIndex = 0;
+                                    setUpWrongAnswersAfterTestComplete();
 
                                     Snackbar.make(view, "study wrong questions",
                                             Snackbar.LENGTH_SHORT);
@@ -621,8 +887,8 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
 
             final MaterialDialog mMaterialDialog = new MaterialDialog(HealthTestSimulation.this)
                     .setTitle(getResources().getString(R.string.you_passed))
-                    .setMessage(getResources().getString(R.string.passed_test_dialog_two)
-                            + (mWrongAnswers.size() - 20) +  getResources().getString(R.string.passed_test_dialog_three));
+                    .setMessage(getResources().getString(R.string.health_test_complete_dialog_message_part_one_passed)
+                             );
 
             mMaterialDialog
                     .setPositiveButton(
@@ -630,6 +896,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
                                 @Override
                                 public void onClick(View v) {
                                     mMaterialDialog.dismiss();
+                                    Log.d(TAG, "passed test confirm button");
 
                                 }
                             })
@@ -638,6 +905,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
                                 @Override
                                 public void onClick(View v) {
                                     mMaterialDialog.dismiss();
+                                    Log.d(TAG, "passed test negative button");
 
                                 }
                             });
@@ -646,6 +914,8 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
 
 
     }
+
+
 
     @SuppressWarnings("unused")
     @OnClick(R.id.fab)
