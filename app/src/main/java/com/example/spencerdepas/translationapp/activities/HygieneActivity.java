@@ -137,6 +137,20 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
             mOptionThree.setVisibility(View.INVISIBLE);
             mOptionFour.setVisibility(View.INVISIBLE);
         }else{
+
+
+            if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionA()
+                    .equals(getResources().getString(R.string.answer_true))){
+                //if it is allready set to true or false we need to add a check
+                //becuase the index in the api is diferent
+                Log.d(TAG, "answer already set to true false");
+                loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex)
+                        .setTrueOrFalseAllreadySet(true);
+            }
+
+
+
+
             if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).getOptionC()
                     .equals(NULL_STRING)){
 
@@ -279,7 +293,16 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
         //indexus are diferent because apis are shit
         Log.d(TAG, "radioOptionOne");
 
-        if(mOptionOne.getText().toString().equals(getResources().getString(R.string.answer_true))){
+
+
+
+        if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).isTrueOrFalseAllreadySet()){
+            //this has a diferent index
+
+            String rightAnswerIndex = "1";
+            displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
+
+        }else if(mOptionOne.getText().toString().equals(getResources().getString(R.string.answer_true))){
             //if the question is a true or false question
             String rightAnswerIndex = "0";
             displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
@@ -352,8 +375,13 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
                 (mDisplayCorrectAnswer.getText().length() != 0));
 
 
+        if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndex).isTrueOrFalseAllreadySet()){
+            //this has a diferent index
 
-        if(mOptionTwo.getText().toString().equals(getResources().getString(R.string.answer_false))){
+            String rightAnswerIndex = "2";
+            displayIfAnswerIsRightOrWrongForTrueOrFalseQuestions(rightAnswerIndex);
+
+        }else if(mOptionTwo.getText().toString().equals(getResources().getString(R.string.answer_false))){
             //if the question is a true or false question
             Log.d(TAG, "radioOptionTwo is tru or false question ");
             String rightAnswerIndex = "1";

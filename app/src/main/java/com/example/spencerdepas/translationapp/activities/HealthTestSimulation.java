@@ -168,25 +168,23 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
         if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionA()
                 .equals(NULL_STRING)){
             //adds truth or false
-            Log.d(TAG, "formatAnswers == null");
+            Log.d(TAG, "True or false only two posible answers");
             loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex])
                     .setOptionA(getResources().getString(R.string.answer_true));
             loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex])
                     .setOptionB(getResources().getString(R.string.answer_false));
             mOptionThree.setVisibility(View.INVISIBLE);
             mOptionFour.setVisibility(View.INVISIBLE);
+            mOptionFive.setVisibility(View.INVISIBLE);
         }else{
             if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionC()
                     .equals(NULL_STRING)){
-
+                Log.d(TAG, "not True or false still only two posible answers");
                 mOptionThree.setVisibility(View.INVISIBLE);
+                mOptionFour.setVisibility(View.INVISIBLE);
+                mOptionFive.setVisibility(View.INVISIBLE);
 
 
-                if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionD()
-                        .equals(NULL_STRING)){
-                    mOptionFour.setVisibility(View.INVISIBLE);
-                    mOptionFive.setVisibility(View.INVISIBLE);
-                }
 
 
 
@@ -194,14 +192,15 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
             }else  if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionD()
                     .equals(NULL_STRING)){
                 mOptionFour.setVisibility(View.INVISIBLE);
+                mOptionFive.setVisibility(View.INVISIBLE);
+                Log.d(TAG, "three posible answers");
 
-                if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionE()
-                        .equals(NULL_STRING)){
-                    mOptionFive.setVisibility(View.INVISIBLE);
-                }
+                Log.d(TAG, "mOptionFive get text " + mOptionFive.getText());
+
 
             }else if(  loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionE()
                     .equals(NULL_STRING)){
+                Log.d(TAG, "four posible answers");
                 mOptionFive.setVisibility(View.INVISIBLE);
 
             }
@@ -676,7 +675,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
                 int color = 0x00FFFFFF; // Transparent
                 if (hasBeenAnswered) {
 
-                    if(loadHygieneContainerQuestions.getQuestions().get(position).isAnsweredCorrectly()){
+                    if(loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[position]).isAnsweredCorrectly()){
                         //answer is correct
                         view.setBackgroundColor(getResources().getColor(R.color.colorForQuestionGrid));
                     }else{

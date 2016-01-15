@@ -42,6 +42,17 @@ public class HygineTestQuestion {
     private String selectedAnswer = "";
     private boolean answeredCorrectly;
     private int selectedAnswerResourceId;
+    private boolean trueOrFalseAllreadySet;
+
+    public boolean isTrueOrFalseAllreadySet() {
+        return trueOrFalseAllreadySet;
+    }
+
+    public void setTrueOrFalseAllreadySet(boolean trueOrFalseAllreadySet) {
+        this.trueOrFalseAllreadySet = trueOrFalseAllreadySet;
+    }
+
+
 
     public String getSelectedAnswer(){
         return selectedAnswer;
