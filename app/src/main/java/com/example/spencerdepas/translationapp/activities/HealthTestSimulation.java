@@ -522,51 +522,57 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
             Log.d(TAG, "We are on the 50th question " );
             formatAnswers();
 
+            haveAllQuestionsBeenAnswered();
+
+        }
+
+    }
+
+    public void haveAllQuestionsBeenAnswered(){
+        Log.d(TAG, "haveAllQuestionsBeenAnswered" );
+
+        for (int i = 0; i < mQuestionIndexArray.length -1; i++) {
 
 
-            for (int i = 0; i < mQuestionIndexArray.length -1; i++) {
+            if (loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
+                    .getSelectedAnswer().equals("")) {
+                //questions not answered on test is not complete
 
+                Log.d(TAG, "loop i is  :" + i + "    " +loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
+                        .getSelectedAnswer().equals(""));
+                Snackbar.make(view, getResources().getString(R.string.anser_all_questions),
+                        Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
+                break;
 
-                if (loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
-                        .getSelectedAnswer().equals("")) {
-                    //questions not answered on test is not complete
-
-                    Log.d(TAG, "loop i is  :" + i + "    " +loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
-                            .getSelectedAnswer().equals(""));
-                    Snackbar.make(view, getResources().getString(R.string.anser_all_questions),
-                            Snackbar.LENGTH_SHORT)
-                            .setAction("Action", null).show();
-                    break;
-
-                } else {
-                    Log.d(TAG, "in the else loop i is  :" + i + "    " +loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
-                            .getSelectedAnswer().equals(""));
-                    // all questions  answered
-
+            } else {
+                Log.d(TAG, "in the else loop i is  :" + i + "    " +loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
+                        .getSelectedAnswer().equals(""));
+                // all questions  answered
+                Log.d(TAG, "all questions  answered " );
 
 
 
-                    if (!loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
-                            .isAnsweredCorrectly()
-                            && i != 0) {
-                        //to save wrong answers for studying
-                        Log.d(TAG, "!driverQuestions.getQuestions().get(mQuestionIndexArray[i]:" );
-                        Log.d(TAG, "i " + i );
-                        //mWrongAnswersToStudy.add(mQuestionIndexArray[i]);
-                    }
+                if (!loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[i])
+                        .isAnsweredCorrectly()
+                        && i != 0) {
+                    //to save wrong answers for studying
+                    Log.d(TAG, "!driverQuestions.getQuestions().get(mQuestionIndexArray[i]:" );
+                    Log.d(TAG, "i " + i );
+                    //mWrongAnswersToStudy.add(mQuestionIndexArray[i]);
+                }
 
 
-                    if (i == 19) {
-                        Log.d(TAG, "i == 19" );
-                        //all questions completed
-                        finishedTestDialog(mWrongAnswersToStudy);
-                    }
-
+                if (i == 49) {
+                    Log.d(TAG, "i == 49" );
+                    //all questions completed
+                    //50 questions for simulation test
+                    finishedTestDialog(mWrongAnswersToStudy);
                 }
 
             }
-        }
 
+        }
     }
 
     private void finishedTestDialog(ArrayList<Integer> mWrongAnswers){
