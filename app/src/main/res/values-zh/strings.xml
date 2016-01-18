@@ -1,4 +1,7 @@
 <resources>
+
+
+
     <string name="app_name">政测</string>
     <string name="action_settings">更换语言</string>
     <string name="title_activity_driver_license">驾照模拟笔试</string>
@@ -6,6 +9,11 @@
 
     <string name="title_activity_citizenship_select_language_chinese">
         入籍公民练习 </string>
+
+    <string name="title_activity_health_test_simulation">卫生执照模拟考试</string>
+
+    <string name="title_activity_dmvselect">驾照笔试</string>
+
 
     <string name="health_test_complete_dialog">完成考试</string>
 
@@ -76,6 +84,7 @@
     <string name="title_activity_citizenship_acitivty">入籍公民考试练习</string>
     <string name="title_activity_nail_test">指甲执照练习</string>
     <string name="title_activity_health">卫生执照练习</string>
+
 
 
 

@@ -77,4 +77,11 @@
     <string name="health_test_complete_dialog_message_part_one_failed">Sorry you failed the test. You need
     35 or more questions to pass</string>
      <string name="health_test_complete_dialog_message_part_one_passed">You passed</string>
+
+
+    <!-- ADded to silence lint -->
+    <string name="cardview.select_chinese">NA</string>
+    <string name="title_activity_citizenship_select_language_chinese">NA</string>
+    <string name="cardview.select_english">NA</string>
+    <string name="explanation">NA</string>
 </resources>

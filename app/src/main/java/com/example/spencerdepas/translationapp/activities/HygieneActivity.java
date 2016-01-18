@@ -596,6 +596,10 @@ public class HygieneActivity extends AppCompatActivity implements ButtonSelector
         loadHygieneContainerQuestions.getQuestions().get(position).getSelectedAnswer();
 
 
+        if(loadHygieneContainerQuestions.getQuestions().get(position).getSelectedAnswer().equals("sound")){
+            Log.d(TAG, " i r say sound : "  );
+            return false;
+        }
 
 
         if(!loadHygieneContainerQuestions.getQuestions().get(position).getSelectedAnswer().equals("")){

@@ -403,7 +403,7 @@ public class NailTestActivity extends AppCompatActivity implements ButtonSelecto
     }
 
     @SuppressWarnings("unused")
-    @OnClick(R.id.fab)
+    @OnClick(R.id.nail_fab)
     public void selectQuestionDialog(View view) {
         Log.d(TAG, "selectQuestionDialog");
 
