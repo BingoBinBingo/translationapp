@@ -511,7 +511,10 @@ public class NailTestActivity extends AppCompatActivity implements ButtonSelecto
                 myNailQuestionContainer.getQuestions().get(position).getAnswer());
         myNailQuestionContainer.getQuestions().get(position).getSelectedAnswer();
 
-
+        if(myNailQuestionContainer.getQuestions().get(position).getSelectedAnswer().equals("sound")){
+            Log.d(TAG, " i r say sound : "  );
+            return false;
+        }
 
 
         if(!myNailQuestionContainer.getQuestions().get(position).getSelectedAnswer().equals("")){

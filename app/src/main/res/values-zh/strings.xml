@@ -5,7 +5,12 @@
     <string name="title_activity_dmvpractice_test">驾照笔试习题</string>
 
     <string name="title_activity_citizenship_select_language_chinese">
-        语言选择 </string>
+        入籍公民练习 </string>
+
+    <string name="health_test_complete_dialog">完成考试</string>
+
+    <string name="health_test_complete_dialog_message_part_one_failed">很抱歉，您没有通过考试.  您需要答对35题以上才可以通过政府测试</string>
+    <string name="health_test_complete_dialog_message_part_one_passed">恭喜您，您通过了考试</string>
 
 
     <string name="cardview.dmv">驾照笔试</string>
@@ -57,15 +62,15 @@
     <!-- simulation test failed Dialog -->
     <string name="finish">完成</string>
     <string name="failed_test_dialog_one">很抱歉</string>
-    <string name="failed_test_dialog_two">你要答对14题以上才算通过。你答对了  </string>
-    <string name="failed_test_dialog_three"> 20题里的</string>
+    <string name="failed_test_dialog_two">需要答对14题以上才算通过。你答对了  </string>
+    <string name="failed_test_dialog_three"> 考试一共20道题</string>
     <string name="failed_test_dialog_conferm">确定</string>
     <string name="failed_test_dialog_study_wrong_answer">复习错题</string>
 
     <!-- simulation test passed Dialog -->
-    <string name="you_passed">恭喜您，您通过了我们的测试</string>
-    <string name="passed_test_dialog_two">你要答对14题以上才算通过。你答对了  </string>
-    <string name="passed_test_dialog_three"> 20题里的</string>
+    <string name="you_passed">恭喜你，你通过了我们的测试</string>
+    <string name="passed_test_dialog_two">需要答对14题以上才算通过。你答对了  </string>
+    <string name="passed_test_dialog_three"> 一共20道题</string>
     <string name="passed_test_dialog_conferm">确定</string>
     <string name="passed_test_dialog_dismiss">练习</string>
     <string name="title_activity_citizenship_acitivty">入籍公民考试练习</string>

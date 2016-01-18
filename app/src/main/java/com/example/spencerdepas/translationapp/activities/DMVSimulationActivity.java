@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +58,8 @@ public class DMVSimulationActivity extends AppCompatActivity implements ButtonSe
     @Bind(R.id.option_d) RadioButton mOptionFour;
     @Bind(R.id.image_view) ImageView mImage;
     @Bind(R.id.myRadioGroup)  RadioGroup radioGroup;
+
+
 
     @Bind(R.id.next_question) Button mNextButton;
     @Bind(R.id.previous_question) Button mPreveousButton;

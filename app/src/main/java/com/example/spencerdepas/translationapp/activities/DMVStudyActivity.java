@@ -534,6 +534,12 @@ public class DMVStudyActivity extends AppCompatActivity implements ButtonSelecto
 
         Log.d(TAG, "hasBeenAnswered getSelectedAnswer : " +
                 driverQuestions.getQuestions().get(position).getSelectedAnswer());
+
+
+        if(driverQuestions.getQuestions().get(position).getSelectedAnswer().equals("sound")){
+            Log.d(TAG, " i r say sound : "  );
+            return false;
+        }
         Log.d(TAG, "hasBeenAnswered getAnswer : " +
                 driverQuestions.getQuestions().get(position).getAnswer());
         driverQuestions.getQuestions().get(position).getSelectedAnswer();

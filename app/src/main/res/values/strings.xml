@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GovPass</string>
     <string name="action_settings">Change Language</string>
-    <string name="title_activity_driver_license">Simulation DMV Test</string>
+    <string name="title_activity_driver_license">DMV Simulation Test</string>
     <string name="title_activity_dmvpractice_test">DMV Study</string>
 
 
@@ -11,16 +11,16 @@
     <!--<string name="action_settings">Settings</string>-->
 
     <!-- New Srings -->
-    <string name="cardview.dmv">DMV</string>
+    <string name="cardview.dmv">Department of Motor Vehicles</string>
 
     <!-- Main activity -->
     <string name="options.send_us_an_email">Send us an email!</string>
     <string name="language_changed_to">Langauge Changed To </string>
-    <string name="cardview.simulation_test">DMV simulation</string>
+    <string name="cardview.simulation_test">DMV simulation Test</string>
     <string name="cardview.study_for_driver_test">DMV Study</string>
-    <string name="cardview.citizenship_test">citizenship Study </string>
+    <string name="cardview.citizenship_test">Naturalization Study </string>
     <string name="cardview.health_test">Hygiene Study </string>
-    <string name="cardview.nail_test">Nail Study </string>
+    <string name="cardview.nail_test">Nail Specialty </string>
 
 
     <string name="email_address">contact@weirdotech.com</string>
@@ -56,10 +56,10 @@
     <string name="passed_test_dialog_three"> out of 20</string>
     <string name="passed_test_dialog_conferm">OK</string>
     <string name="passed_test_dialog_dismiss">STUDY </string>
-    <string name="title_activity_citizenship_acitivty">Citizenship Test Study</string>
-    <string name="title_activity_nail_test">Nail Test Study</string>
+    <string name="title_activity_citizenship_acitivty">Naturalization Study</string>
+    <string name="title_activity_nail_test">Nail Specialty </string>
     <string name="title_activity_health">Health Test Study</string>
-    <string name="title_activity_dmvselect">DMVSelect</string>
+    <string name="title_activity_dmvselect">Department of Motor Vehicles </string>
 
 
     <!-- Hyhiene  -->

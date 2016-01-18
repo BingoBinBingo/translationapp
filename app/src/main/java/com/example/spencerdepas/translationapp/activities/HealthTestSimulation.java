@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -69,7 +70,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
     @Bind(R.id.option_e) RadioButton mOptionFive;
     @Bind(R.id.image_view) ImageView mImage;
     @Bind(R.id.myRadioGroup) RadioGroup radioGroup;
-
+    @Bind(R.id.fab) FloatingActionButton fab;
     @Bind(R.id.previous_question)
     Button mPreveousButton;
     @Bind(R.id.next_question) Button mNextButton;
@@ -178,6 +179,9 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
             Log.d(TAG, "formatAnswers mOption 5" +
                     loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionE());
 
+            Log.d(TAG, "selected answer" +
+                    loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getSelectedAnswer());
+
             if(  loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionA()
                     .equals(NULL_STRING)){
                 //adds truth or false
@@ -191,8 +195,6 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
                 mOptionFive.setVisibility(View.INVISIBLE);
             }else{
 
-                Log.d(TAG, "formatAnswers loadHygieneContainerQuestions.getQuestions().get(mQuestionIndexArray[mQuestionIndex]).getOptionC() :"+
-                        loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionC());
                 if( loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getOptionC()
                         .equals(NULL_STRING)){
                     Log.d(TAG, "formatAnswers not True or false still only two posible answers");
@@ -647,7 +649,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
         if(mWrongAnswersToStudy.size() > 0){
             //this is for when we have completed the test once and
             //want to go over the wrong answer
-
+            mQuestionIndex += 1;
             studyWrongAnswersNextQuestion();
 
         }else if(mQuestionIndex < mQuestionIndexArray.length -1){
@@ -674,7 +676,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
 
 
 
-        mQuestionIndex += 1;
+
         if(mQuestionIndex < mWrongAnswersToStudy.size() ){
             Log.d(TAG, "mQuestionIndex < mWrongAnswersToStudy.size() &&\n");
 
@@ -714,9 +716,11 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
     public void loadCorrectAnswerRadioButton(){
         Log.d(TAG, "loadCorrectAnswerRadioButton");
 
-        loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex)).getAnswer();
         Log.d(TAG, "showCorrectAnswersForStudy");
 
+        Log.d(TAG, "loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex))\n" +
+                "                .isTrueOrFalseAllreadySet()" + loadHygieneContainerQuestions.getQuestions().get(mWrongAnswersToStudy.get(mQuestionIndex))
+                .isTrueOrFalseAllreadySet());
 
 
         //this finds out which index is used from poor api
@@ -832,6 +836,7 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
                     mQuestionIndex = -1;
                     //this is so radio buttons display the right answer
                     testCompletedStudymode = true;
+                    fab.setVisibility(view.INVISIBLE);
                 }
 
             }
@@ -875,8 +880,6 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
                                     mQuestionIndex = 0;
                                     setUpWrongAnswersAfterTestComplete();
 
-                                    Snackbar.make(view, "study wrong questions",
-                                            Snackbar.LENGTH_SHORT);
                                 }
                             });
             mMaterialDialog.show();
@@ -895,17 +898,19 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
                             getResources().getString(R.string.passed_test_dialog_conferm), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    mMaterialDialog.dismiss();
+                                mMaterialDialog.dismiss();
                                     Log.d(TAG, "passed test confirm button");
-
+                                finish();
                                 }
                             })
                     .setNegativeButton(
                             getResources().getString(R.string.passed_test_dialog_dismiss), new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    mMaterialDialog.dismiss();
-                                    Log.d(TAG, "passed test negative button");
+                                mMaterialDialog.dismiss();
+                                Log.d(TAG, "passed test negative button");
+                                mQuestionIndex = 0;
+                                setUpWrongAnswersAfterTestComplete();
 
                                 }
                             });
@@ -1081,10 +1086,16 @@ public class HealthTestSimulation extends AppCompatActivity implements ButtonSel
         mOptionFive.setVisibility(View.VISIBLE);
 
         radioGroup.setEnabled(true);
-
         saveAnswer();
         mNextButton.setText(getResources().getString(R.string.next_button));
-        if(mQuestionIndex != 0){
+
+        if(mWrongAnswersToStudy.size() > 0){
+            //this is for when we have completed the test once and
+            //want to go over the wrong answer
+            mQuestionIndex -= 1;
+            studyWrongAnswersNextQuestion();
+
+        }else if(mQuestionIndex != 0){
             mQuestionIndex -= 1;
             unSelectRadioButtons();
             updateQuestion();
